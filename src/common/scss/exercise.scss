@@ -1,0 +1,101 @@
+﻿div {
+    &.test {
+        width: 90%;
+        margin: 1em auto;
+        border: dashed blue 1px;
+    }
+
+    table {
+        thead {
+            color: chocolate;
+        }
+    }
+
+    section {
+        margin-bottom: 2em;
+        border-bottom: 1.5px solid red;
+        text-align: left;
+
+        h3 {
+            color: antiquewhite;
+        }
+
+        ul, dl {
+            font-size: 1.1em;
+            line-height: 1.6;
+
+            li, dt, dd {
+                * {
+                    margin-right: 1.2em;
+                    margin-bottom: 0.3em;
+                }
+
+                input {
+                    font-size: 1.1rem;
+
+                    &[type='text'] {
+                        width: 15em;
+                    }
+                }
+
+                span {
+                    color: grey;
+                    display: block;
+
+                    &.active {
+                        color: rgb(110, 21, 70);
+                        cursor:pointer;
+                    }
+
+                    &.red-border {
+                        border: 1px solid red;
+                    }
+
+                    &.yellow-border {
+                        border: 2px dotted yellow;
+                    }
+
+                    &.my-italic {
+                        font-style: italic;
+                    }
+
+                    &.square {
+                        display: block;
+                        width: 6em;
+                        height: 6em;
+                        padding: 1em;
+                        background-color: darkgoldenrod;
+                    }
+
+                }
+            }
+        }
+
+        form {
+            input, select {
+                width: 70% !important;
+
+                &[type="button"], &[type="submit"] {
+                    border: 1px solid red;
+                    width: auto !important;
+                    min-width: 5em;
+                }
+            }
+        }
+    }
+}
+
+button, input[type=text] {
+    margin-right: 0.5em;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+

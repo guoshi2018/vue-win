@@ -1,0 +1,27 @@
+<template>
+  <div class="loc">
+    <h2>{{ content }}</h2>
+  </div>
+</template>
+
+<script lang="ts">
+import { defineComponent } from "vue";
+
+export default defineComponent({
+  props: {
+    content: {
+      type: String,
+      require: false,
+      default: "unknown left content",
+    },
+  },
+  setup() {},
+});
+</script>
+
+<style scoped lang="css">
+.loc {
+  width: 6em;
+  background: darkolivegreen;
+}
+</style>

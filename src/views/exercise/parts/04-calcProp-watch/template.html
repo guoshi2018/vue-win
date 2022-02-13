@@ -1,0 +1,178 @@
+﻿
+
+<accordion-hull header="计算属性与侦听器演练">
+    <accordion-item caption="测试bootstrap的alert组件" show>
+        <ul>
+            <li>
+                <div class="alert alert-primary" role="alert">
+                    A simple primary alert—check it out!
+                </div>
+                <div class="alert alert-secondary" role="alert">
+                    A simple secondary alert—check it out!
+                </div>
+                <div class="alert alert-success" role="alert">
+                    A simple success alert—check it out!
+                </div>
+                <div class="alert alert-danger" role="alert">
+                    A simple danger alert—check it out!
+                </div>
+                <div class="alert alert-warning" role="alert">
+                    A simple warning alert—check it out!
+                </div>
+                <div class="alert alert-info" role="alert">
+                    A simple info alert—check it out!
+                </div>
+                <div class="alert alert-light" role="alert">
+                    A simple light alert—check it out!
+                </div>
+                <div class="alert alert-dark" role="alert">
+                    A simple dark alert—check it out!
+                </div>
+            </li>
+            <li>
+                <div class="alert alert-primary" role="alert">
+                    A simple primary alert with <a href="#" class="alert-link">an example link</a>. Give it a click if you like.
+                </div>
+                <div class="alert alert-secondary" role="alert">
+                    A simple secondary alert with <a href="#" class="alert-link">an example link</a>. Give it a click if you like.
+                </div>
+                <div class="alert alert-success" role="alert">
+                    A simple success alert with <a href="#" class="alert-link">an example link</a>. Give it a click if you like.
+                </div>
+                <div class="alert alert-danger" role="alert">
+                    A simple danger alert with <a href="#" class="alert-link">an example link</a>. Give it a click if you like.
+                </div>
+                <div class="alert alert-warning" role="alert">
+                    A simple warning alert with <a href="#" class="alert-link">an example link</a>. Give it a click if you like.
+                </div>
+                <div class="alert alert-info" role="alert">
+                    A simple info alert with <a href="#" class="alert-link">an example link</a>. Give it a click if you like.
+                </div>
+                <div class="alert alert-light" role="alert">
+                    A simple light alert with <a href="#" class="alert-link">an example link</a>. Give it a click if you like.
+                </div>
+                <div class="alert alert-dark" role="alert">
+                    A simple dark alert with <a href="#" class="alert-link">an example link</a>. Give it a click if you like.
+                </div>
+            </li>
+        </ul>
+    </accordion-item>
+    <accordion-item caption="绑定number属性">
+        <ul>
+            <li>
+                <span>temp number is {{temp}}</span>
+            </li>
+            <li>
+                <input type="number" v-model="temp" />
+            </li>
+        </ul>
+    </accordion-item>
+    <accordion-item caption="不使用计算属性,而是表达式,但是在模板中放入太多的逻辑会让模板过重且难以维护">
+        <ul>
+            <li v-for="author in authors" v-bind:key="author.order">
+                <span>{{author.order}}</span>
+                <span>{{author.name}} has published books?</span>
+                <span>{{author.books.length > 0 ? 'yes' : 'no'}}</span>
+                <ul v-if="author.books.length > 0">
+                    <li v-for="book in author.books" :key="book">
+                        <span>{{book}}</span>
+                    </li>
+                </ul>
+                <ul v-else>
+                    <li>
+                        {{author.name}} has no books.
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </accordion-item>
+    <accordion-item caption="使用方法和无参的计算属性">
+        <ul>
+            <li>
+                <span>地区（方法）：{{getArea()}}</span>
+            </li>
+            <li>
+                <span>地区（无参的计算属性）：{{area}}</span>
+            </li>
+            <li>
+                <span>当前时间（方法）：{{getCurrentTime()}}</span>
+            </li>
+            <li>
+                <span>当前时间（无参的计算属性）：{{currentTime}}</span>
+            </li>
+        </ul>
+    </accordion-item>
+    <accordion-item caption="带参数的计算属性,实现前面用表达式实现的功能">
+        <ul>
+            <li v-for="author in authors" v-bind:key="author.order">
+                <span>{{author.order}}</span>
+                <span>{{author.name}} has published books?</span>
+                <span>{{hasBooks(author)}}</span>
+                <ul v-if="author.books.length > 0">
+                    <li v-for="book in author.books" :key="book">
+                        <span>{{book}}</span>
+                    </li>
+                </ul>
+                <ul v-else>
+                    <li>
+                        {{author.name}} has no books.
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </accordion-item>
+    <accordion-item caption="带参数的计算属性,实现前面用表达式实现的功能">
+        <form>
+            <fieldset>
+                <h2 class="hdr-account">Infomation</h2>
+                <div class="fields">
+                    <p class="row">
+                        <label for="country">country:</label>
+                        <input type="text" id="country" v-model="country" />
+                    </p>
+                    <p class="row">
+                        <label for="province" id="province">province:</label>
+                        <input type="text" id="province" v-model="province" />
+                    </p>
+                    <p class="row">
+                        <label for="authors">authors:</label>
+                        <select id="authors" v-model="currentAuthorIndex">
+                            <option v-for="(author,index) in authors" :value="index" :key="this">
+                                {{author.name}}
+                            </option>
+                            <option :value="-1">add an author</option>
+                        </select>
+                    </p>
+                </div>
+            </fieldset>
+            <fieldset>
+                <h2 class="hdr-public-profile" v-if="author == currentAuthor">编辑当前作家</h2>
+                <h2 class="hdr-public-profile" v-if="author == tempAuthor">添加作家</h2>
+                <div class="fields">
+                    <p class="row">
+                        <label for="auth_order">order:</label>
+                        <input type="number" id="auth_order" v-model.number="author.order" min="1" />
+                    </p>
+                    <p class="row">
+                        <label for="auth_name">name:</label>
+                        <input type="text" id="auth_name" class="field-medium" v-model="author.name" />
+                    </p>
+                    <p class="row">
+                        <label for="auth_books">books:</label>
+                        <select id="auth_books" :size="author.books.length + 2">
+                            <option v-for="(book,index) in author.books" :value="index"
+                                    title="双击编辑或删除书目" @dblclick="handleBook(author,index)">
+                                {{book}}
+                            </option>
+                            <option value="-1" title="双击添加书目" @dblclick="handleBook(author,-1)">add a book</option>
+                        </select>
+                    </p>
+                    <input v-if="author == tempAuthor" type="submit" value="Create author" @click.prevent="createAuthor" />
+                </div>
+            </fieldset>
+        </form>
+    </accordion-item>
+</accordion-hull>
+
+
+
