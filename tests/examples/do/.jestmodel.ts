@@ -1,21 +1,36 @@
+import { shallowMount, mount, VueWrapper } from '@vue/test-utils'
 
-import { mount } from '@vue/test-utils';
+import XXX from '......';
 
-//必须如此导入,才能在.d.ts中声明成功
-import MessageApp from '@/../tests/examples/target/vue/components/KKK.vue';
+let wrapper: VueWrapper<any>;
+let snapIndex: number;
 
+beforeAll(() => {
+	snapIndex = 0;
+});
+beforeEach(() => {
+	wrapper = mount(XXX);		//default to todoapp
+});
+
+afterEach(() => {
+	expect(wrapper.html()).toMatchSnapshot('<' + ++snapIndex + '>');
+});
+
+const couple = [
+	{
+		desc: '',
+		func: () => { },
+	}, {
+		desc: '',
+		func: () => { }
+	}, {
+		desc: '',
+		func: () => { }
+	},
+];
 
 export default () => {
-	it('description...... to identify this tesing of component vue ', () => {
-		const msgs = ["Cat", "Dog"];
-		const wrapper = mount(MessageApp, {
-			data: () => ({
-				messages: msgs,
-			}),
-			props: {
-
-			},
-		});
-		expect(wrapper.text()).toEqual(msgs.join(''));
-	});
-}
+	for (let i = 0; i < couple.length; i++) {
+		test(couple[i].desc, couple[i].func);
+	}
+};

@@ -33,3 +33,4 @@ declare module 'guoshi-js'
 
 //declare module '@/components/HelloWorld.vue'
 
+

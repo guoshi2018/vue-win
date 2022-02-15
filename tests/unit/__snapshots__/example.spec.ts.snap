@@ -1,23 +1,3 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`now testing all of vue-win ,mount message app with its children: msgapp-1 1`] = `
-<div id="message-app">
-  <ul>
-    <li>Cat</li>
-    <li>Dog</li>
-  </ul>
-</div>
-`;
-
-exports[`now testing all of vue-win ,shallowMount message app without its children: msgapp-2 1`] = `
-<div id="message-app">
-  <message-list-stub messages="Cat,Dog"></message-list-stub>
-</div>
-`;
-
-exports[`now testing all of vue-win ,test message-list vue alonely : message-list inner 1`] = `
-<ul>
-  <li>Cat</li>
-  <li>Dog</li>
-</ul>
-`;
+exports[`now testing all of vue-win: simulate a mouse click: <1> 1`] = `<button id="inc">Increment</button><label id="result">2</label>`;

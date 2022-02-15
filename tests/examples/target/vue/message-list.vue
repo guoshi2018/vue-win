@@ -1,9 +1,9 @@
 <template>
-  <ul>
+  <ol>
     <li v-for="message in messages">
       {{ message }}
     </li>
-  </ul>
+  </ol>
 </template>
 
 <script lang="ts">
