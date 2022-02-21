@@ -1,27 +1,40 @@
 <template>
+  <!-- 下面的元素都会被return语句指定的html块替换掉-->
   <div>
-    <div ref="root">This is a root element</div>
+    <div>This is a original root element</div>
+    <span ref="temp">hey,herer</span>
   </div>
 </template>
 
 <script lang="tsx">
-  import {
-    ref,
-  } from "vue";
+import { ref, defineComponent, h, onMounted } from "vue";
 
-  export default {
+export default defineComponent({
+  setup() {
+    const t = ref("second"); //和上面的template的ref值无啥关系
 
-    setup() {
-      const root = ref(null);
-      //return () =>
-      //  h('div', {
-      //    ref: root,
-      //    style:'color:red;font-size:2.2em;',
-      //  }, ['hello world', '----------', ' hey']);
+    onMounted(function () {
+      console.log(
+        "sorry,html is changed to :",
+        (t.value as unknown as HTMLElement).outerHTML
+      );
+    });
 
-      //vs 对jsx语法的智能感知还有问题,vs code 反过来，还行
-      return () => <div ref={ root } style='color:blue;font-size:2.3em;' >hello,jsx here</div>;  
-    }
-  };
+    // return () => (
+    //   <div ref={t} style="color:blue;font-size:2.3em;">
+    //     <i>hello,jsx here</i>
+    //   </div>
+    // );
+
+    return () =>
+      h(
+        "div",
+        {
+          ref: t,
+          style: "color:red;font-size:4.2em;",
+        },
+        ["hello world", "----------", " hey"]
+      );
+  },
+});
 </script>
-

@@ -1,21 +1,38 @@
 import { shallowMount, mount, VueWrapper } from '@vue/test-utils'
+import { defineComponent } from 'vue';
 
-import XXX from '......';
-
+//#region global variable
 let wrapper: VueWrapper<any>;
 let snapIndex: number;
+//#endregion
 
+//#region  hook
 beforeAll(() => {
 	snapIndex = 0;
 });
 beforeEach(() => {
-	wrapper = mount(XXX);		//default to todoapp
-});
 
-afterEach(() => {
-	expect(wrapper.html()).toMatchSnapshot('<' + ++snapIndex + '>');
 });
+afterEach(async () => {
+	//expect(wrapper.html()).toMatchSnapshot('<' + ++snapIndex + '>');
+});
+//#endregion
 
+//#region component
+const AAA = defineComponent({
+	template: `
+	
+	`
+});
+const BBb = defineComponent({
+	template: `
+	
+	`,
+	components: { AAA }
+});
+//#endregion
+
+//#region testing ...
 const couple = [
 	{
 		desc: '',
@@ -28,6 +45,7 @@ const couple = [
 		func: () => { }
 	},
 ];
+//#endregion
 
 export default () => {
 	for (let i = 0; i < couple.length; i++) {

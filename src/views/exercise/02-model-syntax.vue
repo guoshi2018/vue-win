@@ -12,11 +12,13 @@
           <input type="text" v-model="content" />
         </li>
         <li>
-          <span>响应属性:{{ content }}</span>
+          <span>响应,使用&lt;span&gt;的内嵌形式:{{ content }}</span>
         </li>
-        <li>与上相同：<span v-text="content"></span></li>
+        <li>响应,使用span元素的v-text属性：<span v-text="content"></span></li>
         <li>
-          <span v-once>非响应属性：{{ content }}</span>
+          <span v-once
+            >能响应的唯一一次插值已经用掉,现在不能响应了：{{ content }}</span
+          >
         </li>
         <li>
           <span v-html="content"></span>
@@ -25,51 +27,64 @@
     </section>
     <section>
       <h3>使用v-bind或者其简写:,在html attribute中使用绑定。</h3>
-      <h3>总结：0/false/null/undefined时，布尔attribute不渲染，即不起作用</h3>
       <ul>
         <li>
           <span v-bind:title="title.str">绑定不为空的title提示文本</span>
         </li>
         <li>
           <span :title="title.nl"
-            >绑定为空的title提示文本，则该attribute不渲染</span
+            >绑定为空的title提示文本，则该title attribute不渲染</span
           >
         </li>
+      </ul>
+      <h3>
+        v-bind:disabled 属性值为
+        0,false,null,undefined,NaN时，该元素的html属性disabled不渲染,即元素可用
+      </h3>
+      <ul>
         <li>
-          <span>对象作为disabled布尔值，渲染为disabled="":</span>
-          <input :disabled="disabled.obj" type="text" value="" />
-        </li>
-        <li>
-          <span> 非0数值作 为disabled布尔值，渲染为disabled="": </span
-          ><input :disabled="disabled.num" type="text" value="" />
-        </li>
-        <li>
-          <span>数值0作为disabled布尔值，不渲染，表示编辑框可用:</span
+          <span>数值0:</span
           ><input :disabled="disabled.numzero" type="text" value="" />
         </li>
         <li>
-          <span>非空字串作为disabled布尔值，渲染为disabled="":</span
-          ><input :disabled="disabled.str" type="text" value="" />
-        </li>
-        <li>
-          <span>空字串作为disabled布尔值，渲染为disabled="":</span
-          ><input :disabled="disabled.empstr" type="text" value="" />
-        </li>
-        <li>
-          <span>true作为disabled布尔值，渲染为disabled="":</span
-          ><input :disabled="disabled.truthy" type="text" value="" />
-        </li>
-        <li>
-          <span>false作为disabled布尔值，不渲染，表示编辑框可用:</span
+          <span>false:</span
           ><input :disabled="disabled.falsy" type="text" value="" />
         </li>
         <li>
-          <span>null作为disabled布尔值，不渲染，表示编辑框可用:</span
+          <span>null:</span
           ><input :disabled="disabled.nl" type="text" value="" />
         </li>
         <li>
-          <span>undefined作为disabled布尔值，不渲染，表示编辑框可用:</span
+          <span>undefined:</span
           ><input :disabled="disabled.und" type="text" value="" />
+        </li>
+        <li>
+          <span>NaN:</span>
+          <input :disabled="disabled.nn" type="text" value="" />
+        </li>
+      </ul>
+      <h3>其他值,均将该元素的html属性disabled渲染为 disabled=""</h3>
+      <ul>
+        <li>
+          <span>对象:</span>
+          <input :disabled="disabled.obj" type="text" value="" />
+        </li>
+        <li>
+          <span>非0数值,即使是负数,小数: </span
+          ><input :disabled="disabled.num" type="text" value="" />
+        </li>
+
+        <li>
+          <span>非空字串:</span
+          ><input :disabled="disabled.str" type="text" value="" />
+        </li>
+        <li>
+          <span>空字串:</span
+          ><input :disabled="disabled.empstr" type="text" value="" />
+        </li>
+        <li>
+          <span>true:</span
+          ><input :disabled="disabled.truthy" type="text" value="" />
         </li>
       </ul>
     </section>
@@ -116,7 +131,7 @@
           本段文字颜色，将随鼠标光标的进入和离开变化
         </li>
         <li>
-          <input type="button" value="变色" v-on:[currentEvent]="changeColor" />
+          <input type="button" value="变色" v-on:[currentEvent]="switchMode" />
         </li>
       </ul>
     </section>
@@ -126,6 +141,7 @@
 <script lang="ts">
 /* eslint-disable no-dupe-class-members, no-dupe-keys */
 import { defineComponent } from "vue";
+/*
 interface Data {
   content: string;
   title: {
@@ -156,9 +172,9 @@ interface Data {
     redColor: string;
     blueColor: string;
   };
-}
+}*/
 export default defineComponent({
-  data(): Data {
+  data() {
     return {
       content: "可以输入html标签看看",
       title: {
@@ -167,7 +183,7 @@ export default defineComponent({
       },
       disabled: {
         obj: {},
-        num: 123,
+        num: -123.93,
         numzero: 0,
         str: "hey",
         empstr: "",
@@ -175,6 +191,7 @@ export default defineComponent({
         falsy: false,
         nl: null,
         und: undefined,
+        nn: NaN,
       },
       directives: {
         cond: true,
@@ -191,9 +208,8 @@ export default defineComponent({
       },
     };
   },
-  //mounted(): void {},
   methods: {
-    changeColor() {
+    switchMode() {
       this.currentColor =
         this.currentColor == this.colors.redColor
           ? this.colors.blueColor
@@ -202,7 +218,11 @@ export default defineComponent({
         this.currentEvent == this.mouseEvents.evMouseEnter
           ? this.mouseEvents.evMouseLeave
           : this.mouseEvents.evMouseEnter;
-      console.log("mouse event coming", this.currentColor, this.currentEvent);
+      console.log(
+        "mouse event and color changed,current mode : ",
+        this.currentColor,
+        this.currentEvent
+      );
     },
   },
   components: {},

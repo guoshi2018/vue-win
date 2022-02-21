@@ -1,5 +1,8 @@
 <template>
   <accordion-hull header="响应性基础">
+    <accordion-item caption="setup内的事件观察">
+      <setup-hook-demo></setup-hook-demo>
+    </accordion-item>
     <accordion-item caption="响应实验,请关注控制台">
       <button @click="demo1">声明响应式状态</button>
       <button @click="demo2">创建独立的响应式值作为 refs</button>
@@ -9,7 +12,9 @@
       <button @click="count++">Increment count</button>
       <button @click="nested.count.value++">Nested Increment count</button>
       <button @click="reacted.count++">Reacted Increment count</button>
-      <button @click="reacted.tmd.count++">Reacted twice Increment count</button>
+      <button @click="reacted.tmd.count++">
+        Reacted twice Increment count
+      </button>
     </accordion-item>
     <accordion-item caption="访问响应式对象" show>
       <button @click="demo3">自动解包内部值</button>
@@ -24,96 +29,103 @@
 </template>
 
 <script lang="ts">
-  /* eslint-disable no-dupe-class-members, no-dupe-keys */
-  import { reactive, ref, toRefs, readonly, defineComponent } from "vue";
-  import AccordionHull from "@/components/accordion/accordion-hull.vue"; // 子组件 @ is an alias to /src
-  import AccordionItem from "@/components/accordion/accordion-item.vue";
+/* eslint-disable no-dupe-class-members, no-dupe-keys */
+import { reactive, ref, toRefs, readonly, defineComponent, toRef } from "vue";
+import AccordionHull from "@/components/accordion/accordion-hull.vue"; // 子组件 @ is an alias to /src
+import AccordionItem from "@/components/accordion/accordion-item.vue";
+import SetupHookDemo from "@/components/19-responsivity-base/setup-hook-demo.vue";
 
-  export default defineComponent({
-    components: {
-      AccordionHull,
-      AccordionItem,
-    },
-    setup() {
-      const count = ref(99);
-      return {
-        count, //在模板中被访问时，它将自动浅层次解包内部值
-        nested: {
-          count, //访问嵌套的 ref 时需要在模板中添加 .value
-        },
-        reacted: reactive({
-          count, //不添加.value,直接采用reacted.count
-          tmd: reactive({
-            count, //reacted.tmd.count
-          }),
+export default defineComponent({
+  components: {
+    AccordionHull,
+    AccordionItem,
+    SetupHookDemo,
+  },
+  setup() {
+    const count = ref(99);
+    return {
+      count, //在模板中被访问时，它将自动浅层次解包内部值
+      nested: {
+        count, //访问嵌套的 ref 时需要在模板中添加 .value
+      },
+      reacted: reactive({
+        count, //不添加.value,直接采用reacted.count
+        tmd: reactive({
+          count, //reacted.tmd.count
         }),
-      };
+      }),
+    };
+  },
+  methods: {
+    demo1() {
+      /**
+       * demo1的注释，还是显示不了
+       */
+      const state = reactive({
+        count: 30,
+      });
+      console.log(`state.count = ${state.count}`);
+      console.log("using reactive, state:", state);
     },
-    methods: {
-      //demo1的注释，还是显示不了
-      demo1() {
-        const state = reactive({
-          count: 30,
-        });
-        console.log(`state.count = ${state.count}`);
-      },
-      demo2() {
-        //与reactive作用相同
-        const count = ref(120); //初始值120
-        console.log(count.value);
-        count.value++;
-        console.log(count);
-      },
-      demo3() {
-        const count = ref(0);
-        const state = reactive({
-          count, //count:count
-        });
-        console.log("demo3,state.count:", state.count);
-        state.count++;
-        console.log("after state.count++ in demo3,count.value :", count.value);
-
-        //如果将新的 ref 赋值给现有 ref 的 property，将会替换旧的 ref
-        //const otherCount = ref(200);
-        //state.count = otherCount;     //可惜這句被tsconfig阻止编译
-        //console.log('demo3,state.count:', state.count);
-        //console.log('demo3,count.value:', count.value);
-      },
-      demo4() {
-        const books = reactive([ref("Vue 3 Guide")]);
-        console.log(books[0].value); //需要.value
-        const mp = reactive(new Map([["count", ref(11)]]));
-        console.log(mp.get("count")?.value); //需要.value
-      },
-      demo5() {
-        const book = reactive({
-          author: "Vue Team",
-          year: "2020",
-          title: "Vue 3 Guide",
-          description: "You are reading this book right now",
-          price: "free",
-        });
-
-        //如果这样结构,两个property均丢失响应性
-        //let { author, title } = book;
-
-        //将响应式对象转换为一组 ref。这些 ref 将保留与源对象的响应式关联：
-        const { title } = toRefs(book);
-        title.value = "a newly book about vue4.5";
-        console.log(book.title);
-      },
-      demo6() {
-        const orig = reactive({
-          count: 10,
-        });
-        const copy = readonly(orig);
-        //通过orig修改count,将会触发依赖 copy 的侦听器
-        orig.count++;
-        console.log("orig.count:", orig.count, " copy.count:", copy.count);
-        //copy.count++;     //编译失败.如果是js文件,则警告:
-      },
+    demo2() {
+      //与reactive作用相同
+      const count = ref(120); //初始值120
+      console.log(count.value);
+      count.value++;
+      console.log("using ref, count:", count);
     },
-  });
+    demo3() {
+      const count = ref(0);
+      const state = reactive({
+        count, //count:count
+      });
+      console.log("demo3,state.count:", state.count);
+      state.count++;
+      console.log("after state.count++ in demo3,count.value :", count.value);
+
+      //如果将新的 ref 赋值给现有 ref 的 property，将会替换旧的 ref
+      //const otherCount = ref(200);
+      //state.count = otherCount;     //可惜這句被tsconfig阻止编译
+      //console.log('demo3,state.count:', state.count);
+      //console.log('demo3,count.value:', count.value);
+    },
+    demo4() {
+      const books = reactive([ref("Vue 3 Guide")]);
+      console.log(books[0].value); //需要.value
+      const mp = reactive(new Map([["count", ref(11)]]));
+      console.log(mp.get("count")?.value); //需要.value
+    },
+    demo5() {
+      const book = reactive({
+        author: "Vue Team",
+        year: 2020,
+        title: "Vue 3 Guide",
+        description: "You are reading this book right now",
+        price: "free",
+      });
+
+      //如果这样解构,两个property均丢失响应性
+      //let { author, title } = book;
+
+      //将响应式对象转换为一组 ref。这些 ref 将保留与源对象的响应式关联：
+      const { title } = toRefs(book);
+      const yearRef = toRef(book, "year");
+      yearRef.value += 1000;
+      title.value = "a newly book about vue4.5";
+      console.log(book.title, book.year); //"a newly ...", 3020
+    },
+    demo6() {
+      const orig = reactive({
+        count: 10,
+      });
+      const copy = readonly(orig);
+      //通过orig修改count,将会触发依赖 copy 的侦听器
+      orig.count++;
+      //copy.count++; //编译失败.如果是js文件,则警告,去掉readonly 则ok
+      console.log("orig.count:", orig.count, " copy.count:", copy.count);
+    },
+  },
+});
 </script>
 
 <summary>

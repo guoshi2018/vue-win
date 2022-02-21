@@ -25,13 +25,13 @@ const couple = [
 			// 此 mock 函数被调用了两次
 			expect(mockCallback.mock.calls.length).toBe(2);
 
-			// 第一次调用函数时的第一个参数是 0
+			// 第一次调用函数时的第一个参数是 15
 			expect(mockCallback.mock.calls[0][0]).toBe(15);
 
-			// 第二次调用函数时的第一个参数是 1
+			// 第二次调用函数时的第一个参数是 13
 			expect(mockCallback.mock.calls[1][0]).toBe(13);
 
-			// 第一次函数调用的返回值是 42
+			// 第一次函数调用的返回值是 57
 			expect(mockCallback.mock.results[0].value).toBe(42 + 15);
 		},
 	}, {

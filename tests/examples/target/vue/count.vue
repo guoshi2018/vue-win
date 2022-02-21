@@ -22,7 +22,7 @@ export default {
         "subtract",
         {
           currentCount: this.count,
-          isEvent: this.count % 2 === 0,
+          isEven: this.count % 2 === 0,
           info: "hello,world",
         },
         "this is second arg",

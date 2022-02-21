@@ -1,18 +1,16 @@
 <template>
   <div>
     <h3>this is child-com</h3>
-    <p>hello,{{name}}</p>
+    <p>hello,{{ name }}</p>
   </div>
 </template>
 
 <script lang="ts">
-import { Options, Vue } from 'vue-class-component'
+import { defineComponent } from "vue";
 
-@Options({
+export default defineComponent({
   props: {
-    name: String
-  }
-})
-export default class extends Vue {}
+    name: String,
+  },
+});
 </script>
-

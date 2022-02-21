@@ -1,61 +1,70 @@
-
 <comments>
-  注意，消费端暂无法启动 .lazy修饰符,因暂找不到合适方法监听修饰符，以后再说
+  注意，消费端启动 .lazy修饰符,但组件包含多个input时,就需要各个input分别对待,
+  而不是只凭一个笼统的v-model.
 </comments>
 <template>
-  <span>{{description}}</span>
-  <input type="text"
-         :value="florid"
-         @[eventName.florid]="$emit('update:florid',$event.target.value)" />
-  <input type="text"
-         :value="firstName"
-         @[eventName.firstName]="$emit('update:first-name',$event.target.value)" />
-  <input type="text"
-         :value="lastName"
-         @[eventName.lastName]="$emit('update:last-name',$event.target.value)" />
+  <span>{{ description }}</span>
+  <input
+    type="text"
+    :value="florid"
+    @[eventName.florid]="$emit('update:florid', $event.target.value)"
+  />
+  <input
+    type="text"
+    :value="firstName"
+    @[eventName.firstName]="$emit('update:first-name', $event.target.value)"
+  />
+  <input
+    type="text"
+    :value="lastName"
+    @[eventName.lastName]="$emit('update:last-name', $event.target.value)"
+  />
 </template>
 
-
 <script lang="ts">
-  import { Options, Vue } from 'vue-class-component'
-  @Options({
-    data() {
-      return {
-        eventName: {
-          florid: 'input',
-          firstName: 'input',
-          lastName: 'input',
-        },
-      };
-    },
-    created() {
-      for (const name in this.eventName) {
-        if (this.$attrs[name + 'Modifiers']?.lazy) {
-          this.eventName[name] = 'change';
-        }
-      }
+import { defineComponent } from "vue";
 
-
-
-      //if (this.$attrs.floridModifiers?.lazy) {
-      //  this.floridEventName = 'change';
-      //}
-    },
-    props: {
-      description: {
-        type: String,
-        default: '未添加表述',
-        required: false,
+export default defineComponent({
+  data() {
+    return {
+      eventName: {
+        florid: "input",
+        firstName: "input",
+        lastName: "input",
       },
-      florid: {
-        type: String,
-        default: '',
-        required: false,
-      },
-      firstName: String,
-      lastName: String,
+    };
+  },
+  created() {
+    // for (const name in this.eventName) {
+    //   if (this.$attrs[name + "Modifiers"]?.lazy) {
+    //     this.eventName[name] = "change";
+    //   }
+    // }
+    //上面的写法倒是简单,但是ts报错.所以:
+    if ((this.$attrs.floridModifiers as Record<string, any>)?.lazy) {
+      this.eventName.florid = "change";
+    }
+    if ((this.$attrs.firstNameModifiers as Record<string, any>)?.lazy) {
+      this.eventName.firstName = "change";
+    }
+    if ((this.$attrs.lastNameModifiers as Record<string, any>)?.lazy) {
+      this.eventName.lastName = "change";
+    }
+  },
+  props: {
+    description: {
+      type: String,
+      default: "未添加表述",
+      required: false,
     },
-    emits: ['update:florid', 'update:first-name', 'update:last-name'],
-  })
-  export default class extends Vue { }
+    florid: {
+      type: String,
+      default: "",
+      required: false,
+    },
+    firstName: String,
+    lastName: String,
+  },
+  emits: ["update:florid", "update:first-name", "update:last-name"],
+});
 </script>

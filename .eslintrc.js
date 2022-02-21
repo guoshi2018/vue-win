@@ -40,7 +40,9 @@ module.exports = {
     '@typescript-eslint/no-var-requires': 'off',
     '@typescript-eslint/ban-types': 'off',
     "@typescript-eslint/no-unused-vars": 'off',
-    "@typescript-eslint/no-explicit-any": 'off',
+    "camelcase": 'off',
+    "vue/no-mutating-props": 'error',
+    // "@typescript-eslint/no-explicit-any": 'off',
   },
   overrides: [
     {

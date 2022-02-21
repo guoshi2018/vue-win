@@ -100,3 +100,17 @@ export default () => {
 		demo7,
 	);
 };
+
+/*
+Conclusion#
+Vue updates the DOM asynchronously; tests runner executes code synchronously instead.
+Use await nextTick() to ensure the DOM has updated before the test continues.
+
+Functions that might update the DOM (like trigger and setValue) return nextTick, 
+so you need to await them.
+
+Use flushPromises from Vue Test Utils to resolve any unresolved promises from 
+non-Vue dependencies (such as API requests).
+
+Use Suspense to test components with an asynchronous setup.
+*/

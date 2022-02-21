@@ -2,17 +2,17 @@
 
 /* eslint-disable */
 // declare module '*.vue' {
-//   // import type { DefineComponent } from 'vue'
-//   // const component: DefineComponent<{}, {}, any>
-//   // export default component
+// 	// import type { DefineComponent } from 'vue'
+// 	// const component: DefineComponent<{}, {}, any>
+// 	// export default component
 
-//   // import { ComponentOptions } from 'vue'     //ok also
-//   // const componentOptions: ComponentOptions
-//   // export default componentOptions
+// 	// import { ComponentOptions } from 'vue'     //ok also
+// 	// const componentOptions: ComponentOptions
+// 	// export default componentOptions
 
-//   import { defineComponent } from 'vue'
-//   const Component: ReturnType<typeof defineComponent>
-//   export default Component
+// 	import { defineComponent } from 'vue'
+// 	const Component: ReturnType<typeof defineComponent>
+// 	export default Component
 // };
 // declare module '@/common/js/lodash.js';
 // //declare module 'bootstrap'

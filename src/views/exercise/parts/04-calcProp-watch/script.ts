@@ -60,13 +60,13 @@ interface Data {
   },
   created() {
     this.initTempAuthor();
-    console.log('init');
+    //   console.log('init');
   },
   mounted() {
     this.period = new Date();
     this.timer = setInterval(() => {
-      //由于这是属性值的变动，所以会触发计算属性和方法的调用
-      //this.period = new Date(); 
+      //由于这是属性值的变动,而该属性是响应性的，所以会触发计算属性和方法的调用
+      //this.period = new Date();
 
       //属性值（Date对象实例）不变，仅仅是其内部字段（属性）值变化，不会触发计算属性和方法的调用
       this.period.setTime(this.period.getTime() + 1000);//
@@ -85,10 +85,10 @@ interface Data {
         books: [],
       } as Author;
     },
-    getArea() {
+    getArea(): string {
       return this.country + '.' + this.province;
     },
-    getCurrentTime() {
+    getCurrentTime(): null | string {
       return this.period?.toLocaleTimeString();
     },
     handleBook(auth: Author, bookIdx: number): void {
@@ -178,7 +178,7 @@ interface Data {
       }
     },
 
-    currentTime(): string {
+    currentTime(): string | null {
       return this.period?.toLocaleTimeString();
     },
 

@@ -463,6 +463,7 @@
 /* eslint-disable no-dupe-class-members, no-dupe-keys */
 import { ref, defineComponent, onMounted } from "vue";
 import { Country, ExamPayload } from "@/store/types";
+
 import AccordionHull from "@/components/accordion/accordion-hull.vue"; // 子组件 @ is an alias to /src
 import AccordionItem from "@/components/accordion/accordion-item.vue";
 import {
@@ -487,6 +488,8 @@ export default defineComponent({
     };
   },
   setup() {
+    // to use unique key to access store,注意与main.ts的use(store,..)对应
+    //const theStore = useStore(Symbol.for("hey"));
     const theStore = useStore();
     onMounted(() => {
       console.log("...............", theStore);

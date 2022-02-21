@@ -21,7 +21,7 @@
           <input
             type="button"
             @mousemove="processedDebounce"
-            value="created是定义的防抖"
+            value="created时定义的防抖"
           />
         </li>
       </ul>
@@ -36,10 +36,12 @@
 import { defineComponent } from "vue";
 import _ from "lodash-js";
 
-//console.log('look at temp:',_);
 export default defineComponent({
   created() {
     this.processedDebounce = _.debounce(this.processMove, 2000);
+  },
+  unmounted() {
+    // this.processedDebounce.cancel();
   },
   methods: {
     commonDebounce: _.debounce(() => {
@@ -52,7 +54,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<!--
-View形式的组件，还需要到/router/index.ts中注册，在App.vue的适当位置设置链接
--->

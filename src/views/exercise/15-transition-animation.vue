@@ -1,4 +1,3 @@
-
 <template>
   <accordion-hull header="过渡&动画概述">
     <accordion-item caption="基于 class 的动画和过渡">
@@ -7,145 +6,139 @@
           <span>
             Push this button to do something you shouldn't be doing:
           </span>
-          <div :class="{shake:noActived}">
+          <div :class="{ shake: noActived }">
             <button @click="noActived = !noActived">Click me</button>
             <span v-if="noActived">Oh no!</span>
           </div>
         </li>
       </ol>
     </accordion-item>
-    <accordion-item caption="一些过渡效果可以通过插值的方式来实现，例如在发生交互时将样式绑定到元素上。">
-      <div @mousemove="coordinate"
-           :style="{backgroundColor:`hsl(${(x+y)/2},80%,50%)`}"
-           class="movearea">
+    <accordion-item
+      caption="一些过渡效果可以通过插值的方式来实现，例如在发生交互时将样式绑定到元素上。"
+    >
+      <div
+        @mousemove="coordinate"
+        :style="{ backgroundColor: `hsl(${(x + y) / 2},80%,50%)` }"
+        class="movearea"
+      >
         <h3>Move your mouse across the screen...</h3>
-        <span>x:{{x}},y:{{y}}</span>
+        <span>x:{{ x }},y:{{ y }}</span>
       </div>
     </accordion-item>
     <accordion-item caption="纯css的缓动效果">
-      <button class="easing-button">Hover me </button>
+      <button class="easing-button">Hover me</button>
     </accordion-item>
     <accordion-item show caption="缓动效果也可以用来表达动画元素的材质">
       <h2>注意,compass变量导入有错,暂时不能运行</h2>
-      <div class='container'>
-        <div class='unit'>
-          <div class='ball ball1'></div>
-          <div class='ball-shadow'></div>
+      <div class="container">
+        <div class="unit">
+          <div class="ball ball1"></div>
+          <div class="ball-shadow"></div>
         </div>
-        <div class='unit'>
-          <div class='ball ball2'></div>
-          <div class='ball-shadow'></div>
+        <div class="unit">
+          <div class="ball ball2"></div>
+          <div class="ball-shadow"></div>
         </div>
       </div>
-      <div class='overlay'></div>
+      <div class="overlay"></div>
     </accordion-item>
   </accordion-hull>
 </template>
 
 <script lang="ts">
-  /* eslint-disable no-dupe-class-members, no-dupe-keys */
-  import { Options, Vue } from 'vue-class-component'
-  import AccordionHull from '@/components/accordion/accordion-hull.vue' // 子组件 @ is an alias to /src
-  import AccordionItem from '@/components/accordion/accordion-item.vue';
+/* eslint-disable no-dupe-class-members, no-dupe-keys */
+import { defineComponent } from "vue";
+import AccordionHull from "@/components/accordion/accordion-hull.vue"; // 子组件 @ is an alias to /src
+import AccordionItem from "@/components/accordion/accordion-item.vue";
 
-  // interface Data {
-  // }
-  // type Yyy = {
-  // };
-  @Options({
-    data() {
-      return {
-        noActived: false,
-        x: 0,
-        y: 0,
-      };
+export default defineComponent({
+  data() {
+    return {
+      noActived: false,
+      x: 0,
+      y: 0,
+    };
+  },
+  methods: {
+    coordinate(evt: MouseEvent) {
+      this.x = evt.clientX;
+      this.y = evt.clientY;
     },
-    // data()也可以这样写：
-    // data () {
-    //   return {
-
-    //   } as Data
-    // },
-    // mounted (): void {
-    // },
-    methods: {
-      coordinate(evt: MouseEvent) {
-        this.x = evt.clientX;
-        this.y = evt.clientY;
-      }
-    },
-    components: {
-      AccordionHull,
-      AccordionItem,
-    },
-  })
-  //export default class ComOrViewModel extends Vue { }     //ok
-  //由于只有一个导出，故可使用匿名的默认导出：
-  export default class extends Vue { }
+  },
+  components: {
+    AccordionHull,
+    AccordionItem,
+  },
+});
 </script>
 
 <style lang="css" scoped>
-  .shake {
-    animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
-    /*以下任意一个，实现对元素进行硬件加速 */
-    transform: translateZ(0);
-    backface-visibility: hidden;
-    perspective: 1000px;
+.shake {
+  animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  /*以下任意一个，实现对元素进行硬件加速 */
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+@keyframes shake {
+  10%,
+  90% {
+    transform: translate3d(-1px, 0, 0);
   }
 
-  @keyframes shake {
-    10%,90% {
-      transform: translate3d(-1px,0,0);
-    }
-
-    30%,50%,70% {
-      transform: translate3d(-4px,0,0,0);
-    }
-
-    40%, 60% {
-      transform: translate3d(4px,0,0);
-    }
+  30%,
+  50%,
+  70% {
+    transform: translate3d(-4px, 0, 0, 0);
   }
 
-  .movearea {
-    transition: 0.2s background-color ease;
-    height:8em;
+  40%,
+  60% {
+    transform: translate3d(4px, 0, 0);
   }
+}
+
+.movearea {
+  transition: 1.2s background-color ease;
+  height: 8em;
+}
 </style>
 
 <style scoped lang="scss">
-  .easing-button {
-    background: #1b8f5a;
-    transition: background 0.25s ease-in;
-    border-radius: 4px;
-    display: inline-block;
-    border: none;
-    padding: 0.75rem 1rem;
-    margin: 0;
-    text-decoration: none;
-    color: #ffffff;
-    font-family: sans-serif;
-    font-size: 1rem;
-    cursor: pointer;
-    text-align: center;
-    -webkit-appearance: none;
-    -moz-appearance: none;
+.easing-button {
+  background: #1b8f5a;
+  transition: background 0.25s ease-in;
+  border-radius: 4px;
+  display: inline-block;
+  border: none;
+  padding: 0.75rem 1rem;
+  margin: 0;
+  text-decoration: none;
+  color: #ffffff;
+  font-family: sans-serif;
+  font-size: 1rem;
+  cursor: pointer;
+  text-align: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
 
-    &:hover, &:focus {
-      transition: background 0.3s ease-out;
-      background: #3eaf7c;
-    }
-
-    &:focus {
-      outline: 1px solid #fff;
-      outline-offset: -4px;
-    }
+  &:hover,
+  &:focus {
+    transition: background 0.3s ease-out;
+    background: #361910;
   }
+
+  &:focus {
+    outline: 1px solid rgb(21, 95, 233);
+    outline-offset: -4px;
+  }
+}
 </style>
 
 <style scoped lang="scss">
-  @import "compass/css3";
-  /*
+@import "compass/css3";
+/*
   .container {
     width: 500px;
     margin: 10px auto;
@@ -220,9 +213,3 @@
     }
   }*/
 </style>
-
-<summary>
-  View形式的组件，还需要到/router/index.ts中注册，在App.vue的适当位置设置链接
-  若引用到.js文件，使用import时，需要到shims-vue.d.ts中declare一下。
-</summary>
-

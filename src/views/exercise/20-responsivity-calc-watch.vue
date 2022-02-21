@@ -26,14 +26,12 @@
           <button @click="demo8">侦听单个数据源:一个getter</button>
           <button @click="demo9">侦听ref</button>
           <button @click="demo10">侦听ref形式的多个数据源</button>
-          <button @click="demo11">侦听响应式对象</button>
+          <button @click="demo11">侦听(多个)响应式对象</button>
           <button @click="demo12">深度嵌套对象或数组的侦听</button>
           <button @click="demo13">完全侦听深度嵌套的对象和数组</button>
         </li>
       </ol>
     </accordion-item>
-    <accordion-item caption=""> </accordion-item>
-    <accordion-item caption=""> </accordion-item>
   </accordion-hull>
 </template>
 
@@ -53,7 +51,7 @@ import {
 
 import AccordionHull from "@/components/accordion/accordion-hull.vue"; // 子组件 @ is an alias to /src
 import AccordionItem from "@/components/accordion/accordion-item.vue";
-import { sleep } from "@/common/mixins/func.ts";
+import { sleep } from "@/common/mixins/func";
 
 export default defineComponent({
   //   mixins: [Func],
@@ -82,10 +80,14 @@ export default defineComponent({
       const count = ref(1);
       const plusOne = computed(() => ++count.value);
       console.log(plusOne.value);
+      count.value += 10;
+      console.log(plusOne.value);
       //plusOne.value++;        //error, for readonly
     },
     demo2() {
-      console.log("使用一个带有 get 和 set 函数的对象来创建一个可写的 ref 对象。");
+      console.log(
+        "使用一个带有 get 和 set 函数的对象来创建一个可写的 ref 对象。"
+      );
       const count = ref(1);
       const plusOne = computed({
         get: () => count.value++,
@@ -127,20 +129,22 @@ export default defineComponent({
         },
         {
           onTrack(e) {
+            // onGet
             // 当 count.value 作为依赖被追踪时触发
             //debugger
-            console.info("onTrack", e, e.newValue, e.oldValue);
+            console.info("onTrack", e, e.newValue, e.oldValue); //没有oldValue字段
           },
           onTrigger(e) {
+            //onSet
             // 当 count.value 被修改时触发
             //debugger
-            console.info("onTrigger", e, e.newValue, e.oldValue);
+            console.info("onTrigger", e, e.newValue, e.oldValue); //没有oldValue字段
           },
         }
       );
       console.log(plus.value); //触发onTrack
       count.value++; //触发onTrigger
-      plus.value = 100; //
+      plus.value = 100; //触发onTrigger
     },
     async demo5() {
       //为了根据响应式状态自动应用和重新应用副作用，我们可以使用 watchEffect 函数。
@@ -151,20 +155,24 @@ export default defineComponent({
       const stop = watchEffect(() => console.log(count1.value, count2.value));
       const timer = setInterval(async () => {
         count1.value++;
-        await sleep(500); //不停一会,则count1和count2两个的变化做一次响应
+        await sleep(500); //不停一会,则count1和count2两个的变化会被当成一次响应
         count2.value++;
         count3.value++; //不触发
       }, 1500);
 
       await sleep(6000);
       //显示调用以停止侦听
-      stop();
+      stop(); //侦听停止,但叠加不休
       console.log(
         `now watchEffect is stopped.count1=${count1.value},count2=${count2.value}`
       );
       await sleep(3000);
       clearInterval(timer);
-      console.log(`now timer is clear.count1=${count1.value},count2=${count2.value}`);
+      console.log(
+        `now timer is clear.count1=${count1.value},count2=${count2.value}`
+      );
+      await sleep(1500);
+      console.log("sleep function is ok?");
     },
     demo6() {
       console.log(
@@ -176,7 +184,7 @@ export default defineComponent({
         async () => {
           //await sleep(1000);     //这么搞,后面就不执行
           console.log("watchEffect trigger:", this.count); //.value 是 undefined
-          await sleep(1000);
+          await sleep(3000);
           console.log("watchEffect end");
         },
         {
@@ -228,7 +236,7 @@ export default defineComponent({
         }
       );
       firstName.value = "bill";
-      //await sleep(500);        //否则,只会触发一次,除非上面的flush配置未sync
+      //await sleep(500);        //否则,只会触发一次,除非上面的flush配置为sync
       await nextTick(); //或者,调用vue提供的全局方法nextTick()
       lastName.value = "gates";
     },
@@ -243,16 +251,21 @@ export default defineComponent({
         //     () => arr,          //fail
         //[...nums],                  //fail
 
-        () => [...nums2], //must ok
+        //() => [...nums2], //must ok
         //() => [...nums],        //must ok
+        () => [[...nums], [...nums2]], //ok
+        //() => [...nums, ...nums2],    //ok
         (cur, prev) => {
           console.log("watch array:", cur, prev);
         }
       );
+      //注意多个同步更改只会触发一次侦听器。所以,为了让下面的操作分别触发,动用nextTick方法
       nums.push(8);
+      await nextTick();
       nums2.push(-8);
       await nextTick();
       nums.push(99);
+      await nextTick();
       nums2.push(-99);
     },
     async demo12() {
@@ -277,7 +290,7 @@ export default defineComponent({
       watch(
         () => state,
         (cur, prev) => {
-          //     console.log('deep,', cur, prev); //很奇怪,这里得到的是proxy对象,target又没有public
+          //     console.log('deep,', cur, prev); //这里得到的是proxy对象,target没有public
           console.log(
             "deep,",
             cur.id,
@@ -328,8 +341,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<summary>
-  View形式的组件，还需要到/router/index.ts中注册，在App.vue的适当位置设置链接
-  若引用到.js文件，使用import时，需要到shims-vue.d.ts中declare一下。
-</summary>

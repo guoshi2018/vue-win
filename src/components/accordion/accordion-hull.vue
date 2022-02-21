@@ -1,6 +1,8 @@
 <template>
   <div class="accordion accordion-flush test">
-    <h2 v-if="header?.length > 0">{{ header }}</h2>
+    <!--
+    <h2 v-if="header?.length > 0">{{ header }}</h2>-->
+    <h2>{{ header.length ? header : "请设置header以标识总标题" }}</h2>
     <slot> 暂无内容 </slot>
   </div>
 </template>
@@ -36,14 +38,6 @@ export default defineComponent({
     },
   },
   methods: {
-    //获取guid字符串 ,已使用func.vue混入
-    //guidString(): string {
-    //  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-    //    const r = Math.random() * 16 | 0;
-    //    const v = c == 'x' ? r : (r & 0x3 | 0x8);
-    //    return 's' + v.toString(16);
-    //  });
-    //},
     fireCustomEvent(name: string): void {
       //三步曲虽然仍可用，但已废弃：
       //https://developer.mozilla.org/zh-CN/docs/Web/API/Event/initEvent

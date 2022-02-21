@@ -1,6 +1,7 @@
 //注意，下面的route参数的测试验证，应该在地址栏输入以策简化。
 
 import { RouteLocationNormalized, RouteRecordRaw } from "vue-router";
+
 import ComUser from "@/components/22-Vue-Router/com-user.vue";
 import NotFound from "@/components/22-Vue-Router/not-found.vue";
 import PropUser from "@/components/22-Vue-Router/prop-user.vue";

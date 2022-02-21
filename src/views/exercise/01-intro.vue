@@ -16,14 +16,14 @@
         <li>
           <input
             type="text"
-            placeholder="这里的文本已与div的title绑定"
+            placeholder="这里的文本已与整个div的title绑定"
             v-model="title"
           />
         </li>
       </ul>
     </section>
     <section>
-      <Todos :todos="planes"></Todos>
+      <Todos :todos="plans"></Todos>
     </section>
   </div>
 </template>
@@ -37,7 +37,7 @@ interface Data {
   /* eslint-disable @typescript-eslint/no-explicit-any */
   timer: any; //number 报错，说 NodeJS.Timer不能用来充当number
   title: string;
-  planes: Array<{ id: number; content: string; done: boolean }>;
+  plans: Array<{ id: number; content: string; done: boolean }>;
 }
 
 export default defineComponent({
@@ -47,7 +47,7 @@ export default defineComponent({
       btnText: "",
       timer: undefined,
       title: "这里的提示文字，可通过下面的编辑框修改",
-      planes: [
+      plans: [
         {
           id: 1,
           content: "Learn babel",
@@ -70,7 +70,6 @@ export default defineComponent({
     this.switchStatus();
   },
   methods: {
-    tempMethod() {},
     createTimer() {
       return setInterval((): void => {
         this.counter++;

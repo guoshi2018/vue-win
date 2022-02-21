@@ -1,30 +1,28 @@
 <template>
   <div>
     <header>
-      <slot name="header"/>
+      <slot name="header" />
     </header>
     <main>
       <!--省略name屬性的插槽，自动生成 name='default'-->
-      <slot/>
+      <slot />
     </main>
     <footer>
-      <slot name="footer"/>
+      <slot name="footer" />
     </footer>
   </div>
 </template>
 
 <script lang="ts">
-import { Options, Vue } from 'vue-class-component'
+import { defineComponent } from "vue";
 
-  @Options({
-    props: {
-      title: {
-        type: String,
-        default: 'no-title',
-        required: false,
-      },
-    }
-})
-export default class extends Vue {}
+export default defineComponent({
+  props: {
+    title: {
+      type: String,
+      default: "no-title",
+      required: false,
+    },
+  },
+});
 </script>
-

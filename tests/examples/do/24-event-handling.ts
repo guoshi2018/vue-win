@@ -50,12 +50,42 @@ const couple = [
 			wrapper.get('#dec').trigger('click');
 			const eventArgs = wrapper.emitted().subtract;
 			console.log(eventArgs);
+
+			// We have "clicked" twice, so the array of `increment` should
+			// have two values.
+			expect(eventArgs).toHaveLength(2)
+
+			// Then, we can make sure each element of `wrapper.emitted('increment')`
+			// contains an array with the expected object.
+			expect(eventArgs[0]).toEqual([
+				{ currentCount: -1, isEven: false, info: 'hello,world' },
+				'this is second arg',
+				1988,
+				12,
+				25
+			])
+
+			expect(eventArgs[1]).toEqual([
+				{ currentCount: -2, isEven: true, info: 'hello,world' },
+				'this is second arg',
+				1988,
+				12,
+				25
+			])
+
 		}
 	}
 ];
 
 export default () => {
-	for (let i = 1; i < couple.length; i++) {
+	for (let i = 0; i < couple.length; i++) {
 		test(couple[i].desc, couple[i].func);
 	}
 };
+
+/*
+Conclusion#
+Use emitted() to access the events emitted from a Vue component.
+emitted(eventName) returns an array, where each element represents one event emitted.
+Arguments are stored in emitted(eventName)[index] in an array in the same order they are emitted.
+*/

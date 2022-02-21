@@ -10,7 +10,7 @@
         data-bs-toggle="collapse"
         aria-expanded="false"
       >
-        {{ caption }}
+        {{ caption.length ? caption : "请设置caption以标识各可折叠区域标题" }}
       </button>
     </h3>
     <!--:id="contentId" 同上-->
@@ -21,7 +21,7 @@
       ref="content"
     >
       <section class="accordion-body">
-        <slot>暂时未填写内容</slot>
+        <slot>可折叠区域内容未填写</slot>
       </section>
     </div>
   </div>
@@ -39,7 +39,7 @@ export default defineComponent({
     caption: {
       type: String,
       required: false,
-      default: "未命名caption",
+      default: "",
     },
     show: {
       type: Boolean,
@@ -74,7 +74,7 @@ export default defineComponent({
       }
     });
     return {
-      props,
+      //  props, // not essential
       header,
       content,
       headerId,

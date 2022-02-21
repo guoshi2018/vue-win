@@ -9,6 +9,7 @@
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
 @Options({
+  name: "NameOfAbout",
   components: {},
   mounted() {
     console.log("in about-view mounted,this.$route is ", this.$route);

@@ -6,14 +6,7 @@
 </template>
 
 <script lang="ts">
-  import { Options, Vue } from 'vue-class-component'
-  import ChildCom from '@/components/18-teleport-apply/child-com.vue';
+import { defineComponent } from "vue";
 
-@Options({
-  components: {
-    ChildCom,
-  },
-})
-export default class extends Vue {}
+export default defineComponent({});
 </script>
-

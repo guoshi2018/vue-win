@@ -5,9 +5,11 @@ import {
   createWebHashHistory,
 } from "vue-router";
 
+import RouterDemo from "@/views/exercise/22-Vue-Router/route-demo";
+
+
 import HomeView from "@/views/HomeView.vue";
 import AboutView from "@/views/AboutView.vue";
-
 
 import WeatherView from "@/views/WeatherView.vue";
 import IntroduceView from "@/views/exercise/01-intro.vue";
@@ -34,7 +36,8 @@ import TeleportApply from "@/views/exercise/18-teleport-apply.vue";
 import RespBase from "@/views/exercise/19-responsivity-base.vue";
 import RespCalcWatch from "@/views/exercise/20-responsivity-calc-watch.vue";
 import TypescriptSupport from "@/views/exercise/21-ts-support.vue";
-import RouterDemo from "@/views/exercise/22-Vue-Router/route-demo";
+
+
 
 
 

@@ -8,30 +8,32 @@
       <slot :mi="maininfo" :mi2="maininfo.toLocaleUpperCase()" />
     </main>
     <footer>
-      <slot name="footer" :fi="footerinfo" :fi2="footerinfo.toLocaleUpperCase()" />
+      <slot
+        name="footer"
+        :fi="footerinfo"
+        :fi2="footerinfo.toLocaleUpperCase()"
+      />
     </footer>
   </div>
 </template>
 
 <script lang="ts">
-  import { Options, Vue } from 'vue-class-component'
+import { defineComponent } from "vue";
 
-  @Options({
-    data() {
-      return {
-        res: 'thank you for telling me.',
-        headinfo: 'this is header information',
-        maininfo: 'this is main information',
-        footerinfo: 'this is footer information',
-      };
-    },
-    props: {
-      todos: {
-        type: Array,
-        required: true,
-      },
-    }
-  })
-  export default class extends Vue { }
+export default defineComponent({
+  data() {
+    return {
+      res: "thank you for telling me.",
+      headinfo: "this is header information",
+      maininfo: "this is main information",
+      footerinfo: "this is footer information",
+    };
+  },
+  // props: {
+  //   todos: {
+  //     type: Array,
+  //     required: true,
+  //   },
+  // },
+});
 </script>
-

@@ -5,3 +5,5 @@ import router from './router'
 import store from './store'
 
 createApp(App).use(store).use(router).mount('#app')
+//createApp(App).use(store, Symbol.for('hey')).use(router).mount('#app')
+

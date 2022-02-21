@@ -1,6 +1,9 @@
 <template>
   <accordion-hull header="事件处理">
-    <accordion-item caption="事件参数event,注意console" show>
+    <accordion-item
+      caption="事件参数event,注意console(firefox显示有所不同,但就这么个意思)"
+      show
+    >
       <ul>
         <li>
           <input type="button" @click="warn" value="warn,事件参数采用默认" />
@@ -22,23 +25,30 @@
         <li>
           <input
             type="button"
-            @click="warn('hi', $event)"
-            value="warn('...',$event),自定义和原生事件参数兼而有之"
+            @click="warn('hi', $event, 'hey', { a1: 188, birth: Date.now() })"
+            value="warn('...',$event),自定义和原生事件参数兼而有之,甚至可以传递任意多个参数"
           />
         </li>
       </ul>
     </accordion-item>
     <accordion-item caption="多事件处理器">
-      <button @click="warn($event), notice, warn('hello'), notice(), warn('hello')">
+      <button
+        @click="warn($event), notice, warn('hello'), notice(), warn('hello')"
+      >
         多个处理器依次执行,只写函数名称被忽略，重复方法也不放过
       </button>
     </accordion-item>
-    <accordion-item caption="事件修饰符：.stop .prevent .capture .self .once .passive">
+    <accordion-item
+      caption="事件修饰符：.stop .prevent .capture .self .once .passive"
+    >
       <ul>
         <li>
           <span>不修饰，观察a的点击事件的冒泡以及默认动作（打开href网页）</span>
           <span class="square" @click="queryTarget">
-            <a @click="queryTarget" target="_blank" href="http://www.guitarchina.com"
+            <a
+              @click="queryTarget"
+              target="_blank"
+              href="http://www.guitarchina.com"
               >吉他中国</a
             >
           </span>
@@ -46,7 +56,10 @@
         <li>
           <span>.stop修饰符，阻止事件继续冒泡</span>
           <span class="square" @click="queryTarget">
-            <a @click.stop="queryTarget" target="_blank" href="http://www.guitarchina.com"
+            <a
+              @click.stop="queryTarget"
+              target="_blank"
+              href="http://www.guitarchina.com"
               >吉他中国</a
             >
           </span>
@@ -106,10 +119,16 @@
             否则会收到警告。不过该修饰符在pc浏览器端貌似无效,但据说能够提升移动端的性能
           </span>
           <input type="text" placeholder="heavy work时，无法响应输入" />
-          <a @click="heavyWork" target="_blank" href="http://www.guitarchina.com"
+          <a
+            @click="heavyWork"
+            target="_blank"
+            href="http://www.guitarchina.com"
             >common</a
           >
-          <a @click.passive="heavyWork" target="_blank" href="http://www.guitarchina.com"
+          <a
+            @click.passive="heavyWork"
+            target="_blank"
+            href="http://www.guitarchina.com"
             >passive</a
           >
         </li>
@@ -118,8 +137,15 @@
     <accordion-item caption="按键修饰符:">
       <ul>
         <li>
-          <span>使用别名.enter .tab .delete .esc .space .up .down .left .right</span>
-          <input @keyup.down="notice" type="button" value="聚焦后，按down arrow响应" />
+          <span
+            >使用别名.enter .tab .delete .esc .space .up .down .left
+            .right</span
+          >
+          <input
+            @keyup.down="notice"
+            type="button"
+            value="聚焦后，按down arrow响应"
+          />
         </li>
         <li>
           <span>使用原名，例如.page-down</span>
@@ -131,7 +157,8 @@
         </li>
         <li>
           <span>
-            系统修饰键：配合鼠标键盘事件。.ctrl .alt .shift .meta(对应win键或command键)
+            系统修饰键：配合鼠标键盘事件。.ctrl .alt .shift
+            .meta(对应win键或command键)
           </span>
           <input
             type="button"
@@ -140,7 +167,9 @@
           />
         </li>
         <li>
-          <span> .exact修饰符，用以控制精确的系统修饰符组合。即不按多也不按少 </span>
+          <span>
+            .exact修饰符，用以控制精确的系统修饰符组合。即不按多也不按少
+          </span>
           <span>
             <input
               type="button"
@@ -166,8 +195,16 @@
             @click.left="notice"
             value=".left修饰符，为默认的鼠标左键触发"
           />
-          <input type="button" @click.right="notice" value=".right修饰符，右键触发" />
-          <input type="button" @click.middle="notice" value=".middle修饰符，中建触发" />
+          <input
+            type="button"
+            @click.right="notice"
+            value=".right修饰符，右键触发"
+          />
+          <input
+            type="button"
+            @click.middle="notice"
+            value=".middle修饰符，中建触发"
+          />
           <input
             type="button"
             @click.left.right="notice"
@@ -189,23 +226,10 @@
 import { defineComponent } from "vue";
 import AccordionHull from "@/components/accordion/accordion-hull.vue"; // 子组件 @ is an alias to /src
 import AccordionItem from "@/components/accordion/accordion-item.vue";
-//export default class ComOrViewModel extends Vue { }     //ok
-//由于只有一个导出，故可使用匿名的默认导出：
-export default defineComponent({
-  // data(): Data {
-  //   return {
-  //   };
-  // },
-  // data()也可以这样写：
-  // data () {
-  //   return {
 
-  //   } as Data
-  // },
-  // mounted (): void {
-  // },
+export default defineComponent({
   methods: {
-    warn(...args: Array<object>) {
+    warn(...args: Array<object> | any) {
       console.log("warn1 function called,all arguments are ", args);
     },
     notice() {
@@ -218,14 +242,14 @@ export default defineComponent({
       console.log(evt.currentTarget, evt.relatedTarget, evt.target);
     },
     heavyWork() {
-      const d1: Date = new Date();
-      console.log("heavy work begin.", d1.toLocaleTimeString());
+      const d1: number = Date.now();
+      console.log("heavy work begin.", d1);
 
-      let d2: Date;
+      let d2: number;
       do {
-        d2 = new Date();
-      } while (d2.getTime() - d1.getTime() <= 3000);
-      console.log("heavy work done.", d2.toLocaleTimeString());
+        d2 = Date.now();
+      } while (d2 - d1 <= 3000);
+      console.log("heavy work done.", d2);
     },
   },
   components: {
@@ -234,8 +258,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<summary>
-  View形式的组件，还需要到/router/index.ts中注册，在App.vue的适当位置设置链接
-  若引用到.js文件，使用import时，需要到shims-vue.d.ts中declare一下。
-</summary>
