@@ -194,8 +194,8 @@
 <script lang="ts">
 /* eslint-disable no-dupe-class-members, no-dupe-keys */
 import { defineComponent } from "vue";
-import AccordionHull from "@/components/accordion/accordion-hull.vue"; // 子组件 @ is an alias to /src
-import AccordionItem from "@/components/accordion/accordion-item.vue";
+// import AccordionHull from "@/components/accordion/accordion-hull.vue"; // 子组件 @ is an alias to /src
+// import AccordionItem from "@/components/accordion/accordion-item.vue";
 import SlotExampleOne from "@/components/12-slot/slot-example1.vue";
 import SlotExampleTwo from "@/components/12-slot/slot-example2.vue";
 import SlotExampleThree from "@/components/12-slot/slot-example3.vue";
@@ -238,8 +238,6 @@ export default defineComponent({
     clearInterval(this.timer);
   },
   components: {
-    AccordionHull,
-    AccordionItem,
     SlotExampleOne,
     SlotExampleTwo,
     SlotExampleThree,

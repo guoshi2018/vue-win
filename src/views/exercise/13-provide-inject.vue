@@ -67,8 +67,8 @@
 /* eslint-disable no-dupe-class-members, no-dupe-keys */
 import { defineComponent } from "vue";
 import { Vue } from "vue-class-component";
-import AccordionHull from "@/components/accordion/accordion-hull.vue"; // 子组件 @ is an alias to /src
-import AccordionItem from "@/components/accordion/accordion-item.vue";
+// import AccordionHull from "@/components/accordion/accordion-hull.vue"; // 子组件 @ is an alias to /src
+// import AccordionItem from "@/components/accordion/accordion-item.vue";
 import FirstLayer from "@/components/13-provide-inject/first-layer.vue";
 import SecondLayer from "@/components/13-provide-inject/second-layer.vue";
 import ThirdLayer from "@/components/13-provide-inject/third-layer.vue";
@@ -112,8 +112,6 @@ export default defineComponent({
     };
   },
   components: {
-    AccordionHull,
-    AccordionItem,
     FirstLayer,
     SecondLayer,
     ThirdLayer,

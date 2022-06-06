@@ -38,14 +38,12 @@
 <script lang="ts">
 /* eslint-disable no-dupe-class-members, no-dupe-keys */
 import { provide, reactive, ref, readonly, defineComponent } from "vue";
-import AccordionHull from "@/components/accordion/accordion-hull.vue"; // 子组件 @ is an alias to /src
-import AccordionItem from "@/components/accordion/accordion-item.vue";
+// import AccordionHull from "@/components/accordion/accordion-hull.vue"; // 子组件 @ is an alias to /src
+// import AccordionItem from "@/components/accordion/accordion-item.vue";
 import FirstMark from "@/components/13-provide-inject2/FirstMark.vue";
 
 export default defineComponent({
   components: {
-    AccordionHull,
-    AccordionItem,
     FirstMark,
   },
   setup() {

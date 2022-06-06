@@ -1,0 +1,36 @@
+<html>
+  <head>
+    <style>
+      .container {
+        position: absolute;
+        width: 100vw;
+        height: 100vh;
+        z-index: 100;
+        background-color: rgba(37, 57, 94, 0.178);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        left: 0;
+        top: 0;
+      }
+      .loading {
+        width: 10em;
+        height: 10em;
+        max-width: 30vw;
+        max-height: 30vw;
+      }
+      img.placeholder {
+        width: 500px;
+        height: 800px;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <img scr="./loadingImages/(8).gif" class="placeholder" />
+    </div>
+    <div class="container">
+      <img src="./loadingImages/(16).gif" class="loading" />
+    </div>
+  </body>
+</html>

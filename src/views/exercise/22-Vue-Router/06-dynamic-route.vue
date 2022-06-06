@@ -126,8 +126,8 @@ import {
   RouteRecord,
 } from "vue-router";
 
-import AccordionHull from "@/components/accordion/accordion-hull.vue";
-import AccordionItem from "@/components/accordion/accordion-item.vue";
+// import AccordionHull from "@/components/accordion/accordion-hull.vue";
+// import AccordionItem from "@/components/accordion/accordion-item.vue";
 import InnerView from "@/components/22-Vue-Router/inner-view.vue";
 import PropUser from "@/components/22-Vue-Router/prop-user.vue";
 
@@ -178,10 +178,7 @@ export default defineComponent({
       cbRemoving,
     };
   },
-  components: {
-    AccordionHull,
-    AccordionItem,
-  },
+  components: {},
   methods: {
     //刷新路由记录:
     updateRecords() {

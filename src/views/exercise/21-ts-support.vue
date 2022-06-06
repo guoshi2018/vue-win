@@ -31,8 +31,8 @@ import {
   PropType,
 } from "vue";
 
-import AccordionHull from "@/components/accordion/accordion-hull.vue"; // 子组件 @ is an alias to /src
-import AccordionItem from "@/components/accordion/accordion-item.vue";
+// import AccordionHull from "@/components/accordion/accordion-hull.vue"; // 子组件 @ is an alias to /src
+// import AccordionItem from "@/components/accordion/accordion-item.vue";
 
 interface Book {
   title: string;
@@ -46,10 +46,7 @@ interface Article {
 
 //为了得到Typescript的全力支持，应该使用defineComponent方法
 export default defineComponent({
-  components: {
-    AccordionHull,
-    AccordionItem,
-  },
+  components: {},
   data() {
     return {
       message: "hello",

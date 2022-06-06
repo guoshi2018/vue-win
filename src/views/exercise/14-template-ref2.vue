@@ -46,8 +46,8 @@
 <script lang="ts">
 /* eslint-disable no-dupe-class-members, no-dupe-keys */
 import { defineComponent } from "vue";
-import AccordionHull from "@/components/accordion/accordion-hull.vue"; // 子组件 @ is an alias to /src
-import AccordionItem from "@/components/accordion/accordion-item.vue";
+// import AccordionHull from "@/components/accordion/accordion-hull.vue"; // 子组件 @ is an alias to /src
+// import AccordionItem from "@/components/accordion/accordion-item.vue";
 import FirstModelRef from "@/components/14-template-ref2/first-model-ref.vue";
 import SecondModelRef from "@/components/14-template-ref2/second-model-ref.vue";
 import ThirdModelRef from "@/components/14-template-ref2/third-model-ref.vue";
@@ -66,8 +66,6 @@ export default defineComponent({
   },
   computed: {},
   components: {
-    AccordionHull,
-    AccordionItem,
     FirstModelRef,
     SecondModelRef,
     ThirdModelRef,

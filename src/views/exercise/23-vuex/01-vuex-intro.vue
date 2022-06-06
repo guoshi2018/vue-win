@@ -22,7 +22,7 @@
     </accordion-item>
     <accordion-item
       caption="状态属性转换为计算属性,以count为例.注意,
-    计算属性中的this,在运行时可正确指向,但是编译老报错,所以已经将this换成计算属性的内部参数vm"
+    计算属性中的this,在运行时可正确指向,智能感知有时提示错误,所以已经将this换成计算属性的内部参数vm"
     >
       <ul>
         <li>
@@ -277,7 +277,7 @@
         </li>
       </ul>
     </accordion-item>
-    <accordion-item caption="action的异步特征即使用,与await组合等">
+    <accordion-item caption="action的异步特征及使用,与await组合等">
       <ul>
         <li>
           <span>
@@ -300,62 +300,137 @@
         </li>
       </ul>
     </accordion-item>
+    <accordion-item caption="store之严格模式下的表单绑定问题">
+      <ul>
+        <li>
+          <span
+            >使用v-model的双向绑定到state的对象之属性,
+            在用户输入时,因为v-因为v-model试图修改 该属性(Student.name),
+            由于这个修改不是在 mutation 函数中执行的, 这里会抛出一个错误。 当然,
+            非严格模式则无此问题</span
+          >
+          <input v-model="firstState.utterance" />
+        </li>
+        <li>
+          <span
+            >解决方案1, 较繁琐: 绑定value,侦听input事件,
+            在回调中调用mutation</span
+          >
+          >
+          <input :value="firstState.utterance" @input="updateUtt" />
+        </li>
+        <li>
+          <span>解决方案2, 与上基本一致, 但使用的是change事件</span>
+          >
+          <input :value="firstState.utterance" @change="updateUtt" />
+        </li>
+        <li>
+          <span>使用带有setter的双向绑定计算属性</span>
+          <input v-model="cmpUtt" />
+        </li>
+      </ul>
+    </accordion-item>
+    <accordion-item caption="useStore的类型参数测试">
+      <input type="button" value="start" @click="test_useStore_type_pram" />
+    </accordion-item>
   </accordion-hull>
 </template>
 
 <script lang="ts">
-import { defineComponent, getCurrentInstance, reactive } from "vue";
+import { defineComponent, getCurrentInstance, reactive, computed } from "vue";
 
 import {
-  useStore,
+  useStore, //注释, 改为使用自定义useStore,可以提供类型支持
   mapState,
   mapGetters,
   mapMutations,
   mapActions,
   ModuleTree,
+  Module,
+  Store,
 } from "vuex";
-
+//import {useStore} from '@/store';
 import {
   INCREMENT,
   ADD_COUNT,
   ADD_TODO,
   ADD_USING_OBJECT_STYLE,
   REVERSE,
+  UPDATE_UTTERANCE,
   IVueState,
+  Student,
+  UserInfo,
+  Author,
 } from "@/store/types";
-import AccordionHull from "@/components/accordion/accordion-hull.vue";
-import AccordionItem from "@/components/accordion/accordion-item.vue";
+import ChatState from "@/views/exercise/25-official-store-example/chat/ts-version/api/ChatState.class";
+import { LoadingState } from "@/views/data-loading/load-type";
+// import AccordionHull from "@/components/accordion/accordion-hull.vue";
+// import AccordionItem from "@/components/accordion/accordion-item.vue";
 
+//这里是组合式和选项式混装一起的用法
 export default defineComponent({
-  components: {
-    AccordionHull,
-    AccordionItem,
-  },
-  data() {
-    //所有的action mutations等均为全局调用
-    //const store = useStore();
-    return {
-      /**
-       * ModuleA的状态,不知道为什么在computed中找不到
-       */
-      firstState: useStore().state.ModA,
-      ownData: 100,
-    };
-  },
-  // setup() {
-  //   const firstState = reactive(useStore().state.ModA);
-
-  //   // const localCount1 = computed(
-  //   //   function(){
-  //   //     return this.$store.state.ModA.count;
-  //   //   }
-  //   // );
-
+  components: {},
+  // data() {
+  //   //所有的action mutations等均为全局调用
+  //   //const store = useStore();
   //   return {
-  //     firstState,
+  //     /**
+  //      * ModuleA的状态
+  //      */
+  //     firstState: useStore().state.ModA as Module<IVueState, Student>,
   //     ownData: 100,
   //   };
   // },
+  setup() {
+    //#region  测试原版useStore
+    console.clear();
+    console.log("useStore():", useStore());
+    console.log("useStore<Student>():", useStore<Student>());
+    console.log("useStore<IVueState>()", useStore<IVueState>());
+    console.log("useStore<UserInfo>()", useStore<UserInfo>());
+    console.log("useStore<Author>()", useStore<Author>());
+    console.log(
+      "s_jschat",
+      useStore<{
+        currentThreadID: any;
+        threads: {};
+        messages: {};
+      }>()
+    );
+    console.log("useStore<ChatState>()", useStore<ChatState>());
+    console.log("useStore<LoadingState>()", useStore<LoadingState>());
+    console.log(
+      "infact,they are all the same.for example:",
+      useStore() == useStore<ChatState>(),
+      useStore() ==
+        useStore<{
+          currentThreadID: any;
+          threads: {};
+          messages: {};
+        }>()
+    );
+    //#endregion
+
+    //一切为了消除编译时的误判
+    //const temp = useStore().state.age;  //number, instead of any
+
+    const firstState = useStore().state.ModA;
+    const store = useStore() as Store<Student>;
+    return {
+      firstState,
+      ownData: 100,
+      //双向绑定的计算属性
+      cmpUtt: computed({
+        get() {
+          //@ts-ignore
+          return firstState.utterance;
+        },
+        set(value) {
+          store.commit(UPDATE_UTTERANCE, value);
+        },
+      }),
+    };
+  },
 
   computed: {
     //计算属性代理的状态属性
@@ -363,23 +438,27 @@ export default defineComponent({
       return this.$store.state.ModA.count;
     },
     localCount2(vm) {
-      //  return this.firstState.count;
-      //上面运行正常,但是编译总出错,所以改成下面一句:
-      return vm.$data.firstState.count;
+      //console.log("vm 和 this 在计算属性中:", vm == this); //true
+
+      //@ts-ignore  这样就可忽略编译时的误判
+      return this.firstState.count;
+      //也可以改成下面一句:
+      //return vm.firstState.count;
     },
 
     //将它与局部计算属性混合使用的最简方式
-    //注意,下面虽然运行正常,但是仍然编译报错,必要时将之注释掉
-    // ...mapState({
-    //   //state: ModuleTree<IVueState>
-    //   localCount3: (state) => state.ModA.count,
-    //   localUtterance3: (state) => state.ModA.utterance,
-    //   localCount4: "first.count", //error
-    //   localCount5: "count", //error
-    //   totalCount(state) {
-    //     return this.ownData + state.ModA.count; //
-    //   },
-    // }),
+    //注意,下面虽然运行正常,但是仍然编译报错,必须动用 ts-ignore
+    ...mapState({
+      //@ts-ignore
+      localCount3: (state) => state.ModA.count,
+      //@ts-ignore
+      localUtterance3: (state) => state.ModA.utterance,
+      localCount4: "first.count", //error
+      localCount5: "count", //error
+      totalCount(state: any) {
+        return this.ownData + state.ModA.count; //
+      },
+    }),
 
     //还可以是数组形式,表示映射的计算属性的名称与 state 的子节点名称相同.
     //但是多模块状态不适用,因为无法确认是那个模块
@@ -414,7 +493,8 @@ export default defineComponent({
       this.$store.commit(INCREMENT); //ok,但是$store无法智能感知
     },
     demo2() {
-      this.firstState.commit("reverse"); //ok
+      //@ts-ignore
+      //this.firstState.commit("reverse"); //error
       this.$store.commit(REVERSE); //ok,但是$store无法智能感知
     },
     demo3() {
@@ -509,6 +589,32 @@ export default defineComponent({
       //this.act_add_count映射为$store.dispatch('addCountAsync',amount:number).
       act_add_count: "addCountAsync",
     }),
+
+    ///////////////严格模式下, 表单绑定state属性的处理
+    updateUtt(evt: Event) {
+      //@ts-ignore
+      this.$store.commit(UPDATE_UTTERANCE, evt.target.value);
+    },
+    ////////////useStore的类型参数测试
+    test_useStore_type_pram() {
+      //useStore 由于调用inject()的缘故,只能在setup()或函数组件中使用
+      console.clear();
+      console.log("useStore():", useStore());
+      console.log("useStore<Student>():", useStore<Student>());
+      console.log("useStore<IVueState>()", useStore<IVueState>());
+      console.log("useStore<UserInfo>()", useStore<UserInfo>());
+      console.log("useStore<Author>()", useStore<Author>());
+      console.log(
+        "s_jschat",
+        useStore<{
+          currentThreadID: any;
+          threads: {};
+          messages: {};
+        }>()
+      );
+      console.log("useStore<ChatState>()", useStore<ChatState>());
+      console.log("useStore<LoadingState>()", useStore<LoadingState>());
+    },
   },
 });
 </script>

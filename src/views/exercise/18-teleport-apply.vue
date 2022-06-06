@@ -76,8 +76,8 @@
 <script lang="ts">
 /* eslint-disable no-dupe-class-members, no-dupe-keys */
 import { Options, Vue } from "vue-class-component";
-import AccordionHull from "@/components/accordion/accordion-hull.vue"; // 子组件 @ is an alias to /src
-import AccordionItem from "@/components/accordion/accordion-item.vue";
+// import AccordionHull from "@/components/accordion/accordion-hull.vue"; // 子组件 @ is an alias to /src
+// import AccordionItem from "@/components/accordion/accordion-item.vue";
 import FirstModalDialog from "@/components/18-teleport-apply/first-modal-dialog.vue";
 import SecondModalDialog from "@/components/18-teleport-apply/second-modal-dialog.vue";
 import FirstParentCom from "@/components/18-teleport-apply/first-parent-com.vue";
@@ -105,8 +105,6 @@ import ChildCom from "@/components/18-teleport-apply/child-com.vue";
 
   // },
   components: {
-    AccordionHull,
-    AccordionItem,
     FirstModalDialog,
     SecondModalDialog,
     FirstParentCom,

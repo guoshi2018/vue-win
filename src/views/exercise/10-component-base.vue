@@ -218,8 +218,8 @@
 <script lang="ts">
 /* eslint-disable no-dupe-class-members, no-dupe-keys */
 import { defineComponent } from "vue";
-import AccordionHull from "@/components/accordion/accordion-hull.vue"; // 子组件 @ is an alias to /src
-import AccordionItem from "@/components/accordion/accordion-item.vue";
+// import AccordionHull from "@/components/accordion/accordion-hull.vue"; // 子组件 @ is an alias to /src
+// import AccordionItem from "@/components/accordion/accordion-item.vue";
 import CustomInput from "@/components/10-component-base/custom-input.vue";
 import CustomInputStd from "@/components/10-component-base/custom-input-std.vue";
 import CustomInputEx from "@/components/10-component-base/custom-input-ex.vue";
@@ -295,8 +295,6 @@ export default defineComponent({
     },
   },
   components: {
-    AccordionHull,
-    AccordionItem,
     CustomInput,
     CustomInputStd,
     CustomInputEx,

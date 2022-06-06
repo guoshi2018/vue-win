@@ -33,14 +33,11 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import AccordionHull from "@/components/accordion/accordion-hull.vue";
-import AccordionItem from "@/components/accordion/accordion-item.vue";
+// import AccordionHull from "@/components/accordion/accordion-hull.vue";
+// import AccordionItem from "@/components/accordion/accordion-item.vue";
 
 export default defineComponent({
-  components: {
-    AccordionHull,
-    AccordionItem,
-  },
+  components: {},
 });
 </script>
 

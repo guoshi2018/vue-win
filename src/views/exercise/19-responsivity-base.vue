@@ -31,14 +31,12 @@
 <script lang="ts">
 /* eslint-disable no-dupe-class-members, no-dupe-keys */
 import { reactive, ref, toRefs, readonly, defineComponent, toRef } from "vue";
-import AccordionHull from "@/components/accordion/accordion-hull.vue"; // 子组件 @ is an alias to /src
-import AccordionItem from "@/components/accordion/accordion-item.vue";
+// import AccordionHull from "@/components/accordion/accordion-hull.vue"; // 子组件 @ is an alias to /src
+// import AccordionItem from "@/components/accordion/accordion-item.vue";
 import SetupHookDemo from "@/components/19-responsivity-base/setup-hook-demo.vue";
 
 export default defineComponent({
   components: {
-    AccordionHull,
-    AccordionItem,
     SetupHookDemo,
   },
   setup() {

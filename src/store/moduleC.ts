@@ -1,6 +1,6 @@
 //局部模块示范
-import { Book, Author, Country, TrialUnit, ExamPayload } from './types';
-import { ActionContext, GetterTree, StoreOptions } from 'vuex'
+import { Book, Author, Country, TrialUnit, ExamPayload, UserInfo, Student } from './types';
+import { ActionContext, GetterTree, StoreOptions, Module, MutationTree, ActionTree } from 'vuex'
 
 export default {
 	namespaced: true,
@@ -35,7 +35,7 @@ export default {
 			} as TrialUnit;
 		},
 
-	},
+	} as GetterTree<Author, Student>,
 
 	mutations: {
 		/**测试参数
@@ -49,7 +49,7 @@ export default {
 			//		console.clear();
 			console.log('examMutaC raised:', rest);
 		},
-	},
+	} as MutationTree<Author>,
 
 	actions: {
 		/**
@@ -66,7 +66,7 @@ export default {
 		 *				标识是否访问根节点的action, 只在模块内使用有效
 		 * @returns void
 		 */
-		examActC(context: ActionContext<any, any>, payload: ExamPayload, ...rest) {
+		examActC(context, payload: ExamPayload, ...rest) {
 			//console.clear();
 			return new Promise((resolve, reject) => {
 				setTimeout(() => {
@@ -89,14 +89,14 @@ export default {
 		局部模块本身的或只调用全局的.注意如果调用全局的, 则全局的所有重名action
 		仍然从根部依次调用 
 		*/
-		sameNameAct(context: ActionContext<any, any>, payload: ExamPayload, ...rest) {
+		sameNameAct(context, payload: ExamPayload, ...rest) {
 			console.log('sameNameAct of moduleC.ts called.');
 		},
-		anotherAct1(context: ActionContext<any, any>, payload: ExamPayload, ...rest) {
+		anotherAct1(context, payload: ExamPayload, ...rest) {
 			console.log('anotherAct of moduleC.ts called,call sameNameAct');
 			context.dispatch("sameNameAct");
 		},
-		anotherAct2(context: ActionContext<any, any>, payload: ExamPayload, ...rest) {
+		anotherAct2(context, payload: ExamPayload, ...rest) {
 			console.log('anotherAct2 of moduleC.ts called,call sameNameAct');
 			context.dispatch("sameNameAct", null, { root: payload?.nextCallRoot });
 		},
@@ -106,18 +106,18 @@ export default {
 		 */
 		globalActionOnModC: {
 			root: true,
-			handler(namespaceContext, payload, ...rest) {
+			handler(namespacedContext, payload, ...rest) {
 				//console.clear();
 				return new Promise((resolve, reject) => {
 					setTimeout(() => {
-						namespaceContext.commit("examMutaC", payload, ...rest); //仍然调用的是局部模块
+						namespacedContext.commit("examMutaC", payload, ...rest); //仍然调用的是局部模块
 						resolve({
 							description: "globalActionOnModC resolve for promise.",
-							args: [namespaceContext, payload, rest]
+							args: [namespacedContext, payload, rest]
 						} as TrialUnit);
 					}, payload.msDelay);
 				})
 			}
 		},
-	},
-} as StoreOptions<Author>;
+	} as ActionTree<Author, Student>,
+} as Module<Author, Student>;

@@ -48,8 +48,8 @@
 <script lang="ts">
 /* eslint-disable no-dupe-class-members, no-dupe-keys */
 import { defineComponent } from "vue";
-import AccordionHull from "@/components/accordion/accordion-hull.vue"; // 子组件 @ is an alias to /src
-import AccordionItem from "@/components/accordion/accordion-item.vue";
+// import AccordionHull from "@/components/accordion/accordion-hull.vue"; // 子组件 @ is an alias to /src
+// import AccordionItem from "@/components/accordion/accordion-item.vue";
 
 export default defineComponent({
   data() {
@@ -65,10 +65,7 @@ export default defineComponent({
       this.y = evt.clientY;
     },
   },
-  components: {
-    AccordionHull,
-    AccordionItem,
-  },
+  components: {},
 });
 </script>
 

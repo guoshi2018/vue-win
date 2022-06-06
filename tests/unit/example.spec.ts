@@ -52,7 +52,7 @@ describe('now testing all of vue-win:', () => {
   // jestError();
   // jestAsyncCode();
   // jestDuplicate();
-  // jestMock();
+  jestMock();
 
   // jestCreashCourse();
   // jestMessage();
@@ -67,5 +67,5 @@ describe('now testing all of vue-win:', () => {
   //jestVuex();
   //jestVueRouter();
   //jestTeleport();
-  jestStubChild();
+  //jestStubChild();
 });

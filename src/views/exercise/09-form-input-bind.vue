@@ -162,8 +162,8 @@
 /* eslint-disable no-dupe-class-members, no-dupe-keys */
 //import { Options, Vue } from "vue-class-component";
 import { defineComponent } from "vue";
-import AccordionHull from "@/components/accordion/accordion-hull.vue"; // 子组件 @ is an alias to /src
-import AccordionItem from "@/components/accordion/accordion-item.vue";
+//// import AccordionHull from "@/components/accordion/accordion-hull.vue"; // 子组件 @ is an alias to /src
+// import AccordionItem from "@/components/accordion/accordion-item.vue";
 
 type Scores = {
   chinese: number;
@@ -252,9 +252,6 @@ export default defineComponent({
       this.multip = !this.multip;
     },
   },
-  components: {
-    AccordionHull,
-    AccordionItem,
-  },
+  components: {},
 });
 </script>

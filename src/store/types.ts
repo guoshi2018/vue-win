@@ -10,6 +10,7 @@ const ADD_COUNT = "addCount";
 const ADD_TODO = "addTodo";
 const ADD_USING_OBJECT_STYLE = "addUsingObjectStyle";
 const REVERSE = "reverse";
+const UPDATE_UTTERANCE = "updateUtterance";
 
 
 /**
@@ -215,6 +216,9 @@ type TrialUnit = {
 type Student = {
 	name: string,
 	age: number,
+	// ModA?: IVueState,		//智能感知模块A的state
+	// ModB?: UserInfo,
+	// ModC?: Author,
 };
 
 
@@ -223,7 +227,7 @@ export {
 	TrialUnit,
 };
 export {
-	INCREMENT, ADD_COUNT, ADD_TODO, ADD_USING_OBJECT_STYLE, REVERSE,
+	INCREMENT, ADD_COUNT, ADD_TODO, ADD_USING_OBJECT_STYLE, REVERSE, UPDATE_UTTERANCE
 };
 export {
 	Todo, Payload, IVueState, ExamPayload,

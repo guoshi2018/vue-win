@@ -83,15 +83,12 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref } from "vue";
 import { useRouter, RouteLocationRaw } from "vue-router";
-import AccordionItem from "@/components/accordion/accordion-item.vue";
-import AccordionHull from "@/components/accordion/accordion-hull.vue";
+// import AccordionItem from "@/components/accordion/accordion-item.vue";
+// import AccordionHull from "@/components/accordion/accordion-hull.vue";
 //import { guoshi } from "@/common/js/guoshi.js";
 
 export default defineComponent({
-  components: {
-    AccordionHull,
-    AccordionItem,
-  },
+  components: {},
   setup() {
     const root = ref();
     onMounted(async () => {

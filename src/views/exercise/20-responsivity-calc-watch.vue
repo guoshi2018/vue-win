@@ -49,16 +49,13 @@ import {
 
 //import _ from '@/common/js/lodash.js';
 
-import AccordionHull from "@/components/accordion/accordion-hull.vue"; // 子组件 @ is an alias to /src
-import AccordionItem from "@/components/accordion/accordion-item.vue";
+// import AccordionHull from "@/components/accordion/accordion-hull.vue"; // 子组件 @ is an alias to /src
+// import AccordionItem from "@/components/accordion/accordion-item.vue";
 import { sleep } from "@/common/mixins/func";
 
 export default defineComponent({
   //   mixins: [Func],
-  components: {
-    AccordionHull,
-    AccordionItem,
-  },
+  components: {},
   props: {
     message: {
       type: String,

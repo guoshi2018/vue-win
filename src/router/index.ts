@@ -5,13 +5,10 @@ import {
   createWebHashHistory,
 } from "vue-router";
 
-import RouterDemo from "@/views/exercise/22-Vue-Router/route-demo";
-
-
 import HomeView from "@/views/HomeView.vue";
 import AboutView from "@/views/AboutView.vue";
-
 import WeatherView from "@/views/WeatherView.vue";
+
 import IntroduceView from "@/views/exercise/01-intro.vue";
 import ModelSyntax from "@/views/exercise/02-model-syntax.vue";
 import DataPropertyMethod from "@/views/exercise/03-data-property-method.vue"
@@ -36,8 +33,11 @@ import TeleportApply from "@/views/exercise/18-teleport-apply.vue";
 import RespBase from "@/views/exercise/19-responsivity-base.vue";
 import RespCalcWatch from "@/views/exercise/20-responsivity-calc-watch.vue";
 import TypescriptSupport from "@/views/exercise/21-ts-support.vue";
-
-
+import RouteDemo from "@/views/exercise/22-Vue-Router";
+import VuexDemo from "@/views/exercise/23-vuex";
+import TsPath from "@/views/exercise/24-tspath/entry.vue";
+import OfficialClassicExample from "@/views/exercise/25-official-store-example/classic-index.vue";
+import OfficialCompositeExample from "@/views/exercise/25-official-store-example/composite-index.vue";
 
 
 
@@ -180,11 +180,25 @@ const routes: Array<RouteRecordRaw> = [
     name: "ts-support",
     component: TypescriptSupport,
   },
+  ...RouteDemo, ...VuexDemo,
+  {
+    path: "/exercise/ts-path",
+    name: "ts-path",
+    component: TsPath,
+  }, {
+    path: "/exercise/official-classic-example",
+    name: "official-classic-example",
+    component: OfficialClassicExample,
+  }, {
+    path: "/exercise/official-composite-example",
+    name: "official-composite-example",
+    component: OfficialCompositeExample,
+  },
 ];
 
 //添加测试路由
 //routes.splice(-1, 0, ...RouterDemo); //ok,在最后一个元素前插入
-routes.push(...RouterDemo); //ok,添加到最后
+//routes.push(...RouterDemo); //ok,添加到最后
 //console.log('..................', routes);
 
 const router = createRouter({

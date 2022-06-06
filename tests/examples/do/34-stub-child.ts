@@ -1,11 +1,8 @@
 import axios from 'axios';
 import { shallowMount, mount, VueWrapper, flushPromises, config as testConfig } from '@vue/test-utils'
-import { CreateComponentPublicInstance, defineAsyncComponent, defineComponent, nextTick } from 'vue';
-
-//import HelloWorld from '@/components/HelloWorld.vue';
+import { defineAsyncComponent, defineComponent, } from 'vue';
 
 //#region global variable
-let wrapper: VueWrapper<any>;
 let snapIndex: number;
 //#endregion
 
@@ -267,6 +264,7 @@ which appears in the global mounting option.`,
 
 			//note:Unfortunately, due to technical limitations, this behavior 
 			//is not extended to slots other than the default slot.
+
 		}
 	}
 ];

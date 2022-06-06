@@ -2,7 +2,6 @@
     &.test {
         width: 90%;
         margin: 1em auto;
-        border: dashed blue 1px;
     }
 
     table {
@@ -13,7 +12,6 @@
 
     section {
         margin-bottom: 2em;
-        border-bottom: 1.5px solid red;
         text-align: left;
 
         h3 {
@@ -99,3 +97,6 @@ button, input[type=text] {
   opacity: 0;
 }
 
+.child-border > * {
+    border: dashed blue 1px;
+}

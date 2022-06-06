@@ -1,11 +1,12 @@
 //namespaced未设置,为默认的全局模块
 import {
 	INCREMENT, ADD_COUNT, ADD_TODO, ADD_USING_OBJECT_STYLE, REVERSE,
-	Payload, IVueState, Todo, TrialUnit, ExamPayload
+	Payload, IVueState, Todo, TrialUnit, ExamPayload, Student, UPDATE_UTTERANCE,
 } from "./types";
-import { ActionContext, GetterTree, StoreOptions } from 'vuex'
+import { ActionContext, GetterTree, MutationTree, ActionTree, Module } from 'vuex'
 
 export default {
+	namespaced: false,
 	state() {
 		return {
 			count: 101,
@@ -22,17 +23,17 @@ export default {
 	//对于模块内部的 getter，根节点状态rootState会作为第三个参数暴露出来：
 	//所以,参数列表是:(state,getters,rootState)
 	getters: {
-		doneTodos: (stt: IVueState) => {
+		doneTodos: stt => {
 			return stt.todos.filter(todo => todo.done);
 		},
 		//Getter 也可以接受其他 getter 作为第二个参数,以便调用其他getter
-		doneTodosCount: (stt, getters: GetterTree<IVueState, IVueState>, ...rest) => {
+		doneTodosCount: (stt, getters, ...rest) => {
 			return getters.doneTodos.length;
 		},
 
 		//通过让 getter 返回一个函数，来实现给 getter 传参。
 		//在你对 store 里的数组进行查询时非常有用。
-		getTodoById: (stt: IVueState) => (id: number) => {
+		getTodoById: stt => (id: number) => {
 			return stt.todos.find(todo => todo.id === id);
 		},
 
@@ -46,14 +47,14 @@ export default {
 		 * @returns any
 		 * @comment 对于不同的层级,可能存在 state=rootState getters=rootGetters
 		 */
-		examGetA: (...rest): TrialUnit => {
+		examGetA: (...rest) => {
 			return {
 				description: 'example getter A',
 				args: rest,
 			} as TrialUnit;
 		},
 
-	},
+	} as GetterTree<IVueState, Student>,
 	//这个选项更像是事件注册：“当触发一个类型为 increment 的 mutation 时，调用此函数
 	//注意:Mutation 必须是同步函数
 	mutations: {
@@ -70,19 +71,19 @@ export default {
 		},
 
 
-		[INCREMENT](state: IVueState) {
+		[INCREMENT](state) {
 			state.count++;
 		},
 		//可以向 store.commit 传入额外的参数，即 mutation 的载荷（payload）
-		[ADD_COUNT](state: IVueState, payload: number, ...rest) {
+		[ADD_COUNT](state, payload: number, ...rest) {
 			state.count += payload;
 		},
 
-		[ADD_TODO](state: IVueState, payload: Todo) {
+		[ADD_TODO](state, payload: Todo) {
 			state.todos.push(payload);
 		},
 
-		[ADD_USING_OBJECT_STYLE](state: IVueState, payload: Payload) {
+		[ADD_USING_OBJECT_STYLE](state, payload: Payload) {
 			if (payload.amount) {
 				state.count += payload.amount;
 			}
@@ -91,19 +92,20 @@ export default {
 			}
 		},
 
-		[REVERSE](state: IVueState) {
+		[REVERSE](state) {
 			state.utterance = state.utterance.split('').reverse().join("");
 		},
 
-		_updateUtterance(state: IVueState, words: string) {
-			state.utterance = words;
+		[UPDATE_UTTERANCE](state, newUtt: string) {
+			state.utterance = newUtt;
 		},
-		_getCount(state: IVueState, obj: any) {
+
+		_getCount(state, obj: any) {
 			//	return state.count;	//无法直接获取
 			obj.data = state.count;
 		}
 
-	},
+	} as MutationTree<IVueState>,
 	//Action 提交的是 mutation，而不是直接变更状态。
 	//Action 可以包含任意异步操作。
 	//Action 函数接受一个与 store 实例具有相同方法和属性的 context 对象,但它又不是store实例本身
@@ -124,7 +126,7 @@ export default {
 		 *				标识是否访问根节点的action, 只在模块内使用有效
 		 * @returns void
 		 */
-		examActA(context: ActionContext<any, any>, payload: ExamPayload, ...rest) {
+		examActA(context, payload: ExamPayload, ...rest) {
 			//console.clear();
 			return new Promise((resolve, reject) => {
 				setTimeout(() => {
@@ -138,20 +140,17 @@ export default {
 		},
 
 		//测试重名action,mutation的模块(全局和局部),内部,外部调用的细节,结论参见moduleC.ts.	
-		sameNameAct(context: ActionContext<any, any>, payload: ExamPayload, ...rest) {
+		sameNameAct(context, payload: ExamPayload, ...rest) {
 			console.log('sameNameAct of moduleA.ts called.');
 		},
-		anotherAct1(context: ActionContext<any, any>, payload: ExamPayload, ...rest) {
+		anotherAct1(context, payload: ExamPayload, ...rest) {
 			console.log('anotherAct of moduleA.ts called,call sameNameAct');
 			context.dispatch("sameNameAct");
 		},
-		anotherAct2(context: ActionContext<any, any>, payload: ExamPayload, ...rest) {
+		anotherAct2(context, payload: ExamPayload, ...rest) {
 			console.log('anotherAct2 of moduleA.ts called,call sameNameAct');
 			context.dispatch("sameNameAct", null, { root: payload?.nextCallRoot });
 		},
-
-
-
 		//借用Mutation的事件名称作为action的事件名
 		[INCREMENT]({ commit }) {
 			commit(INCREMENT);
@@ -164,7 +163,7 @@ export default {
 		},
 
 		//action可以执行异步操作
-		incrementAsync({ commit: cmt }) {
+		incrementAsync({ commit: cmt }) { // : 在此用来表示别名 
 			setTimeout(() => {
 				cmt(INCREMENT);
 			}, 1000);
@@ -199,10 +198,10 @@ export default {
 			return new Promise(resolve => {
 				setTimeout(() => {
 					//		this.state.utterance = resp;
-					commit('_updateUtterance', resp);
+					commit(UPDATE_UTTERANCE, resp);
 					resolve('ok ok');
 				}, 1200);
 			});
 		},
-	},
-} as StoreOptions<IVueState>;
+	} as ActionTree<IVueState, Student>,
+} as Module<IVueState, Student>;

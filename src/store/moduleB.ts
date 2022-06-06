@@ -1,6 +1,6 @@
 //局部模块示范
-import { Wife, UserInfo, Country, TrialUnit, ExamPayload } from './types';
-import { ActionContext, GetterTree, StoreOptions } from 'vuex'
+import { Wife, UserInfo, Country, TrialUnit, ExamPayload, Author, IVueState, Student } from './types';
+import { ActionContext, GetterTree, StoreOptions, Module, MutationTree, ActionTree } from 'vuex'
 import Mc from './moduleC';
 
 export default {
@@ -42,7 +42,7 @@ export default {
 			} as TrialUnit;
 		},
 
-	},
+	} as GetterTree<UserInfo, Student>,
 
 	mutations: {
 
@@ -57,7 +57,7 @@ export default {
 			//			console.clear();
 			console.log('examMutaB raised:', rest);
 		},
-	},
+	} as MutationTree<UserInfo>,
 
 	actions: {
 		/**
@@ -74,7 +74,7 @@ export default {
 		 *				标识是否访问根节点的action, 只在模块内使用有效
 		 * @returns void
 		 */
-		examActB(context: ActionContext<any, any>, payload: ExamPayload, ...rest) {
+		examActB(context, payload: ExamPayload, ...rest) {
 			//console.clear();
 			return new Promise((resolve, reject) => {
 				setTimeout(() => {
@@ -88,14 +88,11 @@ export default {
 		},
 
 		//测试重名action,mutation的模块(全局和局部),内部,外部调用的细节,结论参见moduleC.ts.	
-		sameNameAct(context: ActionContext<any, any>, payload: ExamPayload, ...rest) {
+		sameNameAct(context, payload: ExamPayload, ...rest) {
 			console.log('examActB2 of moduleB.ts called.');
 		}
-
-
-
-	},
+	} as ActionTree<UserInfo, Student>,
 	modules: {
-		ModC: Mc as StoreOptions<any>,
+		ModC: Mc as Module<Author, Student>,
 	}
-} as StoreOptions<UserInfo>;
+} as Module<UserInfo, Student>;

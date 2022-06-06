@@ -130,14 +130,11 @@
 
 <script lang="ts">
 import { ref, defineComponent, onMounted } from "vue";
-import AccordionHull from "@/components/accordion/accordion-hull.vue";
-import AccordionItem from "@/components/accordion/accordion-item.vue";
+// import AccordionHull from "@/components/accordion/accordion-hull.vue";
+// import AccordionItem from "@/components/accordion/accordion-item.vue";
 
 export default defineComponent({
-  components: {
-    AccordionHull,
-    AccordionItem,
-  },
+  components: {},
   setup() {
     const userId = ref(100);
     const root = ref();

@@ -464,8 +464,8 @@
 import { ref, defineComponent, onMounted } from "vue";
 import { Country, ExamPayload } from "@/store/types";
 
-import AccordionHull from "@/components/accordion/accordion-hull.vue"; // 子组件 @ is an alias to /src
-import AccordionItem from "@/components/accordion/accordion-item.vue";
+// import AccordionHull from "@/components/accordion/accordion-hull.vue"; // 子组件 @ is an alias to /src
+// import AccordionItem from "@/components/accordion/accordion-item.vue";
 import {
   useStore,
   mapState,
@@ -478,10 +478,7 @@ import {
 } from "vuex";
 const mapHelper = createNamespacedHelpers("ModB/ModC");
 export default defineComponent({
-  components: {
-    AccordionHull,
-    AccordionItem,
-  },
+  components: {},
   data() {
     return {
       storeObj: {},
@@ -492,7 +489,7 @@ export default defineComponent({
     //const theStore = useStore(Symbol.for("hey"));
     const theStore = useStore();
     onMounted(() => {
-      console.log("...............", theStore);
+      //console.log("...............", theStore);
     });
     return {
       theStore,

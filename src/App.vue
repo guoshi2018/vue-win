@@ -147,13 +147,29 @@
       Vuex-Intro </router-link
     >|
     <router-link to="/exercise/vuex-namespace" title="23-2.vuex使用命名空间">
-      Vuex-Namespace
+      Vuex-Namespace </router-link
+    >|
+    <router-link to="/exercise/ts-path" title="24.tsconfig.json的路径解析">
+      Ts-Path </router-link
+    >|
+    <router-link
+      to="/exercise/official-classic-example"
+      title="25.官方实例入口为classic版本"
+    >
+      Official-Classic-Entry-Example </router-link
+    >|
+    <router-link
+      to="/exercise/official-composite-example"
+      title="25.官方实例入口为composite版本"
+    >
+      Official-Composite-Entry-Example
     </router-link>
   </nav>
   <!---->
   <router-view />
   <hr />
   <h4>路由参数的监听方式，参见app.vue和com-user.vue</h4>
+  <data-loading></data-loading>
 </template>
 
 <style lang="scss">
@@ -192,7 +208,8 @@ nav {
 <script lang="ts">
 import * as bootstrap from "bootstrap-js";
 import { defineComponent } from "vue";
-import { onBeforeRouteUpdate } from "vue-router";
+import DataLoading from "@/views/data-loading/index.vue";
+
 export default defineComponent({
   //页面点击刷新按钮，失去连接的错误解决方案。但是发现似乎不起作用
   // created() {
@@ -218,11 +235,11 @@ export default defineComponent({
       () => this.$route.params,
       (toParams: any, previousParams: any) => {
         // 对路由变化做出响应...
-        console.log(
-          "options API <app.vue> created() this.$watch route.params:",
-          toParams,
-          previousParams
-        );
+        // console.log(
+        //   "options API <app.vue> created() this.$watch route.params:",
+        //   toParams,
+        //   previousParams
+        // );
       }
     );
   },
@@ -258,13 +275,8 @@ export default defineComponent({
       });
     },
   },
-  components: {},
+  components: {
+    DataLoading,
+  },
 });
 </script>
-
-<!--以下无任何含金量的导出语句，默认就有
-<script lang="ts">
-  import { Vue as MyVue } from 'vue-class-component'
-  export default class MyApp extends MyVue { }
-</script>
--->

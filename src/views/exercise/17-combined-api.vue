@@ -76,8 +76,8 @@
 <script lang="ts">
 /* eslint-disable no-dupe-class-members, no-dupe-keys */
 import { defineComponent, ref, watch } from "vue";
-import AccordionHull from "@/components/accordion/accordion-hull.vue"; // 子组件 @ is an alias to /src
-import AccordionItem from "@/components/accordion/accordion-item.vue";
+// import AccordionHull from "@/components/accordion/accordion-hull.vue"; // 子组件 @ is an alias to /src
+// import AccordionItem from "@/components/accordion/accordion-item.vue";
 import TestCombinedApi from "@/components/17-combined-api/test-combined-api.vue";
 import FirstSetupDemo from "@/components/17-combined-api/first-setup-demo.vue";
 import SecondSetupDemo from "@/components/17-combined-api/second-setup-demo.vue";
@@ -102,8 +102,6 @@ export default defineComponent({
     };
   },
   components: {
-    AccordionHull,
-    AccordionItem,
     TestCombinedApi,
     FirstSetupDemo,
     SecondSetupDemo,

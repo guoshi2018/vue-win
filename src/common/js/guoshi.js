@@ -84,12 +84,30 @@
     };
 
     const innerByTarget = function (rootEle) {
-        console.log('rootEle..........', rootEle)
+        //console.log('rootEle..........', rootEle)
         const re = rootEle || document;
         const links = re.getElementsByTagName("a");
         [].forEach.call(links, (link) => {
             link.innerHTML = link.title = link.href;
         });
+    };
+
+    /**
+ * 原生实现跨域,需要服务器端参数名为callback,代表客户端的回调函数名称
+ * @param destUrl:目的地址
+ * @param callback :客户端的回调函数
+ * @param callbackNameInServer:服务器端指示回调函数值的参数名称
+ */
+    const corsData = (destUrl, callback, callbackNameInServer) => {
+        const script = document.createElement('script');
+        script.type = 'text/javascript';
+        // 传参一个回调函数名给后端，方便后端返回时执行这个在前端定义的回调函数
+        //script.src = url + '?callback=fillTable';
+        script.src = `${destUrl}?${callbackNameInServer}=${callback.name}`;
+        script.addEventListener('load', function () {
+            document.head.removeChild(script);
+        }, false);
+        document.head.appendChild(script);
     };
 
     exports.guoshi = {
@@ -98,6 +116,7 @@
         decimalBits,
         guidString,
         innerByTarget,
+        corsData,
     };
 
     if (typeof window === "undefined" || window !== exports) {
@@ -117,11 +136,11 @@ usage:以调用innerByTarget为例
       顶部：
         import { guoshi as funcs } from "@/common/js/guoshi.js";
       调用：
-        console.log("..............", funcs);
+        //console.log("..............", funcs);
         funcs.innerByTarget(root.value);        
     3. 使用import()方法，异步调用：
         const objGuoshi = await import("@/common/js/guoshi.js");
-        console.log("................", objGuoshi);
+        //console.log("................", objGuoshi);
         objGuoshi.guoshi.innerByTarget(root.value);
 
 */

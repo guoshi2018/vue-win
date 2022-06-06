@@ -26,11 +26,8 @@
 // declare module "@/common/js/lodash.js";
 // declare module "@/components/22-Vue-Router/obj-user.vue";
 
-
-declare module 'bootstrap-js'
-declare module 'lodash-js'
-declare module 'guoshi-js'
-
 //declare module '@/components/HelloWorld.vue'
+
+//declare module '@/views/exercise/25-official-example/classic/chat/components/App.vue'
 
 

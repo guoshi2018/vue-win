@@ -8,5 +8,6 @@ module.exports = {
 
     "^target-vue\/(.+)$": "<rootDir>/tests/examples/target/vue/$1.vue",
     "^target-ts\/(.+)$": "<rootDir>/tests/examples/target/ts/$1.ts",
+    "^do-jest-module\/(.+)$": "<rootDir>/tests/examples/do/module/$1.ts",
   },
 }

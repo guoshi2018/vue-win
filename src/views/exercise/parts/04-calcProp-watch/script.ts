@@ -9,8 +9,8 @@
 
 
 import { Options, Vue } from 'vue-class-component';
-import AccordionHull from '@/components/accordion/accordion-hull.vue' // 子组件 @ is an alias to /src
-import AccordionItem from '@/components/accordion/accordion-item.vue';
+//import AccordionHull from '@/components/accordion/accordion-hull.vue' // 子组件 @ is an alias to /src
+//import AccordionItem from '@/components/accordion/accordion-item.vue';
 
 interface Author {
   order: number;
@@ -203,9 +203,8 @@ interface Data {
     //}
   },
   components: {
-    AccordionHull,
-    AccordionItem,
+
+
   }
 })
 export default class CalcPropWatch extends Vue { }
-
