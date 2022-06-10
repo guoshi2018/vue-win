@@ -462,7 +462,7 @@
 <script lang="ts">
 /* eslint-disable no-dupe-class-members, no-dupe-keys */
 import { ref, defineComponent, onMounted } from "vue";
-import { Country, ExamPayload } from "@/store/types";
+//import { Guoshi.Enums.Country, Guoshi.Types.ExamPayload } from "@/store/types";
 
 // import AccordionHull from "@/components/accordion/accordion-hull.vue"; // 子组件 @ is an alias to /src
 // import AccordionItem from "@/components/accordion/accordion-item.vue";
@@ -509,7 +509,7 @@ export default defineComponent({
     ...mapState("ModB/ModC", {
       //简便写法,但层次越深时越有效
       authorNameSimple: (state: any) => state.name,
-      authorCoutrySimple: (state: any) => Country[state.country], //得到枚举字符串
+      authorCoutrySimple: (state: any) => Guoshi.Enums.Country[state.country], //得到枚举字符串
       authorBooksSimple: (state: any) => state.books,
     }),
 
@@ -531,7 +531,7 @@ export default defineComponent({
     //使用绑定到ModC模块的mapState和mapGetters方法:
     ...mapHelper.mapState({
       chName: (state: any) => state.name,
-      chCountry: (state: any) => Country[state.country],
+      chCountry: (state: any) => Guoshi.Enums.Country[state.country],
       chBooks: (state: any) => state.books,
     }),
     ...mapHelper.mapGetters({
@@ -595,7 +595,7 @@ export default defineComponent({
 
     //根级载荷风格调用Action
     async rootActDemo1() {
-      const payload: ExamPayload = {
+      const payload: Guoshi.Types.ExamPayload = {
         msDelay: 1000,
         saying: "using payload style,from root action.",
       };
@@ -605,7 +605,7 @@ export default defineComponent({
 
     //根级对象风格调用Action
     async rootActDemo2() {
-      const payload: ExamPayload = {
+      const payload: Guoshi.Types.ExamPayload = {
         msDelay: 1000,
         saying: "using object style,from root action.",
       };
@@ -618,7 +618,7 @@ export default defineComponent({
 
     //模块A载荷风格调用Action
     async ModAActDemo1() {
-      const payload: ExamPayload = {
+      const payload: Guoshi.Types.ExamPayload = {
         msDelay: 1000,
         saying: "using payload style,from module A action.",
       };
@@ -628,7 +628,7 @@ export default defineComponent({
 
     //模块A对象风格调用Action
     async ModAActDemo2() {
-      const payload: ExamPayload = {
+      const payload: Guoshi.Types.ExamPayload = {
         msDelay: 1000,
         saying: "using object style,from module A action.",
       };
@@ -641,7 +641,7 @@ export default defineComponent({
 
     //模块B载荷风格调用Action
     async ModBActDemo1() {
-      const payload: ExamPayload = {
+      const payload: Guoshi.Types.ExamPayload = {
         msDelay: 1000,
         saying: "using payload style,from module B action.",
       };
@@ -651,7 +651,7 @@ export default defineComponent({
 
     //模块B对象风格调用Action
     async ModBActDemo2() {
-      const payload: ExamPayload = {
+      const payload: Guoshi.Types.ExamPayload = {
         msDelay: 1000,
         saying: "using object style,from module B action.",
       };
@@ -664,7 +664,7 @@ export default defineComponent({
 
     //模块C载荷风格调用Action
     async ModCActDemo1() {
-      const payload: ExamPayload = {
+      const payload: Guoshi.Types.ExamPayload = {
         msDelay: 1000,
         saying: "using payload style,from module C action.",
       };
@@ -677,7 +677,7 @@ export default defineComponent({
 
     //模块C对象风格调用Action
     async ModCActDemo2() {
-      const payload: ExamPayload = {
+      const payload: Guoshi.Types.ExamPayload = {
         msDelay: 1000,
         saying: "using object style,from module C action.",
       };
@@ -756,7 +756,7 @@ export default defineComponent({
     sameNameRootMappedStateDemo() {
       console.clear();
       console.log(this.name); //ok,可能发生同名覆盖
-      console.log(Country[this.country]);
+      console.log(Guoshi.Enums.Country[this.country]);
       console.log(this.books);
     },
 

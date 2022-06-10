@@ -11,11 +11,9 @@
 */
 import { InjectionKey } from 'vue';
 import { Store, createStore, useStore as baseUseStore, StoreOptions, Module, GetterTree, MutationTree, ActionTree, ModuleTree } from 'vuex'
-import { IVueState, Student, TrialUnit, ExamPayload, UserInfo, Author } from './types';
 import Ma from './moduleA';
 import Mb from './moduleB';
 import Mc from './moduleC';
-import plugins from './plugins';
 
 export default createStore({
 	/*
@@ -28,7 +26,7 @@ export default createStore({
 		return {
 			name: 'billgates',
 			age: 58,
-		} as Student;
+		} as Guoshi.Types.Student;
 	},
 	getters: {
 		/**
@@ -42,13 +40,13 @@ export default createStore({
 		 * @comment 对于不同的层级,可能存在 state=rootState getters=rootGetters
 		 * 注意:对于消费端, getter一般无参; 若需要参数, 只能通过返回函数的方式,见moduleA
 		 */
-		examGetRoot: (...rest): TrialUnit => {
+		examGetRoot: (...rest): Guoshi.Types.TrialUnit => {
 			return {
 				description: 'example getter Root,top lever,inner Store',
 				args: rest,
-			} as TrialUnit;
+			} as Guoshi.Types.TrialUnit;
 		},
-	} as GetterTree<Student, Student>, //本级就是根级
+	} as GetterTree<Guoshi.Types.Student, Guoshi.Types.Student>, //本级就是根级
 
 	mutations: {
 		/**mutation参数模板 
@@ -64,7 +62,7 @@ export default createStore({
 			//		console.clear();
 			console.log('examMutaRoot raised:', rest);
 		},
-	} as MutationTree<Student>,
+	} as MutationTree<Guoshi.Types.Student>,
 
 	actions: {
 		/**
@@ -81,7 +79,7 @@ export default createStore({
 		 *				标识是否访问根节点的action,只在模块内使用有效
 		 * @returns Promise
 		 */
-		examActRoot(context, payload: ExamPayload, ...rest) {
+		examActRoot(context, payload: Guoshi.Types.ExamPayload, ...rest) {
 			//console.clear();
 			return new Promise((resolve, reject) => {
 				setTimeout(() => {
@@ -89,26 +87,26 @@ export default createStore({
 					resolve({
 						description: "examActRoot resolve for promise.",
 						args: [context, payload, rest]
-					} as TrialUnit);
+					} as Guoshi.Types.TrialUnit);
 				}, payload.msDelay);
 			})
 		},
 
 		//测试重名action,mutation的模块(全局和局部),内部,外部调用的细节,结论参见moduleC.ts.	
-		sameNameAct(context, payload: ExamPayload, ...rest) {
+		sameNameAct(context, payload: Guoshi.Types.ExamPayload, ...rest) {
 			console.log('sameNameAct of root called.');
 		},
-	} as ActionTree<Student, Student>,
+	} as ActionTree<Guoshi.Types.Student, Guoshi.Types.Student>,
 	modules: {
-		ModA: Ma as Module<IVueState, Student>,
-		ModB: Mb as Module<UserInfo, Student>,			//内部已经注册ModC
-		ModC: Mc as Module<Author, Student>, //重复注册ModC
-	} as ModuleTree<Student>,
+		ModA: Ma as Module<Guoshi.Intfs.IVueState, Guoshi.Types.Student>,
+		ModB: Mb as Module<Guoshi.Types.UserInfo, Guoshi.Types.Student>,			//内部已经注册ModC
+		ModC: Mc as Module<Guoshi.Types.Author, Guoshi.Types.Student>, //重复注册ModC
+	} as ModuleTree<Guoshi.Types.Student>,
 	//	plugins,
-} as StoreOptions<Student>) as Store<Student>;
+} as StoreOptions<Guoshi.Types.Student>) as Store<Guoshi.Types.Student>;
 
 //自定义useStore组合式函数,使在使用useStore方法时,ts具备类型提示
-const key: InjectionKey<Store<Student>> = Symbol();
+const key: InjectionKey<Store<Guoshi.Types.Student>> = Symbol();
 export function useStore() {
 	return baseUseStore(key);
 }

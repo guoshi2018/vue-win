@@ -1,9 +1,8 @@
 import { createLogger, Mutation, MutationPayload, Action, Store } from 'vuex'
-import { Student } from './types';
 
 
-const localStoragePlugin = (store: Store<Student>) => {
-  store.subscribe((mut: MutationPayload, sta: Student) => {
+const localStoragePlugin = (store: Store<Guoshi.Types.Student>) => {
+  store.subscribe((mut: MutationPayload, sta: Guoshi.Types.Student) => {
     // try {
     //   console.log('prepare to set to window local storage...', mutation, todos);
     //   window.localStorage.setItem(STORAGE_KEY, JSON.stringify(todos));

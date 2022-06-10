@@ -1,9 +1,10 @@
 import upperFirst from 'lodash/upperFirst'
 import camelCase from 'lodash/camelCase'
+import { App } from 'vue'
 
 
 export default {
-	install: (app: any): void => {
+	install: (app: App<Element>): void => {
 		const requireComponent = require.context(
 			// 组件目录的相对路径
 			'@/common/components',

@@ -124,14 +124,14 @@ export default defineComponent({
       console.log("test ts chat start.");
     },
     showToast: function () {
-      //@ts-ignore
       this.$toast({
         message: "我是toast插件",
-        duration: 3000,
+        duration: 8000,
         onClose: () => {
           console.log("已关闭");
         },
       });
+      //  this.$toast()
     },
   },
 });

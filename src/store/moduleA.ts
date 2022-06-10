@@ -1,8 +1,5 @@
 //namespaced未设置,为默认的全局模块
-import {
-	INCREMENT, ADD_COUNT, ADD_TODO, ADD_USING_OBJECT_STYLE, REVERSE,
-	Payload, IVueState, Todo, TrialUnit, ExamPayload, Student, UPDATE_UTTERANCE,
-} from "./types";
+
 import { ActionContext, GetterTree, MutationTree, ActionTree, Module } from 'vuex'
 
 export default {
@@ -16,7 +13,7 @@ export default {
 				{ id: 2, description: 'buy something', done: true },
 				{ id: 3, description: 'have a rest', done: true },
 			],
-		} as IVueState;
+		} as Guoshi.Intfs.IVueState;
 	},
 	//类似于计算属性,在组件端暴露为store.getters
 	//访问方式:store.getters.doneTodos,store.getters.doneTodosCount
@@ -51,10 +48,11 @@ export default {
 			return {
 				description: 'example getter A',
 				args: rest,
-			} as TrialUnit;
+			} as Guoshi.Types.TrialUnit;
 		},
 
-	} as GetterTree<IVueState, Student>,
+	} as GetterTree<Guoshi.Intfs.IVueState, Guoshi.Types.Student>,
+
 	//这个选项更像是事件注册：“当触发一个类型为 increment 的 mutation 时，调用此函数
 	//注意:Mutation 必须是同步函数
 	mutations: {
@@ -71,19 +69,19 @@ export default {
 		},
 
 
-		[INCREMENT](state) {
+		[Guoshi.Consts.INCREMENT](state) {
 			state.count++;
 		},
 		//可以向 store.commit 传入额外的参数，即 mutation 的载荷（payload）
-		[ADD_COUNT](state, payload: number, ...rest) {
+		[Guoshi.Consts.ADD_COUNT](state, payload: number, ...rest) {
 			state.count += payload;
 		},
 
-		[ADD_TODO](state, payload: Todo) {
+		[Guoshi.Consts.ADD_TODO](state, payload: Guoshi.Types.Todo) {
 			state.todos.push(payload);
 		},
 
-		[ADD_USING_OBJECT_STYLE](state, payload: Payload) {
+		[Guoshi.Consts.ADD_USING_OBJECT_STYLE](state, payload: Guoshi.Types.Payload) {
 			if (payload.amount) {
 				state.count += payload.amount;
 			}
@@ -92,11 +90,11 @@ export default {
 			}
 		},
 
-		[REVERSE](state) {
+		[Guoshi.Consts.REVERSE](state) {
 			state.utterance = state.utterance.split('').reverse().join("");
 		},
 
-		[UPDATE_UTTERANCE](state, newUtt: string) {
+		[Guoshi.Consts.UPDATE_UTTERANCE](state, newUtt: string) {
 			state.utterance = newUtt;
 		},
 
@@ -105,7 +103,7 @@ export default {
 			obj.data = state.count;
 		}
 
-	} as MutationTree<IVueState>,
+	} as MutationTree<Guoshi.Intfs.IVueState>,
 	//Action 提交的是 mutation，而不是直接变更状态。
 	//Action 可以包含任意异步操作。
 	//Action 函数接受一个与 store 实例具有相同方法和属性的 context 对象,但它又不是store实例本身
@@ -126,7 +124,7 @@ export default {
 		 *				标识是否访问根节点的action, 只在模块内使用有效
 		 * @returns void
 		 */
-		examActA(context, payload: ExamPayload, ...rest) {
+		examActA(context, payload: Guoshi.Types.ExamPayload, ...rest) {
 			//console.clear();
 			return new Promise((resolve, reject) => {
 				setTimeout(() => {
@@ -134,55 +132,55 @@ export default {
 					resolve({
 						description: "examActA resolve for promise.",
 						args: [context, payload, rest]
-					} as TrialUnit);
+					} as Guoshi.Types.TrialUnit);
 				}, payload.msDelay);
 			})
 		},
 
 		//测试重名action,mutation的模块(全局和局部),内部,外部调用的细节,结论参见moduleC.ts.	
-		sameNameAct(context, payload: ExamPayload, ...rest) {
+		sameNameAct(context, payload: Guoshi.Types.ExamPayload, ...rest) {
 			console.log('sameNameAct of moduleA.ts called.');
 		},
-		anotherAct1(context, payload: ExamPayload, ...rest) {
+		anotherAct1(context, payload: Guoshi.Types.ExamPayload, ...rest) {
 			console.log('anotherAct of moduleA.ts called,call sameNameAct');
 			context.dispatch("sameNameAct");
 		},
-		anotherAct2(context, payload: ExamPayload, ...rest) {
+		anotherAct2(context, payload: Guoshi.Types.ExamPayload, ...rest) {
 			console.log('anotherAct2 of moduleA.ts called,call sameNameAct');
 			context.dispatch("sameNameAct", null, { root: payload?.nextCallRoot });
 		},
 		//借用Mutation的事件名称作为action的事件名
-		[INCREMENT]({ commit }) {
-			commit(INCREMENT);
+		[Guoshi.Consts.INCREMENT]({ commit }) {
+			commit(Guoshi.Consts.INCREMENT);
 		},
 
 		//或采用参数结构简化代码:{commit},特别是我们需要调用
 		//commit 很多次的时候, 但无法在状态分模块时实施
-		[REVERSE]({ commit }) {
-			commit(REVERSE);
+		[Guoshi.Consts.REVERSE]({ commit }) {
+			commit(Guoshi.Consts.REVERSE);
 		},
 
 		//action可以执行异步操作
 		incrementAsync({ commit: cmt }) { // : 在此用来表示别名 
 			setTimeout(() => {
-				cmt(INCREMENT);
+				cmt(Guoshi.Consts.INCREMENT);
 			}, 1000);
 		},
 		addCountAsync({ commit }, payload: number) {
 			setTimeout(() => {
-				commit(ADD_COUNT, payload);
+				commit(Guoshi.Consts.ADD_COUNT, payload);
 			}, 1200);
 		},
-		addUsingObjectStyleAsync({ commit }, payload: Payload) {
+		addUsingObjectStyleAsync({ commit }, payload: Guoshi.Types.Payload) {
 			setTimeout(() => {
-				commit(ADD_USING_OBJECT_STYLE, payload);
+				commit(Guoshi.Consts.ADD_USING_OBJECT_STYLE, payload);
 			}, 1300);
 		},
 		//dispatch的返回值实验
 		actionA({ commit }, ...rest) {
 			return new Promise(resolve => {
 				setTimeout(() => {
-					commit(INCREMENT);
+					commit(Guoshi.Consts.INCREMENT);
 					const obj = {
 						data: undefined,
 					};
@@ -194,14 +192,14 @@ export default {
 		//嵌套action
 		async actionB({ commit, dispatch }) {
 			const resp = await dispatch('actionA');
-			commit(REVERSE);
+			commit(Guoshi.Consts.REVERSE);
 			return new Promise(resolve => {
 				setTimeout(() => {
 					//		this.state.utterance = resp;
-					commit(UPDATE_UTTERANCE, resp);
+					commit(Guoshi.Consts.UPDATE_UTTERANCE, resp);
 					resolve('ok ok');
 				}, 1200);
 			});
 		},
-	} as ActionTree<IVueState, Student>,
-} as Module<IVueState, Student>;
+	} as ActionTree<Guoshi.Intfs.IVueState, Guoshi.Types.Student>,
+} as Module<Guoshi.Intfs.IVueState, Guoshi.Types.Student>;

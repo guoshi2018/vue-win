@@ -35,7 +35,7 @@ module.exports = {
     'padded-blocks': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
     'key-spacing': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
     'padded-blocks': 'off',
-    'no-useless-constructor': 'warn',
+    'no-useless-constructor': 'off',
     "camelcase": 'off',
     "vue/no-mutating-props": 'error',
     "generator-star-spacing": 'off',
@@ -43,14 +43,14 @@ module.exports = {
     "lines-between-class-members": 'off',
     "vue/no-unused-components": 'warn',
     "symbol-description": 'warn',
-    //"no-undef": 'warn',
+    "no-undef": 'off',  //否则vue文件的ts感知.d.ts声明有影响
     '@typescript-eslint/no-empty-interface': 'off',
     '@typescript-eslint/no-empty-function': 'off',
     '@typescript-eslint/no-var-requires': 'off',
     '@typescript-eslint/ban-types': 'off',
     "@typescript-eslint/no-unused-vars": 'off',
-    "@typescript-eslint/ban-ts-comment": 'warn',
-    // "@typescript-eslint/no-explicit-any": 'off',
+    "@typescript-eslint/ban-ts-comment": 'off',
+    "@typescript-eslint/no-explicit-any": 'off',
   },
   overrides: [
     {

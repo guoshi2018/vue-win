@@ -9,11 +9,11 @@
       <ul>
         <li>
           <span>模块A(firstModule)状态监视:</span>
-          <span>count: {{ $store.state.ModA.count }}</span>
-          <span>utterance: {{ $store.state.ModA.utterance }}</span>
+          <span>count: {{ $store.state.ModA?.count }}</span>
+          <span>utterance: {{ $store.state.ModA?.utterance }}</span>
           <span>待办事项监视todos:</span>
           <ul>
-            <li v-for="(todo, i) in $store.state.ModA.todos" :key="i">
+            <li v-for="(todo, i) in $store.state.ModA?.todos" :key="i">
               <span>{{ i + 1 }}.{{ todo.description }}</span>
             </li>
           </ul>
@@ -130,7 +130,7 @@
         <li>
           <input
             type="button"
-            value="this.$store.commit(INCREMENT)"
+            value="this.$store.commit(Guoshi.Consts.INCREMENT)"
             @click="demo1"
           />
         </li>
@@ -144,14 +144,14 @@
         <li>
           <input
             type="button"
-            value="this.$store.commit(ADD_COUNT, 15)载荷风格,载荷为简单number类型"
+            value="this.$store.commit(Guoshi.Consts.ADD_COUNT, 15)载荷风格,载荷为简单number类型"
             @click="demo3"
           />
         </li>
         <li>
           <input
             type="button"
-            value="this.$store.commit(ADD_TODO,{...})载荷风格,载荷为Todo对象类型"
+            value="this.$store.commit(Guoshi.Consts.ADD_TODO,{...})载荷风格,载荷为Todo对象类型"
             @click="demo4"
           />
         </li>
@@ -183,11 +183,17 @@
     >
       <ul>
         <li>
-          <input type="button" value="使用increment" @click="increment" />
           <input
             type="button"
-            value="使用[INCREMENT]无效"
-            @click="[INCREMENT]"
+            value="使用数组形式映射到本地"
+            @click="increment"
+          />
+        </li>
+        <li>
+          <input
+            type="button"
+            value="使用对象形式映射到本地"
+            @click="mutAddCount"
           />
         </li>
         <li>
@@ -204,23 +210,26 @@
           />
         </li>
         <li>
-          <input type="button" value="使用add_count" @click="add_count(2819)" />
+          <input
+            type="button"
+            value="使用Guoshi.Consts.ADD_COUNT"
+            @click="Guoshi.Consts.ADD_COUNT(2819)"
+          />
         </li>
         <li>
           <input
             type="button"
-            value="使用add_using_object_style"
+            value="使用Guoshi.Consts.ADD_USING_OBJECT_STYLE"
             @click="
-              add_using_object_style({
-                type: ADD_USING_OBJECT_STYLE,
+              [Guoshi.Consts.ADD_USING_OBJECT_STYLE({
+                type: Guoshi.Consts.ADD_USING_OBJECT_STYLE,
                 amount: 38,
                 todo: {
                   id: 199,
                   description: 'hi,you win',
                   done: true,
                 },
-              })
-            "
+              })"
           />
         </li>
       </ul>
@@ -273,7 +282,7 @@
           <span
             >this.act_add_count映射为$store.dispatch('addCountAsync',amount:number).载荷风格</span
           >
-          <input type="button" value="递增19" @click="act_add_count(19)" />
+          <input type="button" value="递增19" @click="actAddCountAsync(19)" />
         </li>
       </ul>
     </accordion-item>
@@ -281,7 +290,7 @@
       <ul>
         <li>
           <span>
-            action:incrementAsync,无promise返回,仅仅以延时模拟异步递增count
+            action:Guoshi.Consts.INCREMENTAsync,无promise返回,仅仅以延时模拟异步递增count
             实验结果:dispatch方法本身虽然返回promise,但由于此action并未做过Promise雕琢.
             所以该promise的返回值未undefined.
           </span>
@@ -305,9 +314,9 @@
         <li>
           <span
             >使用v-model的双向绑定到state的对象之属性,
-            在用户输入时,因为v-因为v-model试图修改 该属性(Student.name),
-            由于这个修改不是在 mutation 函数中执行的, 这里会抛出一个错误。 当然,
-            非严格模式则无此问题</span
+            在用户输入时,因为v-因为v-model试图修改
+            该属性(Guoshi.Types.Student.name), 由于这个修改不是在 mutation
+            函数中执行的, 这里会抛出一个错误。 当然, 非严格模式则无此问题</span
           >
           <input v-model="firstState.utterance" />
         </li>
@@ -350,22 +359,7 @@ import {
   Store,
 } from "vuex";
 //import {useStore} from '@/store';
-import {
-  INCREMENT,
-  ADD_COUNT,
-  ADD_TODO,
-  ADD_USING_OBJECT_STYLE,
-  REVERSE,
-  UPDATE_UTTERANCE,
-  IVueState,
-  Student,
-  UserInfo,
-  Author,
-} from "@/store/types";
 import ChatState from "@/views/exercise/25-official-store-example/chat/ts-version/api/ChatState.class";
-import { LoadingState } from "@/views/data-loading/load-type";
-// import AccordionHull from "@/components/accordion/accordion-hull.vue";
-// import AccordionItem from "@/components/accordion/accordion-item.vue";
 
 //这里是组合式和选项式混装一起的用法
 export default defineComponent({
@@ -377,7 +371,7 @@ export default defineComponent({
   //     /**
   //      * ModuleA的状态
   //      */
-  //     firstState: useStore().state.ModA as Module<IVueState, Student>,
+  //     firstState: useStore().state.ModA as Module<Guoshi.Intfs.IVueState, Guoshi.Types.Student>,
   //     ownData: 100,
   //   };
   // },
@@ -385,10 +379,22 @@ export default defineComponent({
     //#region  测试原版useStore
     console.clear();
     console.log("useStore():", useStore());
-    console.log("useStore<Student>():", useStore<Student>());
-    console.log("useStore<IVueState>()", useStore<IVueState>());
-    console.log("useStore<UserInfo>()", useStore<UserInfo>());
-    console.log("useStore<Author>()", useStore<Author>());
+    console.log(
+      "useStore<Guoshi.Types.Student>():",
+      useStore<Guoshi.Types.Student>()
+    );
+    console.log(
+      "useStore<Guoshi.Intfs.IVueState>()",
+      useStore<Guoshi.Intfs.IVueState>()
+    );
+    console.log(
+      "useStore<Guoshi.Types.UserInfo>()",
+      useStore<Guoshi.Types.UserInfo>()
+    );
+    console.log(
+      "useStore<Guoshi.Types.Author>()",
+      useStore<Guoshi.Types.Author>()
+    );
     console.log(
       "s_jschat",
       useStore<{
@@ -398,7 +404,10 @@ export default defineComponent({
       }>()
     );
     console.log("useStore<ChatState>()", useStore<ChatState>());
-    console.log("useStore<LoadingState>()", useStore<LoadingState>());
+    console.log(
+      "useStore<Guoshi.Types.LoadingState>()",
+      useStore<Guoshi.Types.LoadingState>()
+    );
     console.log(
       "infact,they are all the same.for example:",
       useStore() == useStore<ChatState>(),
@@ -415,7 +424,7 @@ export default defineComponent({
     //const temp = useStore().state.age;  //number, instead of any
 
     const firstState = useStore().state.ModA;
-    const store = useStore() as Store<Student>;
+    const store = useStore() as Store<Guoshi.Types.Student>;
     return {
       firstState,
       ownData: 100,
@@ -426,7 +435,7 @@ export default defineComponent({
           return firstState.utterance;
         },
         set(value) {
-          store.commit(UPDATE_UTTERANCE, value);
+          store.commit(Guoshi.Consts.UPDATE_UTTERANCE, value);
         },
       }),
     };
@@ -435,7 +444,7 @@ export default defineComponent({
   computed: {
     //计算属性代理的状态属性
     localCount1() {
-      return this.$store.state.ModA.count;
+      return this.$store.state.ModA?.count;
     },
     localCount2(vm) {
       //console.log("vm 和 this 在计算属性中:", vm == this); //true
@@ -488,9 +497,9 @@ export default defineComponent({
   },
   methods: {
     demo1() {
-      this.$store.commit("increment"); //ok
-      this.$store.state.ModA.count++; // 这样居然也可以，虽然不太文明
-      this.$store.commit(INCREMENT); //ok,但是$store无法智能感知
+      this.$store.commit("Guoshi.Consts.INCREMENT"); //ok
+      //this.$store.state.ModA.count++; // 这样居然也可以，虽然不太文明
+      this.$store.commit(Guoshi.Consts.INCREMENT); //ok,但是$store无法智能感知
     },
     demo2() {
       //@ts-ignore
@@ -498,10 +507,10 @@ export default defineComponent({
       this.$store.commit(REVERSE); //ok,但是$store无法智能感知
     },
     demo3() {
-      this.$store.commit(ADD_COUNT, 15);
+      this.$store.commit(Guoshi.Consts.ADD_COUNT, 15);
     },
     demo4() {
-      this.$store.commit(ADD_TODO, {
+      this.$store.commit(Guoshi.Consts.ADD_TODO, {
         id: 88,
         description: "hello,world",
         done: true,
@@ -509,13 +518,13 @@ export default defineComponent({
     },
     demo5() {
       this.$store.commit({
-        type: ADD_USING_OBJECT_STYLE,
+        type: Guoshi.Consts.ADD_USING_OBJECT_STYLE,
         amount: 11,
       });
     },
     demo6() {
       this.$store.commit({
-        type: ADD_USING_OBJECT_STYLE,
+        type: Guoshi.Consts.ADD_USING_OBJECT_STYLE,
         todo: {
           id: 99,
           description: "do something suable",
@@ -525,7 +534,7 @@ export default defineComponent({
     },
     demo7() {
       this.$store.commit({
-        type: ADD_USING_OBJECT_STYLE,
+        type: Guoshi.Consts.ADD_USING_OBJECT_STYLE,
         amount: 38,
         todo: {
           id: 199,
@@ -537,16 +546,16 @@ export default defineComponent({
 
     //组合action测试:
     demo8() {
-      const t = this.$store.dispatch("incrementAsync");
+      const t = this.$store.dispatch("Guoshi.Consts.INCREMENTAsync");
       console.log("dispatch over", t);
     },
     demo9() {
-      this.$store.dispatch("incrementAsync").then((data: any) => {
+      this.$store.dispatch("Guoshi.Consts.INCREMENTAsync").then((data: any) => {
         console.log("dipatch ,then over", data);
       });
     },
     async demo10() {
-      const t = await this.$store.dispatch("incrementAsync");
+      const t = await this.$store.dispatch("Guoshi.Consts.INCREMENTAsync");
       console.log("await dipatch,and over", t);
     },
     demo11() {
@@ -564,46 +573,54 @@ export default defineComponent({
       console.log("await dispatch actionB finish,resp is ", resp);
     },
 
-    //类似地,映射Mutation到本地
-    ...mapMutations([
-      //this.increment与store.commit('increment')映射
-      INCREMENT,
-      //this.addTodo与store.commit('addTodo')映射
-      ADD_TODO,
-    ]),
+    //类似地,使用数组参数形式映射Mutation到本地
+    ...mapMutations([Guoshi.Consts.INCREMENT, Guoshi.Consts.ADD_TODO]),
+    //使用对象参数形式
     ...mapMutations({
-      //this.add_count与store.commit('addCount')映射
-      add_count: ADD_COUNT,
-      //this.add_using_object_style与 store.commit('addUsingObjectStyle')
-      add_using_object_style: ADD_USING_OBJECT_STYLE,
+      //this.Guoshi.Consts.ADD_COUNT与store.commit('addCount')映射
+      mutAddCount: Guoshi.Consts.ADD_COUNT,
+      //this.Guoshi.Consts.ADD_USING_OBJECT_STYLE与 store.commit('addUsingObjectStyle')
+      mutAddUsingObjectStyle: Guoshi.Consts.ADD_USING_OBJECT_STYLE,
     }),
 
-    //类似第,映射Action到本地,注意不要重名
+    //类似,映射Action到本地,注意不要重名
     ...mapActions([
-      // 将 `this.reverse()` 映射为 `this.$store.dispatch('reverse')`
-      REVERSE,
+      //将 `this.reverse()` 映射为 `this.$store.dispatch('reverse')`
+      Guoshi.Consts.REVERSE,
       //对象风格的载荷映射:this.addUsingObjectStyleAsync({...})到$store.dispatch({type="add...",...});
       "addUsingObjectStyleAsync",
     ]),
     ...mapActions({
-      //this.act_add_count映射为$store.dispatch('addCountAsync',amount:number).
-      act_add_count: "addCountAsync",
+      //this.act_Guoshi.Consts.ADD_COUNT映射为$store.dispatch('addCountAsync',amount:number).
+      actAddCountAsync: "addCountAsync",
     }),
 
     ///////////////严格模式下, 表单绑定state属性的处理
     updateUtt(evt: Event) {
       //@ts-ignore
-      this.$store.commit(UPDATE_UTTERANCE, evt.target.value);
+      this.$store.commit(Guoshi.Consts.UPDATE_UTTERANCE, evt.target.value);
     },
     ////////////useStore的类型参数测试
     test_useStore_type_pram() {
       //useStore 由于调用inject()的缘故,只能在setup()或函数组件中使用
       console.clear();
       console.log("useStore():", useStore());
-      console.log("useStore<Student>():", useStore<Student>());
-      console.log("useStore<IVueState>()", useStore<IVueState>());
-      console.log("useStore<UserInfo>()", useStore<UserInfo>());
-      console.log("useStore<Author>()", useStore<Author>());
+      console.log(
+        "useStore<Guoshi.Types.Student>():",
+        useStore<Guoshi.Types.Student>()
+      );
+      console.log(
+        "useStore<Guoshi.Intfs.IVueState>()",
+        useStore<Guoshi.Intfs.IVueState>()
+      );
+      console.log(
+        "useStore<Guoshi.Types.UserInfo>()",
+        useStore<Guoshi.Types.UserInfo>()
+      );
+      console.log(
+        "useStore<Guoshi.Types.Author>()",
+        useStore<Guoshi.Types.Author>()
+      );
       console.log(
         "s_jschat",
         useStore<{
@@ -613,7 +630,10 @@ export default defineComponent({
         }>()
       );
       console.log("useStore<ChatState>()", useStore<ChatState>());
-      console.log("useStore<LoadingState>()", useStore<LoadingState>());
+      console.log(
+        "useStore<Guoshi.Types.LoadingState>()",
+        useStore<Guoshi.Types.LoadingState>()
+      );
     },
   },
 });

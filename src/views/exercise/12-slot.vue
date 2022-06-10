@@ -208,7 +208,7 @@ export default defineComponent({
         content: "hello data one",
       },
       data3: ["do a dinner", "place an order", "go to bed", "happy new year"],
-      timer: 0,
+      timer: 0 as any,
       objSlotName: {
         slotName1: "",
         slotName2: "",

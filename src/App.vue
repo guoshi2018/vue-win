@@ -208,8 +208,12 @@ nav {
 <script lang="ts">
 import * as bootstrap from "bootstrap-js";
 import { defineComponent } from "vue";
+//import { RouterLink, RouterView } from "vue-router";
 import DataLoading from "@/views/data-loading/index.vue";
 
+/**
+ * app 入口
+ */
 export default defineComponent({
   //页面点击刷新按钮，失去连接的错误解决方案。但是发现似乎不起作用
   // created() {
@@ -277,6 +281,8 @@ export default defineComponent({
   },
   components: {
     DataLoading,
+    //  RouterLink,
+    //  RouterView,
   },
 });
 </script>

@@ -1,5 +1,4 @@
 //局部模块示范
-import { Wife, UserInfo, Country, TrialUnit, ExamPayload, Author, IVueState, Student } from './types';
 import { ActionContext, GetterTree, StoreOptions, Module, MutationTree, ActionTree } from 'vuex'
 import Mc from './moduleC';
 
@@ -17,11 +16,11 @@ export default {
 			isVip: true,
 			joinTime: new Date(1956, 12, 25, 14, 23, 18),
 			wifes: [
-				{ name: "sarqier", country: Country.Australia, birth: new Date(2002, 8, 13, 7), salary: 4339 },
-				{ name: "xiamili", coutry: Country.Canada, birth: new Date(1998, 5, 11, 23), salary: 7419 },
-				{ name: "wangzhaojun", coutry: Country.Koria, birth: new Date(2005, 11, 11, 21), salary: 39181 },
+				{ name: "sarqier", country: Guoshi.Enums.Country.Australia, birth: new Date(2002, 8, 13, 7), salary: 4339 },
+				{ name: "xiamili", coutry: Guoshi.Enums.Country.Canada, birth: new Date(1998, 5, 11, 23), salary: 7419 },
+				{ name: "wangzhaojun", coutry: Guoshi.Enums.Country.Koria, birth: new Date(2005, 11, 11, 21), salary: 39181 },
 			],
-		} as UserInfo;
+		} as Guoshi.Types.UserInfo;
 	},
 
 	getters: {
@@ -35,14 +34,14 @@ export default {
 		 * @returns any
 		 * @comment 对于不同的层级,可能存在 state=rootState getters=rootGetters
 		 */
-		examGetB: (...rest): TrialUnit => {
+		examGetB: (...rest): Guoshi.Types.TrialUnit => {
 			return {
 				description: 'example getter B',
 				args: rest,
-			} as TrialUnit;
+			} as Guoshi.Types.TrialUnit;
 		},
 
-	} as GetterTree<UserInfo, Student>,
+	} as GetterTree<Guoshi.Types.UserInfo, Guoshi.Types.Student>,
 
 	mutations: {
 
@@ -57,7 +56,7 @@ export default {
 			//			console.clear();
 			console.log('examMutaB raised:', rest);
 		},
-	} as MutationTree<UserInfo>,
+	} as MutationTree<Guoshi.Types.UserInfo>,
 
 	actions: {
 		/**
@@ -74,7 +73,7 @@ export default {
 		 *				标识是否访问根节点的action, 只在模块内使用有效
 		 * @returns void
 		 */
-		examActB(context, payload: ExamPayload, ...rest) {
+		examActB(context, payload: Guoshi.Types.ExamPayload, ...rest) {
 			//console.clear();
 			return new Promise((resolve, reject) => {
 				setTimeout(() => {
@@ -82,17 +81,17 @@ export default {
 					resolve({
 						description: "examActB resolve for promise.",
 						args: [context, payload, rest]
-					} as TrialUnit);
+					} as Guoshi.Types.TrialUnit);
 				}, payload.msDelay);
 			})
 		},
 
 		//测试重名action,mutation的模块(全局和局部),内部,外部调用的细节,结论参见moduleC.ts.	
-		sameNameAct(context, payload: ExamPayload, ...rest) {
+		sameNameAct(context, payload: Guoshi.Types.ExamPayload, ...rest) {
 			console.log('examActB2 of moduleB.ts called.');
 		}
-	} as ActionTree<UserInfo, Student>,
+	} as ActionTree<Guoshi.Types.UserInfo, Guoshi.Types.Student>,
 	modules: {
-		ModC: Mc as Module<Author, Student>,
+		ModC: Mc as Module<Guoshi.Types.Author, Guoshi.Types.Student>,
 	}
-} as Module<UserInfo, Student>;
+} as Module<Guoshi.Types.UserInfo, Guoshi.Types.Student>;

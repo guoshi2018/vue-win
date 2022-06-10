@@ -112,13 +112,14 @@
             >复选框,需要预先设置好v-model对应的属性的类型，与tru-value
             false-value呼应</span
           >
+          <!--这个位置报错.但官方文档就这么写的,暂时注释掉
           <input
             type="checkbox"
             v-model="toggle"
             true-value="yes"
             false-value="no"
           />
-          <span>result : {{ toggle }}</span>
+          <span>result : {{ toggle }}</span> -->
         </li>
         <li>
           <span>单选框,甚至可以绑定到对象</span>

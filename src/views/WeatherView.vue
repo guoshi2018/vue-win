@@ -34,6 +34,7 @@
         <h5 v-else>
           请确保 netcore api
           项目WebApiSample6.0已经启动.注意firefox目前设置跨域无效
+          有时间试试添加命令行参数: –disable-web-security
         </h5>
       </section>
       <section class="two">
@@ -68,7 +69,8 @@
         </div>
         <h5 v-else>
           请确保 netcore api
-          项目WebApiSample6.0已经启动.注意firefox目前设置跨域无效
+          项目WebApiSample6.0已经启动.注意firefox目前设置跨域无效.
+          有时间试试添加命令行参数: –disable-web-security
         </h5>
       </section>
     </main>
@@ -82,15 +84,39 @@ import { defineComponent, initCustomFormatter } from "vue";
 import { corsData } from "@/common/mixins/func"; //ok
 import $ from "jquery";
 type Forecasts = {
+  /**
+   * 日期
+   */
   date: string;
+  /**
+   * 摄氏温度
+   */
   temperatureC: number;
+  /**
+   * 华氏温度
+   */
   temperatureF: number;
+  /**
+   * 天气总评述
+   */
   summary: string;
 }[];
 interface Data {
+  /**
+   * 为true时,指示第一种方法正在加载
+   */
   loading1: boolean;
+  /**
+   * 为true时,指示第二种方法正在加载
+   */
   loading2: boolean;
+  /**
+   * 第一种方法获取到的结果集
+   */
   post1: null | Forecasts;
+  /**
+   * 第二种方法获取到的结果集
+   */
   post2: null | Forecasts;
 }
 
@@ -111,6 +137,9 @@ export default defineComponent({
     this.refreshData();
   },
   methods: {
+    /**
+     * 刷新天气数据
+     */
     refreshData(): void {
       this.fillTableByFetch1(); //ok
       this.fillTableByFetch2(); //ok

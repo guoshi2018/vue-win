@@ -25,10 +25,13 @@
       "src/views/exercise/24-tspath/a/b/c",
       "src/views/exercise/24-tspath/a/node_modules",
     ],
-    "types": [
-      "webpack-env",
-      "jest"
-    ],
+    // "typeRoots": [
+    //   "src/typing"
+    // ],
+    // "types": [
+    //   "webpack-env",
+    //   "jest"
+    // ],
     "lib": [
       "esnext",
       "dom",
@@ -43,6 +46,10 @@
     "src/**/*.vue",
     "tests/**/*.ts",
     "tests/**/*.tsx",
+    "src/typing/guoshi.d.ts",
+    // "src/views/data-loading/load-type.tsbak",
+    // "src/store/types.tsbak",
+    // "src/typing/guoshi.tsbak",
   ],
   "exclude": [
     "node_modules",

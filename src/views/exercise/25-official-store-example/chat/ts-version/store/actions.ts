@@ -3,7 +3,6 @@ import { ActionTree } from 'vuex';
 import ChatState from '../api/ChatState.class';
 import { ts_chat } from '../../../const';
 import api from '../api/network';
-import { Student } from '@/store/types';
 import { ChatMessageOptions } from '../api/options';
 
 //严格模式下,state的操作(即状态的改变),只能放在mutation中,否则将引发错误
@@ -19,7 +18,7 @@ export default {
     commit(ts_chat.mutation.saveAsMessage, msgOpt);
     api.messageOptionsToServer(msgOpt);
   }
-} as ActionTree<ChatState, Student>;
+} as ActionTree<ChatState, Guoshi.Types.Student>;
 
 
 //api.uploadWebMessages(msgOpt);

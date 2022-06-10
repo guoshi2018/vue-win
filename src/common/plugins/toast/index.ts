@@ -1,47 +1,58 @@
 
 //使用示范: 25-official-store-example
 import MyToast from "./toast.vue";
-import { createVNode, render } from "vue";
-interface IOptions {
-	message: string,
-	duration?: number,
-	onClose?: Function
-}
+import { App, createVNode, render, version } from "vue";
+
+// interface IOptions {
+// 	message?: string,
+// 	duration?: number,
+// 	onClose?: () => void,
+// }
+
 export default {
-	install: (app: any): void => {
-		//是否存在toast，防止toast在未销毁前，连续单击按钮生成多个toast
+	install: (app: App<Element>): void => {
+
+		const defaultOptions: Guoshi.Intfs.ToastOptions = {
+			message: '未定义的toast消息',
+			duration: 2800,
+			onClose: () => {
+				console.log('toast已关闭!');
+			},
+		};
+
+		//防止销毁前的重入
 		let isToast = false;
+
 		//注册全局方法，相当于vue2的Vue.prototype.$myToast
-		app.config.globalProperties.$toast = function (opts: IOptions) {
-			//如果toast不存在,开始创建toast
+		app.config.globalProperties.$toast = function (opts?: Guoshi.Intfs.ToastOptions) {
 			if (!isToast) {
-				//将isToast设置为true，在toast未销毁时不执行下面的程序
 				isToast = true;
-				//创建虚拟节点
-				const vm: any = createVNode(MyToast);
-				//创建div容器
+
+				const o = Object.assign({}, defaultOptions, opts);
+
+				//准备元素, container的目的,在于方便removeChild的调用
+				const vm = createVNode(MyToast); //就是所谓的 h
 				const container = document.createElement("div");
-				//渲染虚拟节点
 				render(vm, container);
-				//将新创建的div元素添加到<body>元素内部
 				document.body.appendChild(container);
-				//如果存在opts.message属性，赋值为opts.message的值，否则赋值为空,并传递给MyToast组件内部data方法返回的message属性
-				//如果toast.vue使用vue2模式定义数据使用vm.component.data.message传值
-				// vm.component.data.message=opts.message || "";
-				//如果toast.vue使用vue3模式定义hook的setup使用以下方式传值
-				vm.component.props.message = opts.message || "";
-				const duration = opts.duration || 2000;
+
+				//根据版本不同, 采用不同赋值方式
+				const ver = Number(version.split('.')[0]);
+				if (ver >= 2) {
+					//@ts-ignore 
+					vm.component[ver == 2 ? "data" : "props"].message = o.message;
+				} else {
+					throw new Error('toast遇到不支持的vue版本');
+				}
+
+				//定时销毁
 				setTimeout(() => {
-					//销毁toast
 					document.body.removeChild(container);
-					//toast销毁后将isToast设置为false
 					isToast = false;
-					//如果onClose方法存在
-					if (opts.onClose) {
-						//调用onClose方法
-						opts.onClose();
+					if (o.onClose) {
+						o.onClose();
 					}
-				}, duration);
+				}, o.duration);
 			}
 		}
 	}

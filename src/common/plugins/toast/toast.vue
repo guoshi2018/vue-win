@@ -39,7 +39,7 @@ export default {
 
 <style scoped>
 .toast-wrap {
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgba(0, 0, 0, 0.5);
   padding: 8px 15px;
   font-size: 14px;
   color: #ffffff;

@@ -31,11 +31,11 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import Todos from "@/components/01-intro/1-todos.vue"; // @ is an alias to /src
+
 interface Data {
   counter: number;
   btnText: string;
-  /* eslint-disable @typescript-eslint/no-explicit-any */
-  timer: any; //number 报错，说 NodeJS.Timer不能用来充当number
+  timer: any;
   title: string;
   plans: Array<{ id: number; content: string; done: boolean }>;
 }
@@ -45,7 +45,7 @@ export default defineComponent({
     return {
       counter: 0,
       btnText: "",
-      timer: undefined,
+      timer: 0,
       title: "这里的提示文字，可通过下面的编辑框修改",
       plans: [
         {
@@ -78,7 +78,7 @@ export default defineComponent({
     switchStatus(): void {
       if (this.timer) {
         clearInterval(this.timer);
-        this.timer = undefined;
+        this.timer = 0;
         this.btnText = "resume";
       } else {
         this.timer = this.createTimer();

@@ -3,7 +3,7 @@ import ChatState from '../api/ChatState.class';
 import getters from './getters'
 import actions from './actions'
 import mutations from './mutations'
-import { Student } from '@/store/types';
+//import { Guoshi.Types.Student } from '@/store/types';
 
 
 //作为子模块添加,就不能使用createStore方法
@@ -20,4 +20,4 @@ export default {
 	plugins: process.env.NODE_ENV !== 'production'
 		? [createLogger()]
 		: []
-} as Module<ChatState, Student>;
+} as Module<ChatState, Guoshi.Types.Student>;

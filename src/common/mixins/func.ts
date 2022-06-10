@@ -1,5 +1,5 @@
 
-//用法 import {...} from '@/common/mixins/func.ts'
+//用法 import {...} from '@/common/mixins/func'
 
 const guidString = () => {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
@@ -19,6 +19,7 @@ const sleep = (ms: number): Promise<string> => {
  * @param destUrl:目的地址
  * @param callback :客户端的回调函数
  * @param callbackNameInServer:服务器端指示回调函数值的参数名称
+ * @summary 使用示例,参见asp.net core6 项目 WebApiSample6.0 WeatherForecast
  */
 const corsData = (destUrl: string, callback: (data: any) => void, callbackNameInServer: string) => {
   const script = document.createElement('script');

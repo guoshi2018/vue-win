@@ -1,5 +1,5 @@
 //局部模块示范
-import { Book, Author, Country, TrialUnit, ExamPayload, UserInfo, Student } from './types';
+
 import { ActionContext, GetterTree, StoreOptions, Module, MutationTree, ActionTree } from 'vuex'
 
 export default {
@@ -7,14 +7,14 @@ export default {
 	state() {
 		return {
 			name: 'Calinue',
-			country: Country.Canada,
+			country: Guoshi.Enums.Country.Canada,
 			books: [
 				{ id: "cn-001", name: "aaaaa", publishTime: new Date(1927, 10, 1), price: 78 },
 				{ id: "cn-002", name: "kkkkk", publishTime: new Date(1987, 9, 13), price: 148 },
 				{ id: "cn-003", name: "eeeee", publishTime: new Date(2021, 12, 21), price: 298 },
 				{ id: "cn-004", name: "ddddd", publishTime: new Date(1989, 5, 19), price: 178 },
 			],
-		} as Author;
+		} as Guoshi.Types.Author;
 	},
 
 	getters: {
@@ -28,14 +28,14 @@ export default {
 		 * @returns any
 		 * @comment 对于不同的层级,可能存在 state=rootState getters=rootGetters
 		 */
-		examGetC: (...rest): TrialUnit => {
+		examGetC: (...rest): Guoshi.Types.TrialUnit => {
 			return {
 				description: 'example getter C',
 				args: rest,
-			} as TrialUnit;
+			} as Guoshi.Types.TrialUnit;
 		},
 
-	} as GetterTree<Author, Student>,
+	} as GetterTree<Guoshi.Types.Author, Guoshi.Types.Student>,
 
 	mutations: {
 		/**测试参数
@@ -49,7 +49,7 @@ export default {
 			//		console.clear();
 			console.log('examMutaC raised:', rest);
 		},
-	} as MutationTree<Author>,
+	} as MutationTree<Guoshi.Types.Author>,
 
 	actions: {
 		/**
@@ -66,7 +66,7 @@ export default {
 		 *				标识是否访问根节点的action, 只在模块内使用有效
 		 * @returns void
 		 */
-		examActC(context, payload: ExamPayload, ...rest) {
+		examActC(context, payload: Guoshi.Types.ExamPayload, ...rest) {
 			//console.clear();
 			return new Promise((resolve, reject) => {
 				setTimeout(() => {
@@ -74,7 +74,7 @@ export default {
 					resolve({
 						description: "examActC resolve for promise.",
 						args: [context, payload, rest]
-					} as TrialUnit);
+					} as Guoshi.Types.TrialUnit);
 				}, payload.msDelay);
 			})
 		},
@@ -89,14 +89,14 @@ export default {
 		局部模块本身的或只调用全局的.注意如果调用全局的, 则全局的所有重名action
 		仍然从根部依次调用 
 		*/
-		sameNameAct(context, payload: ExamPayload, ...rest) {
+		sameNameAct(context, payload: Guoshi.Types.ExamPayload, ...rest) {
 			console.log('sameNameAct of moduleC.ts called.');
 		},
-		anotherAct1(context, payload: ExamPayload, ...rest) {
+		anotherAct1(context, payload: Guoshi.Types.ExamPayload, ...rest) {
 			console.log('anotherAct of moduleC.ts called,call sameNameAct');
 			context.dispatch("sameNameAct");
 		},
-		anotherAct2(context, payload: ExamPayload, ...rest) {
+		anotherAct2(context, payload: Guoshi.Types.ExamPayload, ...rest) {
 			console.log('anotherAct2 of moduleC.ts called,call sameNameAct');
 			context.dispatch("sameNameAct", null, { root: payload?.nextCallRoot });
 		},
@@ -114,10 +114,10 @@ export default {
 						resolve({
 							description: "globalActionOnModC resolve for promise.",
 							args: [namespacedContext, payload, rest]
-						} as TrialUnit);
+						} as Guoshi.Types.TrialUnit);
 					}, payload.msDelay);
 				})
 			}
 		},
-	} as ActionTree<Author, Student>,
-} as Module<Author, Student>;
+	} as ActionTree<Guoshi.Types.Author, Guoshi.Types.Student>,
+} as Module<Guoshi.Types.Author, Guoshi.Types.Student>;
