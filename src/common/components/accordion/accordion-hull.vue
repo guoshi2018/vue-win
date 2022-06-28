@@ -16,7 +16,7 @@ import { guidString as gs } from "@/common/mixins/func"; //ok
 export default defineComponent({
   //  mixins: [Func],
   mounted() {
-    //console.log("accordion mounting... improved with vue.defineComponent");
+    //print(debug,"accordion mounting... improved with vue.defineComponent");
     //这是拥有$el属性的最早的钩子
     if (!this.$el.id) {
       this.$el.id = gs();

@@ -11,7 +11,7 @@ import WeatherView from "@/views/WeatherView.vue";
 
 import IntroduceView from "@/views/exercise/01-intro.vue";
 import ModelSyntax from "@/views/exercise/02-model-syntax.vue";
-import DataPropertyMethod from "@/views/exercise/03-data-property-method.vue"
+import DataPropertyMethod from "@/views/exercise/03-data-property-method.vue";
 import CalcPropWatch from "@/views/exercise/04-calcProp-watch.vue";
 import ClassStyleBind from "@/views/exercise/05-class-style-bind.vue";
 import ConditioinRender from "@/views/exercise/06-condition-render.vue";
@@ -36,10 +36,9 @@ import TypescriptSupport from "@/views/exercise/21-ts-support.vue";
 import RouteDemo from "@/views/exercise/22-Vue-Router";
 import VuexDemo from "@/views/exercise/23-vuex";
 import TsPath from "@/views/exercise/24-tspath/entry.vue";
-import OfficialClassicExample from "@/views/exercise/25-official-store-example/classic-index.vue";
 import OfficialCompositeExample from "@/views/exercise/25-official-store-example/composite-index.vue";
-
-
+import TestPlugin from "@/views/exercise/26-test-plugin.vue";
+import OfficialDocSample from "@/views/exercise/27-official-doc-sample.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -180,31 +179,41 @@ const routes: Array<RouteRecordRaw> = [
     name: "ts-support",
     component: TypescriptSupport,
   },
-  ...RouteDemo, ...VuexDemo,
+  ...RouteDemo,
+  ...VuexDemo,
   {
     path: "/exercise/ts-path",
     name: "ts-path",
     component: TsPath,
-  }, {
-    path: "/exercise/official-classic-example",
-    name: "official-classic-example",
-    component: OfficialClassicExample,
-  }, {
+  },
+  {
     path: "/exercise/official-composite-example",
     name: "official-composite-example",
     component: OfficialCompositeExample,
   },
+  {
+    path: "/exercise/test-plugin",
+    name: 'test-plugin',
+    component: TestPlugin,
+  },
+  {
+    path: "/exercise/official-doc-sample",
+    name: 'official-doc-sample',
+    component: OfficialDocSample,
+  }
 ];
 
 //添加测试路由
 //routes.splice(-1, 0, ...RouterDemo); //ok,在最后一个元素前插入
 //routes.push(...RouterDemo); //ok,添加到最后
-//console.log('..................', routes);
+//print(debug,'..................', routes);
 
 const router = createRouter({
-  //createWebHashHistory:Hash模式。下面是HTML5模式
+  //HTML5模式
   history: createWebHistory(process.env.BASE_URL),
-  //history: createWebHashHistory(),
+
+  //Hash模式, 在 SEO 中确实有不好的影响。
+  //history: createWebHashHistory(process.env.BASE_URL),
   routes,
 });
 

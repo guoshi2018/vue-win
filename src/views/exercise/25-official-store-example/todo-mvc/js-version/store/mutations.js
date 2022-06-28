@@ -1,27 +1,30 @@
-export const STORAGE_KEY = 'todos-vuejs'
+import { print } from "@/common/mixins/func";
+const debug = false;
+
+export const STORAGE_KEY = "todos-vuejs";
 
 // for testing
 if (navigator.webdriver) {
-  window.localStorage.clear()
+  window.localStorage.clear();
 }
 
 export const mutations = {
   addTodo(state, todo) {
-    state.todos.push(todo)
-    console.log('....push todo');
+    state.todos.push(todo);
+    print(debug, "....push todo");
   },
 
   removeTodo(state, todo) {
-    state.todos.splice(state.todos.indexOf(todo), 1)
+    state.todos.splice(state.todos.indexOf(todo), 1);
   },
 
   editTodo(state, { todo, text = todo.text, done = todo.done }) {
-    const index = state.todos.indexOf(todo)
+    const index = state.todos.indexOf(todo);
 
     state.todos.splice(index, 1, {
       ...todo,
       text,
-      done
-    })
-  }
-}
+      done,
+    });
+  },
+};

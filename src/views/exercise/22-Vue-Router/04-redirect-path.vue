@@ -1,6 +1,6 @@
 <template>
   <div ref="root">
-    <accordion-hull header="重定向,在route-demo.ts中预定义">
+    <accordion-hull header="重定向,在22-Vue-Router/index.ts中预定义">
       <accordion-item caption="正常子路径跳转">
         <ul>
           <li>
@@ -50,35 +50,25 @@
           </li>
           <li>
             <span> 常规别名： </span>
-            <router-link
-              to="/exercise/redirect-path/you-win/pnp1988"
-            ></router-link>
+            <router-link to="/exercise/redirect-path/you-win/pnp1988"></router-link>
           </li>
           <li>
             <span> 常规别名： </span>
-            <router-link to="/we-wish/asm989">
-              别名/we-wish/asm989
-            </router-link>
+            <router-link to="/we-wish/asm989"> 别名/we-wish/asm989 </router-link>
           </li>
           <li>
             <span> 带路径参数的原始路由： </span>
-            <router-link
-              to="/exercise/redirect-path/four/yindu/男"
-            ></router-link>
+            <router-link to="/exercise/redirect-path/four/yindu/男"></router-link>
           </li>
           <li>
             <span> 上述路由的别名sos，由于无路径参数声明，非法：</span>
-            <router-link
-              to="/exercise/redirect-path/sos/beijing/女"
-            ></router-link>
+            <router-link to="/exercise/redirect-path/sos/beijing/女"></router-link>
           </li>
           <li>
             <span>
               上述路由的别名ptp,由于带路径参数声明,虽然名称与原始路由参数名称不一致，使用时带对应参数，仍然合法可用：</span
             >
-            <router-link
-              to="/exercise/redirect-path/ptp/nanjing/吃"
-            ></router-link>
+            <router-link to="/exercise/redirect-path/ptp/nanjing/吃"></router-link>
           </li>
           <li>
             <span>上述合法别名，使用时不带路径参数，非法</span>
@@ -86,9 +76,7 @@
           </li>
         </ul>
       </accordion-item>
-      <accordion-item
-        caption="如果你的路由有参数，请确保在任何绝对别名中包含它们"
-      >
+      <accordion-item caption="如果你的路由有参数，请确保在任何绝对别名中包含它们">
         <ul>
           <li>
             <span>

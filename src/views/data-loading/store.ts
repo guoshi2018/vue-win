@@ -2,6 +2,7 @@
 //import { Guoshi.Types.LoadingState } from './load-type.tsbak';
 
 import { ActionTree, GetterTree, Module, MutationTree } from "vuex"
+import { Guoshi } from "@/common/type/guoshi";
 import LoadingStoreConst from "./const";
 
 
@@ -17,7 +18,7 @@ export default {
 			loadingReqs: 0,
 		} as Guoshi.Types.LoadingState;
 	},
-	actions: {} as ActionTree<Guoshi.Types.LoadingState, Guoshi.Types.Student>,
+	actions: {} as ActionTree<Guoshi.Types.LoadingState, Guoshi.Interfaces.Student>,
 	mutations: {
 		[LoadingStoreConst.conduct.mutations.startLoading]: (state) => {
 			state.loadingReqs++;
@@ -28,7 +29,7 @@ export default {
 	} as MutationTree<Guoshi.Types.LoadingState>,
 	getters: {
 		[LoadingStoreConst.conduct.getters.requests]: state => state.loadingReqs,
-	} as GetterTree<Guoshi.Types.LoadingState, Guoshi.Types.Student>,
-} as Module<Guoshi.Types.LoadingState, Guoshi.Types.Student>;
+	} as GetterTree<Guoshi.Types.LoadingState, Guoshi.Interfaces.Student>,
+} as Module<Guoshi.Types.LoadingState, Guoshi.Interfaces.Student>;
 
 

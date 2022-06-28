@@ -8,7 +8,7 @@
         @change="toggleTodo(todo)"
       />
       <label v-text="todo.text" @dblclick="editing = true"></label>
-      <button class="destroy" @click="removeTodo(todo)"></button>
+      <button class="destroy" @click="removeTodo(todo)">destroy</button>
     </div>
     <input
       class="edit"
@@ -23,14 +23,15 @@
 </template>
 
 <script>
-import { ref, watch, nextTick } from "vue";
+import { ref, watch, nextTick, defineComponent } from "vue";
+import { studentAsTopstoreKey } from "@/store/setup";
 import { useStore } from "vuex";
 
-export default {
+export default defineComponent({
   name: "Todo",
   props: ["todo"],
   setup(props) {
-    const input = ref(null);
+    const input = ref();
 
     const editing = ref(false);
 
@@ -41,7 +42,7 @@ export default {
         });
     });
 
-    const store = useStore();
+    const store = useStore(studentAsTopstoreKey);
 
     const editTodo = (todo, value) =>
       store.dispatch("JsTodoMvc/editTodo", { todo, value });
@@ -72,5 +73,5 @@ export default {
       removeTodo,
     };
   },
-};
+});
 </script>

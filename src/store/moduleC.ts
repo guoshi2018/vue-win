@@ -1,12 +1,23 @@
+
 //局部模块示范
 
-import { ActionContext, GetterTree, StoreOptions, Module, MutationTree, ActionTree } from 'vuex'
+import {
+	ActionContext,
+	GetterTree,
+	StoreOptions,
+	Module,
+	MutationTree,
+	ActionTree,
+} from "vuex";
+import { Guoshi } from "@/common/type/guoshi";
+import { print } from "@/common/mixins/func";
+const debug = true;
 
 export default {
 	namespaced: true,
 	state() {
 		return {
-			name: 'Calinue',
+			name: "Calinue",
 			country: Guoshi.Enums.Country.Canada,
 			books: [
 				{ id: "cn-001", name: "aaaaa", publishTime: new Date(1927, 10, 1), price: 78 },
@@ -14,14 +25,14 @@ export default {
 				{ id: "cn-003", name: "eeeee", publishTime: new Date(2021, 12, 21), price: 298 },
 				{ id: "cn-004", name: "ddddd", publishTime: new Date(1989, 5, 19), price: 178 },
 			],
-		} as Guoshi.Types.Author;
+		} as Guoshi.Interfaces.Author;
 	},
 
 	getters: {
 		/**
 		 * getter参数模板
 		 * @param rest 按从左到右的顺序为
-		 * 		局部state(proxy) 
+		 * 		局部state(proxy)
 		 * 		局部getters(object)
 		 * 		根节点rootState(proxy)
 		 * 		根节点rootGetters(object)
@@ -30,26 +41,26 @@ export default {
 		 */
 		examGetC: (...rest): Guoshi.Types.TrialUnit => {
 			return {
-				description: 'example getter C',
-				args: rest,
+				description: "example getter C",
+				//args: rest,
+				args: ["hello", "world"],
 			} as Guoshi.Types.TrialUnit;
 		},
-
-	} as GetterTree<Guoshi.Types.Author, Guoshi.Types.Student>,
+	} as GetterTree<Guoshi.Interfaces.Author, Guoshi.Interfaces.Student>,
 
 	mutations: {
 		/**测试参数
 		 * mutation参数模板
-		 * @param rest 
+		 * @param rest
 		 * 		局部state(proxy)
 		 * 		调用端附加的参数对象(如果有)
 		 * 		后续如果有则被忽略
 		 */
 		examMutaC: (...rest): void => {
 			//		console.clear();
-			console.log('examMutaC raised:', rest);
+			print(debug, "examMutaC raised:", rest);
 		},
-	} as MutationTree<Guoshi.Types.Author>,
+	} as MutationTree<Guoshi.Interfaces.Author>,
 
 	actions: {
 		/**
@@ -57,7 +68,7 @@ export default {
 		 * @param context:上下文对象,包含以下字段:
 		 *         	commit: function
 		 *					dispatch: function
-		 *					getters: object, 当前层级的getters(上层包括下层) 
+		 *					getters: object, 当前层级的getters(上层包括下层)
 		 *					rootGetters: object, 根节点getters
 		 *					state: Proxy, 当前层级的state
 		 *					rootState: Proxy, 根节点的state
@@ -73,10 +84,10 @@ export default {
 					context.commit("examMutaC", payload);
 					resolve({
 						description: "examActC resolve for promise.",
-						args: [context, payload, rest]
+						args: [context, payload, rest],
 					} as Guoshi.Types.TrialUnit);
 				}, payload.msDelay);
-			})
+			});
 		},
 
 		//测试重名action,mutation的模块(全局和局部),内部,外部调用的细节,结论:
@@ -90,14 +101,14 @@ export default {
 		仍然从根部依次调用 
 		*/
 		sameNameAct(context, payload: Guoshi.Types.ExamPayload, ...rest) {
-			console.log('sameNameAct of moduleC.ts called.');
+			print(debug, "sameNameAct of moduleC.ts called.");
 		},
 		anotherAct1(context, payload: Guoshi.Types.ExamPayload, ...rest) {
-			console.log('anotherAct of moduleC.ts called,call sameNameAct');
+			print(debug, "anotherAct of moduleC.ts called,call sameNameAct");
 			context.dispatch("sameNameAct");
 		},
 		anotherAct2(context, payload: Guoshi.Types.ExamPayload, ...rest) {
-			console.log('anotherAct2 of moduleC.ts called,call sameNameAct');
+			print(debug, "anotherAct2 of moduleC.ts called,call sameNameAct");
 			context.dispatch("sameNameAct", null, { root: payload?.nextCallRoot });
 		},
 
@@ -113,11 +124,11 @@ export default {
 						namespacedContext.commit("examMutaC", payload, ...rest); //仍然调用的是局部模块
 						resolve({
 							description: "globalActionOnModC resolve for promise.",
-							args: [namespacedContext, payload, rest]
+							args: [namespacedContext, payload, rest],
 						} as Guoshi.Types.TrialUnit);
 					}, payload.msDelay);
-				})
-			}
+				});
+			},
 		},
-	} as ActionTree<Guoshi.Types.Author, Guoshi.Types.Student>,
-} as Module<Guoshi.Types.Author, Guoshi.Types.Student>;
+	} as ActionTree<Guoshi.Interfaces.Author, Guoshi.Interfaces.Student>,
+} as Module<Guoshi.Interfaces.Author, Guoshi.Interfaces.Student>;

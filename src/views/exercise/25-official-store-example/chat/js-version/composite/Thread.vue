@@ -14,17 +14,20 @@
   </li>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "Thread",
   props: {
-    thread: Object,
+    thread: {
+      type: Object,
+      required: true,
+    },
     active: Boolean,
   },
   setup() {
     return {
-      time: (value) => new Date(value).toLocaleTimeString(),
+      time: (value:number) => new Date(value).toLocaleTimeString(),
     };
   },
 });

@@ -224,32 +224,32 @@
 <script lang="ts">
 /* eslint-disable no-dupe-class-members, no-dupe-keys */
 import { defineComponent } from "vue";
-//// import AccordionHull from "@/components/accordion/accordion-hull.vue"; // 子组件 @ is an alias to /src
-// import AccordionItem from "@/components/accordion/accordion-item.vue";
+import { print } from "@/common/mixins/func";
+const debug = false;
 
 export default defineComponent({
   methods: {
     warn(...args: Array<object> | any) {
-      console.log("warn1 function called,all arguments are ", args);
+      print(debug,"warn1 function called,all arguments are ", args);
     },
     notice() {
-      console.log("notice funciton called", arguments);
+      print(debug,"notice funciton called", arguments);
     },
     queryTarget(evt: MouseEvent) {
-      console.log(
+      print(debug,
         "queryTarget called.currentTarget,relatedTarget,target  are :---------------------"
       );
-      console.log(evt.currentTarget, evt.relatedTarget, evt.target);
+      print(debug,evt.currentTarget, evt.relatedTarget, evt.target);
     },
     heavyWork() {
       const d1: number = Date.now();
-      console.log("heavy work begin.", d1);
+      print(debug,"heavy work begin.", d1);
 
       let d2: number;
       do {
         d2 = Date.now();
       } while (d2 - d1 <= 3000);
-      console.log("heavy work done.", d2);
+      print(debug,"heavy work done.", d2);
     },
   },
   components: {},

@@ -13,7 +13,7 @@ export default {
     })
   },
   [js_chat.action.switchThread]: ({ commit }, payload) => {
-    //  console.log('...........', payload);
+    //  print(debug,'...........', payload);
     commit('switchThread', payload)
   },
 }

@@ -96,7 +96,7 @@ function setAllThreadLastMessages({ threads, messages }) {
 function setCurrentThread(state, id) {
   state.currentThreadID = id
   if (!state.threads[id]) {
-    debugger
+    // debugger
   }
   // mark thread as read
   state.threads[id].lastMessage.isRead = true

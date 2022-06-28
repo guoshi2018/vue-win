@@ -9,14 +9,16 @@
 /* eslint-disable no-dupe-class-members, no-dupe-keys */
 import { defineComponent, onMounted, onUpdated, watch, reactive } from "vue";
 import { onBeforeRouteUpdate, useRoute } from "vue-router";
+import { print } from "@/common/mixins/func";
+const debug = false;
 
 export default defineComponent({
   setup() {
     //仅仅路由参数变化，除了watch以外，其他都不会被调用
     const route = useRoute();
-    console.log("not found setup(),", route);
+    print(debug,"not found setup(),", route);
     onMounted(() => {
-      console.log("not found onMounted......", route.params);
+      print(debug,"not found onMounted......", route.params);
     });
   },
 });

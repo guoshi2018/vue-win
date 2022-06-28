@@ -1,6 +1,10 @@
+
 //局部模块示范
-import { ActionContext, GetterTree, StoreOptions, Module, MutationTree, ActionTree } from 'vuex'
+import { ActionContext, GetterTree, StoreOptions, Module, MutationTree, ActionTree, ModuleTree } from 'vuex'
+import { Guoshi } from "@/common/type/guoshi";
 import Mc from './moduleC';
+import { print } from "@/common/mixins/func";
+const debug = false;
 
 export default {
 	//使其成为带命名空间的模块,当模块被注册后，它的所有
@@ -20,7 +24,7 @@ export default {
 				{ name: "xiamili", coutry: Guoshi.Enums.Country.Canada, birth: new Date(1998, 5, 11, 23), salary: 7419 },
 				{ name: "wangzhaojun", coutry: Guoshi.Enums.Country.Koria, birth: new Date(2005, 11, 11, 21), salary: 39181 },
 			],
-		} as Guoshi.Types.UserInfo;
+		} as Guoshi.Interfaces.UserInfo;
 	},
 
 	getters: {
@@ -41,7 +45,7 @@ export default {
 			} as Guoshi.Types.TrialUnit;
 		},
 
-	} as GetterTree<Guoshi.Types.UserInfo, Guoshi.Types.Student>,
+	} as GetterTree<Guoshi.Interfaces.UserInfo, Guoshi.Interfaces.Student>,
 
 	mutations: {
 
@@ -54,9 +58,9 @@ export default {
 		 */
 		examMutaB: (...rest): void => {
 			//			console.clear();
-			console.log('examMutaB raised:', rest);
+			print(debug, 'examMutaB raised:', rest);
 		},
-	} as MutationTree<Guoshi.Types.UserInfo>,
+	} as MutationTree<Guoshi.Interfaces.UserInfo>,
 
 	actions: {
 		/**
@@ -88,10 +92,10 @@ export default {
 
 		//测试重名action,mutation的模块(全局和局部),内部,外部调用的细节,结论参见moduleC.ts.	
 		sameNameAct(context, payload: Guoshi.Types.ExamPayload, ...rest) {
-			console.log('examActB2 of moduleB.ts called.');
+			print(debug, 'examActB2 of moduleB.ts called.');
 		}
-	} as ActionTree<Guoshi.Types.UserInfo, Guoshi.Types.Student>,
+	} as ActionTree<Guoshi.Interfaces.UserInfo, Guoshi.Interfaces.Student>,
 	modules: {
-		ModC: Mc as Module<Guoshi.Types.Author, Guoshi.Types.Student>,
-	}
-} as Module<Guoshi.Types.UserInfo, Guoshi.Types.Student>;
+		modC: Mc as Module<Guoshi.Interfaces.Author, Guoshi.Interfaces.Student>,
+	} as ModuleTree<Guoshi.Interfaces.Student>,
+} as Module<Guoshi.Interfaces.UserInfo, Guoshi.Interfaces.Student>;

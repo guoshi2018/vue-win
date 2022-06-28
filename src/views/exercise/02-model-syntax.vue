@@ -141,6 +141,9 @@
 <script lang="ts">
 /* eslint-disable no-dupe-class-members, no-dupe-keys */
 import { defineComponent } from "vue";
+import { print } from "@/common/mixins/func";
+const debug = false;
+
 /*
 interface Data {
   content: string;
@@ -218,7 +221,7 @@ export default defineComponent({
         this.currentEvent == this.mouseEvents.evMouseEnter
           ? this.mouseEvents.evMouseLeave
           : this.mouseEvents.evMouseEnter;
-      console.log(
+      print(debug,
         "mouse event and color changed,current mode : ",
         this.currentColor,
         this.currentEvent

@@ -1,13 +1,13 @@
 //注意，下面的route参数的测试验证，应该在地址栏输入以策简化。
 
-import { RouteLocationNormalized, RouteRecordRaw } from "vue-router";
+import { RouteLocationNormalized, RouteRecordRaw, RouteLocation } from "vue-router";
 
 import ComUser from "@/components/22-Vue-Router/com-user.vue";
 import NotFound from "@/components/22-Vue-Router/not-found.vue";
 import PropUser from "@/components/22-Vue-Router/prop-user.vue";
 import ObjUser from "@/components/22-Vue-Router/obj-user.vue";
-
 import InnerView from "@/components/22-Vue-Router/inner-view.vue";
+
 import HeaderSide from "@/components/22-Vue-Router/named-view/header-side.vue";
 import FooterSide from "@/components/22-Vue-Router/named-view/footer-side.vue";
 import LeftSide from "@/components/22-Vue-Router/named-view/left-side.vue";
@@ -20,18 +20,8 @@ import RedirectPath from "@/views/exercise/22-Vue-Router/04-redirect-path.vue";
 import RouteParamsToProps from "@/views/exercise/22-Vue-Router/05-params-to-props.vue";
 import DynamicRoute from "@/views/exercise/22-Vue-Router/06-dynamic-route.vue";
 
-
-
-//可以通过扩展 RouteMeta 接口来输入 meta 字段,以此来约束meta必须和可选的元数据
-//import "vue-router";  //第三行已经导入
-declare module "vue-router" {
-  interface RouteMeta {
-    // 是可选的
-    rm100?: boolean;
-    // 每个路由都必须声明
-    rm111: string;
-  }
-}
+import { print } from "@/common/mixins/func";
+const debug = false;
 
 //不受全局路径route影响
 //预计作为某个组件信息的children字段嵌套
@@ -55,7 +45,6 @@ const childView: Array<RouteRecordRaw> = [
     component: ComUser,
   },
 ];
-
 
 const routeDemo: Array<RouteRecordRaw> = [
   //路径的匹配
@@ -239,16 +228,17 @@ const routeDemo: Array<RouteRecordRaw> = [
       },
       {
         path: ":id(\\d+)",
-        redirect: (to) => {
+
+        redirect: (to: RouteLocationNormalized) => {
           //参数to:目标路由
           const strId = to.params.id;
           let tgt = "three";
           try {
             const id: number = parseInt(strId as string);
-            console.log(`id:${id}`);
+            print(debug, `id:${id}`);
             tgt = id % 2 ? "one" : "two";
           } catch (err) {
-            console.log("non number inputted.so to three");
+            print(debug, "non number inputted.so to three");
           }
           return {
             path: tgt,
@@ -331,8 +321,12 @@ const routeDemo: Array<RouteRecordRaw> = [
         //也可以将一个函数数组传递给 beforeEnter
         //当然也可以通过使用路径 meta 字段和全局导航守卫来实现类似的行为。
         //beforeEnter:[removeQueryParams,removeHash],
-        beforeEnter: (to, from) => {
-          console.log(
+        beforeEnter: (
+          to: RouteLocationNormalized,
+          from: RouteLocationNormalized
+        ): void => {
+          print(
+            debug,
             "/exercise/route-params-to-props/six的独享守卫触发，to=>from"
             // to,
             // from
@@ -368,6 +362,5 @@ function removeHash(to: RouteLocationNormalized) {
     return { path: to.path, query: to.query, hash: "" };
   }
 }
-
 
 export default routeDemo;

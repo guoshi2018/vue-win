@@ -1,9 +1,12 @@
-<!--<template>
+<!--
+默认情况下，组件上的 v-model 使用 modelValue 作为 prop 和 update:modelValue 作为事件。
+<template>
   <span>{{description}}</span>
   <input type="text"
          :value="innerValue"
          @input="$emit('update:innerValue',$event.target.value)" />
 </template>-->
+
 <!--必须起名modelValue
 <template>
   <span>{{description}}</span>
@@ -29,6 +32,9 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import { print } from "@/common/mixins/func";
+const debug = false;
+
 export default defineComponent({
   props: {
     description: {
@@ -44,11 +50,11 @@ export default defineComponent({
   },
   methods: {
     inputOccur(evt: Event) {
-      console.log("custom-input input event handler:", evt);
+      print(debug,"custom-input input event handler:", evt);
       this.$emit("moving", evt);
     },
     changeOccur(evt: Event) {
-      console.log("custom-input change event handler:", evt);
+      print(debug,"custom-input change event handler:", evt);
       this.$emit("moved", evt);
     },
   },

@@ -20,7 +20,7 @@ async function messageOptionsFromServer(): Promise<Array<ChatMessageOptions>> {
  * 模拟上传消息到服务器
  * @param msgOpt 以此代表消息各项信息
  */
-async function messageOptionsToServer(msgOpt: ChatMessageOptions) {
+async function messageOptionsToServer(msgOpt: ChatMessageOptions): Promise<void> {
   manager.loading('正在上传ts_chat所有消息...');
   await sleep(LATENCY);
   manager.loaded('上传ts-chat消息结束');

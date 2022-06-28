@@ -10,15 +10,18 @@ import { defineComponent, computed } from "vue";
 import loadingStore from "./store";
 import LoadingStoreConst from "./const";
 import { useStore } from "vuex";
+import { studentAsTopstoreKey } from "@/store/setup";
+import { print } from "@/common/mixins/func";
+const debug = true;
 
 export default defineComponent({
   setup(props, contxt) {
-    const store = useStore();
+    const store = useStore(studentAsTopstoreKey);
     if (!store.hasModule(LoadingStoreConst.path)) {
       loadingStore.namespaced = true;
       store.registerModule(LoadingStoreConst.path, loadingStore);
     }
-    // console.log("after,using data-loading store:", store);
+    print(debug, "after,using data-loading store:", store);
     return {
       requests: computed(
         () =>

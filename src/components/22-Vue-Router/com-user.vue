@@ -6,7 +6,7 @@
 </comments>
 <template>
   <div class="test">
-    <h2>Hi,this is information of com-user：</h2>
+    <h2>Hi,this is information of com-user, without inner view：</h2>
     <ul>
       <li>
         <span>id --- {{ $route.params.id }}</span>
@@ -34,15 +34,17 @@
 /* eslint-disable no-dupe-class-members, no-dupe-keys */
 import { defineComponent, onMounted, onUpdated, watch, reactive } from "vue";
 import { onBeforeRouteUpdate, useRoute } from "vue-router";
+import { print } from "@/common/mixins/func";
+const debug = true;
 
 export default defineComponent({
   setup() {
     //仅仅路由参数变化，除了watch以外，其他都不会被调用
     const route = useRoute();
-    console.log("combind API com-user setup(),", route);
+    print(debug, "combind API com-user setup(),", route);
     onMounted(() => {
       //console.clear();
-      console.log("user-com onMounted......", route.params);
+      print(debug, "user-com onMounted......", route.params);
     });
 
     //组合式API 的路由监视。选项式的见app.vue
@@ -50,7 +52,8 @@ export default defineComponent({
       //route.params,           //fail
       () => route.params, //must ok,
       (toParms, prevParms) => {
-        console.log(
+        print(
+          debug,
           "combind API <com-user.vue> setup() watching route.params...",
           toParms,
           prevParms

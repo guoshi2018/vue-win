@@ -4,6 +4,8 @@
 
 <script lang="ts">
 import { ref, watchEffect, defineComponent } from "vue";
+import { print } from "@/common/mixins/func";
+const debug = false;
 
 export default defineComponent({
   setup() {
@@ -13,7 +15,7 @@ export default defineComponent({
     //这将在 DOM 更新后运行副作用，确保模板引用与 DOM 保持同步，并引用正确的元素。
     watchEffect(
       () => {
-        console.log("haha:", root.value); // => Dom更新后:<div />
+        print(debug,"haha:", root.value); // => Dom更新后:<div />
       },
       {
         flush: "post",

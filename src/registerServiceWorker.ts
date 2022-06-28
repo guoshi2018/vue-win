@@ -1,31 +1,33 @@
 /* eslint-disable no-console */
 
 import { register } from 'register-service-worker'
+import { print } from "@/common/mixins/func";
+const debug = false;
 
 if (process.env.NODE_ENV === 'production') {
   register(`${process.env.BASE_URL}service-worker.js`, {
-    ready () {
-      console.log(
+    ready() {
+      print(debug,
         'App is being served from cache by a service worker.\n' +
         'For more details, visit https://goo.gl/AFskqB'
       )
     },
-    registered () {
-      console.log('Service worker has been registered.')
+    registered() {
+      print(debug, 'Service worker has been registered.')
     },
-    cached () {
-      console.log('Content has been cached for offline use.')
+    cached() {
+      print(debug, 'Content has been cached for offline use.')
     },
-    updatefound () {
-      console.log('New content is downloading.')
+    updatefound() {
+      print(debug, 'New content is downloading.')
     },
-    updated () {
-      console.log('New content is available; please refresh.')
+    updated() {
+      print(debug, 'New content is available; please refresh.')
     },
-    offline () {
-      console.log('No internet connection found. App is running in offline mode.')
+    offline() {
+      print(debug, 'No internet connection found. App is running in offline mode.')
     },
-    error (error) {
+    error(error) {
       console.error('Error during service worker registration:', error)
     }
   })

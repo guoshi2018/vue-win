@@ -1,4 +1,3 @@
-
 import { Store } from "vuex";
 //import { Student } from "@/store/types";
 //import temp from './chat/js-version/store';
@@ -70,7 +69,7 @@ const stores = {
 	js_todo_mvc: {
 		ns: "JsTodoMvc",
 		module: require("./todo-mvc/js-version/store").default,
-	}
+	},
 };
 
 /**
@@ -86,7 +85,7 @@ const regAll = (rootStore: Store<any>): void => {
 			rootStore.registerModule(si.ns, si.module);
 		}
 	}
-	//console.log('.........', rootStore);
+	//print(debug,'.........', rootStore);
 };
 /**
  * 注销所有被注册的store模块
@@ -103,8 +102,4 @@ const unregAll = (rootStore: Store<any>): void => {
  * 包含子store模块的注册,反注册方法,一级准备注册作为私有模块的store
  * 注意这些store不能使用createStore创建,而仅仅是storeOptions
  */
-export {
-	regAll, unregAll, stores
-};
-
-
+export { regAll, unregAll, stores };

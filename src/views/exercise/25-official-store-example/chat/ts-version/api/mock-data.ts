@@ -1,5 +1,7 @@
 
 import { ChatMessageOptions } from './options';
+
+//各个数据有意参差不齐
 export default [
   {
     text: 'Hey Jing, want to give a Flux talk at ForwardJS?',

@@ -11,9 +11,8 @@
 <script lang="ts">
 /* eslint-disable no-dupe-class-members, no-dupe-keys */
 import { ref, defineComponent } from "vue";
-// import AccordionHull from "@/components/accordion/accordion-hull.vue"; // 子组件 @ is an alias to /src
-// import AccordionItem from "@/components/accordion/accordion-item.vue";
-//import { funA } from "./a/aa";
+import { print } from "@/common/mixins/func";
+const debug = true;
 
 export default defineComponent({
   components: {},
@@ -28,7 +27,7 @@ export default defineComponent({
     allPathTesting: async () => {
       //funA();
 
-      console.log("entry.vue 使用相对路径, 导入 bb.ts:");
+      print(debug,"entry.vue 使用相对路径, 导入 bb.ts:");
       const B = await import("./a/b/bb");
       B.funB();
       //进入bb.ts后,测试采用node_modules的裸路径正常, 但是, 纯baseUrl, 以及baseUrl配合paths, 以及

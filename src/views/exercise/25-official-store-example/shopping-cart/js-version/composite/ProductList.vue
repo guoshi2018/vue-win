@@ -5,10 +5,7 @@
       <li v-for="product in products" :key="product.id">
         {{ product.title }} - {{ currency(product.price) }}
         <br />
-        <button
-          :disabled="!product.inventory"
-          @click="addProductToCart(product)"
-        >
+        <button :disabled="!product.inventory" @click="addProductToCart(product)">
           Add to cart
         </button>
       </li>
@@ -16,17 +13,20 @@
   </div>
 </template>
 
-<script>
-import { computed } from "vue";
+<script >
+import { computed, defineComponent } from "vue";
 import { useStore } from "vuex";
+import { studentAsTopstoreKey } from "@/store/setup";
 
-import { currency } from "../api/currency";
+//import { currency } from "../api/currency";
+import { currency } from "currency-js";
 
-export default {
+export default defineComponent({
   setup() {
-    const store = useStore();
+    const store = useStore(studentAsTopstoreKey);
 
     //const products = computed(() => store.state.products.all)
+    //@ts-ignore
     const products = computed(() => store.state.JsShoppingCart.products.all);
 
     //const addProductToCart = (product) => store.dispatch('cart/addProductToCart', product)
@@ -51,5 +51,5 @@ export default {
   // created () {
   //   this.$store.dispatch('products/getAllProducts')
   // }
-};
+});
 </script>

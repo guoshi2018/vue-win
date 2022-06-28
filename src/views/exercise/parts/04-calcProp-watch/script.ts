@@ -9,8 +9,8 @@
 
 
 import { Options, Vue } from 'vue-class-component';
-//import AccordionHull from '@/components/accordion/accordion-hull.vue' // 子组件 @ is an alias to /src
-//import AccordionItem from '@/components/accordion/accordion-item.vue';
+import { print } from "@/common/mixins/func";
+const debug = true;
 
 interface Author {
   order: number;
@@ -60,7 +60,7 @@ interface Data {
   },
   created() {
     this.initTempAuthor();
-    //   console.log('init');
+    //   print(debug,'init');
   },
   mounted() {
     this.period = new Date();
@@ -71,7 +71,7 @@ interface Data {
       //属性值（Date对象实例）不变，仅仅是其内部字段（属性）值变化，不会触发计算属性和方法的调用
       this.period.setTime(this.period.getTime() + 1000);//
       this.$forceUpdate();//强制更新，则方法被调用；而计算属性仍然采用缓存值，保持不变
-      //console.log(this.period.toLocaleTimeString());
+      //print(debug,this.period.toLocaleTimeString());
     }, 1000);
   },
   unmounted() {
@@ -92,27 +92,27 @@ interface Data {
       return this.period?.toLocaleTimeString();
     },
     handleBook(auth: Author, bookIdx: number): void {
-      console.log(`autho:${auth},book index:${bookIdx}`);
+      print(debug, `autho:${auth},book index:${bookIdx}`);
       let answer: string | null;
       if (bookIdx != -1) {
-        //console.log(this.currentAuthor.books[this.currentBookIndex])
+        //print(debug,this.currentAuthor.books[this.currentBookIndex])
         const bookname = auth.books[bookIdx];
         answer = prompt(`Modify the book's name: "${bookname}",or type delete to delete it, continue ?`,
           bookname);
 
         if (answer != bookname && answer != '' && answer != null) {
           if (answer.toLowerCase().trim() == 'delete') {
-            console.log(`now delete ${bookname}.`);
+            print(debug, `now delete ${bookname}.`);
             auth.books.splice(bookIdx, 1);
           } else {
-            console.log('then rename the book');
+            print(debug, 'then rename the book');
             auth.books[bookIdx] = answer;
           }
         }
       } else {
         answer = prompt("Enter the new book's name:");
         if (answer) {
-          console.log(`now add a new book:${answer}`);
+          print(debug, `now add a new book:${answer}`);
           auth.books.push(answer);
         }
       }
@@ -139,7 +139,7 @@ interface Data {
     //  },
     //  //setter
     //  set(newValue:string) :void{
-    //    console.log('area set to ', newValue);
+    //    print(debug,'area set to ', newValue);
     //    //const ar = newValue.split(' ');
     //    //this.province = ar[0];//关于this指针的编译错误
     //    //this.country = ar[1];//关于this指针的编译错误
@@ -171,9 +171,9 @@ interface Data {
       //但是在某些情况下也可以使用set方法,
       //是采取普通形式，还是返回函数的形式，还不得而知。
       set: function (v: string) {
-        console.log(v);
+        print(debug, v);
         return (v1: string): void => {
-          console.log('setting now:', v1);
+          print(debug, 'setting now:', v1);
         };
       }
     },
@@ -195,10 +195,10 @@ interface Data {
   },
   watch: {
     //currentBookIndex(newV: number, oldV: number) {
-    //  console.log(`old:${oldV},new:${newV}`);
+    //  print(debug,`old:${oldV},new:${newV}`);
     //},
     //currentAuthorIndex(newIndex: number, oldIndex: number): void {
-    //  console.log('...', newIndex);
+    //  print(debug,'...', newIndex);
     //  this.currentAuthor = this.authors[newIndex];
     //}
   },

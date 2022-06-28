@@ -66,7 +66,7 @@
       </ul>
     </accordion-item>
     <accordion-item
-      caption="v-bind={...}的方式传递对象的各属性，赋值给组件的对应属性"
+      caption="v-bind={...}的方式传递对象的各属性，赋值给组件的对应属性.注意对比v-bind用在子组件内部的含义"
     >
       <ul>
         <li><blog-post v-bind="obj1" /></li>
@@ -130,10 +130,7 @@
 </template>
 
 <script lang="ts">
-/* eslint-disable no-dupe-class-members, no-dupe-keys */
 import { defineComponent } from "vue";
-// import AccordionHull from "@/components/accordion/accordion-hull.vue"; // 子组件 @ is an alias to /src
-// import AccordionItem from "@/components/accordion/accordion-item.vue";
 import BlogPost from "@/components/11-deep-into-component/blog-post.vue";
 
 export default defineComponent({
@@ -161,17 +158,6 @@ export default defineComponent({
       },
     };
   },
-  // data()也可以这样写：
-  // data () {
-  //   return {
-
-  //   } as Data
-  // },
-  // mounted (): void {
-  // },
-  // methods: {
-
-  // },
   components: {
     BlogPost,
   },

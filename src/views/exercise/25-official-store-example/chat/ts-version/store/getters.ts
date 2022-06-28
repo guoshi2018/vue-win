@@ -2,6 +2,7 @@
 import { GetterTree } from "vuex";
 import ChatState from "../api/ChatState.class";
 import { ts_chat } from '../../../const';
+import { Guoshi } from "@/common/type/guoshi";
 
 export default {
   [ts_chat.getter.threads]: state => state.threads,
@@ -18,7 +19,7 @@ export default {
 
   [ts_chat.getter.sortedMessages]: state => state.sortedCurrentMessages,
 
-} as GetterTree<ChatState, Guoshi.Types.Student>;
+} as GetterTree<ChatState, Guoshi.Interfaces.Student>;
 
 
 

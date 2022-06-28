@@ -8,14 +8,14 @@
   </li>
 </template>
 
-<script>
+<script lang="ts">
 export default {
   name: 'Message',
   props: {
     message: Object
   },
   methods: {
-    time (value) {
+    time (value:number):string {
       return new Date(value).toLocaleTimeString()
     }
   }

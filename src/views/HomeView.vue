@@ -14,7 +14,7 @@ import HelloWorld from "@/components/HelloWorld.vue"; // @ is an alias to /src
     HelloWorld,
   },
   mounted() {
-    //  console.log("in home-view mounted,this.$route is ", this.$route);
+    //  print(debug,"in home-view mounted,this.$route is ", this.$route);
   },
 })
 export default class HomeView extends Vue {}

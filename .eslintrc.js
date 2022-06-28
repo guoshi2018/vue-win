@@ -44,6 +44,7 @@ module.exports = {
     "vue/no-unused-components": 'warn',
     "symbol-description": 'warn',
     "no-undef": 'off',  //否则vue文件的ts感知.d.ts声明有影响
+    "one-var": 'off',
     '@typescript-eslint/no-empty-interface': 'off',
     '@typescript-eslint/no-empty-function': 'off',
     '@typescript-eslint/no-var-requires': 'off',
@@ -51,6 +52,7 @@ module.exports = {
     "@typescript-eslint/no-unused-vars": 'off',
     "@typescript-eslint/ban-ts-comment": 'off',
     "@typescript-eslint/no-explicit-any": 'off',
+    "@typescript-eslint/no-namespace": 'off',
   },
   overrides: [
     {

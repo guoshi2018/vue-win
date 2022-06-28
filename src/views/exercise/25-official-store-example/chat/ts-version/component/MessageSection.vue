@@ -14,6 +14,7 @@ import { useStore } from "vuex";
 import Message from "./Message.vue";
 import ChatThread from "../api/ChatThread.class";
 import ChatMessage from "../api/ChatMessage.class";
+import { studentAsTopstoreKey } from "@/store/setup";
 
 import { stores } from "../../../store-helper";
 import { ts_chat } from "../../../const";
@@ -24,7 +25,7 @@ export default defineComponent({
   setup() {
     const list = ref(null);
     const text = ref("");
-    const store = useStore();
+    const store = useStore(studentAsTopstoreKey);
 
     const thread = computed(
       (): ChatThread =>
@@ -38,7 +39,7 @@ export default defineComponent({
       () => thread.value.newestMessage,
       () => {
         nextTick(() => {
-          const ul = list.value as unknown as HTMLUListElement;
+          const ul = (list.value as unknown) as HTMLUListElement;
           ul.scrollTop = ul.scrollHeight;
         });
       }

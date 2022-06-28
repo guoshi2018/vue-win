@@ -186,9 +186,9 @@
 <script lang="ts">
 /* eslint-disable no-dupe-class-members, no-dupe-keys */
 import { defineComponent } from "vue";
-import TodoItem from "@/components/07-list-render/todo-item.vue"; // 子组件 @ is an alias to /src
-//// import AccordionHull from "@/components/accordion/accordion-hull.vue"; // 子组件 @ is an alias to /src
-// import AccordionItem from "@/components/accordion/accordion-item.vue";
+import TodoItem from "@/components/07-list-render/todo-item.vue";
+import { print } from "@/common/mixins/func";
+const debug = false;
 
 enum Grade {
   excellent,
@@ -334,7 +334,7 @@ export default defineComponent({
         id: this.plan.newTodoId++,
         title: this.plan.newTodoText,
       });
-      console.log(this.plan);
+      print(debug,this.plan);
       this.plan.newTodoText = "";
     },
   },

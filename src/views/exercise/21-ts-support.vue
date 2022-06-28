@@ -30,9 +30,8 @@ import {
   onMounted,
   PropType,
 } from "vue";
-
-// import AccordionHull from "@/components/accordion/accordion-hull.vue"; // 子组件 @ is an alias to /src
-// import AccordionItem from "@/components/accordion/accordion-item.vue";
+import { print } from "@/common/mixins/func";
+const debug = false;
 
 interface Book {
   title: string;
@@ -95,10 +94,10 @@ export default defineComponent({
   },
   setup() {
     onBeforeMount(() => {
-      console.log("...onBeforeMount");
+      print(debug,"...onBeforeMount");
     });
     onMounted(() => {
-      console.log("...onMounted");
+      print(debug,"...onMounted");
     });
 
     //为 ref 的内部值指定复杂类型
@@ -113,25 +112,25 @@ export default defineComponent({
     const book1 = reactive<Book>({ title: "Vue 3 Guide" }); //ok
     const book2: Book = reactive({ title: "Vue 3 tutorial" }); //ok
     const book3 = reactive({ title: "yesterday..." }) as Book;
-    console.log(book1, book2, book3);
+    print(debug,book1, book2, book3);
     //computed属性的类型声明，计算值将根据返回值自动推断类型
     const count = ref(0);
     const doubleCount = computed(() => count.value * 2);
-    console.log(doubleCount);
+    print(debug,doubleCount);
     //const result = doubleCount.value.split('') // => Property 'split' does not exist on type 'number'
 
     //事件处理器添加类型
     const handleTextChange = (evt: Event) => {
       //evt默认为any,仅仅隐式声明,ts则编译错误
-      console.log(evt);
+      print(debug,evt);
     };
-    console.log(handleTextChange);
+    print(debug,handleTextChange);
 
     //可以显式声明并转换，让ts没话说
     const handleTextChange2 = (evt: Event) => {
-      console.log(evt.target as HTMLInputElement);
+      print(debug,evt.target as HTMLInputElement);
     };
-    console.log(handleTextChange2);
+    print(debug,handleTextChange2);
 
     //略
     // return{
@@ -168,7 +167,7 @@ export default defineComponent({
       this.$emit("non-declare-event"); //类型错误。
     },
     seeRouter() {
-      console.log("haha,this.$route is ", this.$route);
+      print(debug,"haha,this.$route is ", this.$route);
     },
   },
 });

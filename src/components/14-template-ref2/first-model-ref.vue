@@ -3,20 +3,16 @@
     <div ref="div1">This is a ... root element</div>
     <span ref="span1">hello,span</span>
     <p ref="p1">
-      <i>this is a paragrath ,without any property</i
-      ><span>this text is in span.</span>
+      <i>this is a paragrath ,without any property</i><span>this text is in span.</span>
     </p>
-    <input
-      type="button"
-      value="组件内按钮,以ref操作元素"
-      @click="demo1"
-      ref="button1"
-    />
+    <input type="button" value="组件内按钮,以ref操作元素" @click="demo1" ref="button1" />
   </div>
 </template>
 
 <script lang="ts">
 import { ref, onMounted, defineComponent } from "vue";
+import { print } from "@/common/mixins/func";
+const debug = false;
 
 export default defineComponent({
   setup() {
@@ -29,13 +25,7 @@ export default defineComponent({
 
     onMounted(() => {
       //   console.clear();
-      console.log(
-        rootDiv.value,
-        div1.value,
-        span1.value,
-        p1.value,
-        button1.value
-      );
+      print(debug,rootDiv.value, div1.value, span1.value, p1.value, button1.value);
     });
     return {
       rootDiv,
@@ -50,12 +40,14 @@ export default defineComponent({
       //  console.clear();
       //在setup中定义各个ref,并返回的目的:
       //可以使用更简短的属性(例如this.div1),代替原来的元素引用this.$refs.div1
+
+      //如果没有ref()各个引用...
       const div_root = this.$refs.rootDiv as HTMLDivElement;
       const div_1 = this.$refs.div1 as HTMLDivElement;
       const span_1 = this.$refs.span1 as HTMLSpanElement;
       const p_1 = this.$refs.p1 as HTMLParagraphElement;
       const button_1 = this.$refs.button1 as HTMLButtonElement;
-      console.log(
+      print(debug,
         "info by this.$refs.<prop>:",
         div_root.childElementCount,
         div_1.textContent,
@@ -64,13 +56,13 @@ export default defineComponent({
         button_1.value
       );
 
-      //使用简短属性,并带有智能感知:
+      //ref()后, 使用简短属性,并带有智能感知:
       const divRoot = this.rootDiv as HTMLElement;
       const div_one = this.div1 as HTMLDivElement;
       const span_one = this.span1 as HTMLSpanElement;
       const p_one = this.p1 as HTMLParagraphElement;
       const button_one = this.button1 as HTMLButtonElement;
-      console.log(
+      print(debug,
         "info by brief prop:",
         divRoot.childElementCount,
         div_one.textContent,
@@ -80,7 +72,7 @@ export default defineComponent({
       );
 
       //可以看出两者打印结果相同,全部为true.
-      console.log(
+      print(debug,
         divRoot == div_root,
         div_one == div_1,
         span_one == span_1,

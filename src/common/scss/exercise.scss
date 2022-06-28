@@ -15,14 +15,17 @@
         text-align: left;
 
         h3 {
-            color: antiquewhite;
+            color: rgb(17, 5, 124);
         }
 
-        ul, dl {
+        ul,
+        dl {
             font-size: 1.1em;
             line-height: 1.6;
 
-            li, dt, dd {
+            li,
+            dt,
+            dd {
                 * {
                     margin-right: 1.2em;
                     margin-bottom: 0.3em;
@@ -31,7 +34,7 @@
                 input {
                     font-size: 1.1rem;
 
-                    &[type='text'] {
+                    &[type="text"] {
                         width: 15em;
                     }
                 }
@@ -42,7 +45,7 @@
 
                     &.active {
                         color: rgb(110, 21, 70);
-                        cursor:pointer;
+                        cursor: pointer;
                     }
 
                     &.red-border {
@@ -64,16 +67,17 @@
                         padding: 1em;
                         background-color: darkgoldenrod;
                     }
-
                 }
             }
         }
 
         form {
-            input, select {
+            input,
+            select {
                 width: 70% !important;
 
-                &[type="button"], &[type="submit"] {
+                &[type="button"],
+                &[type="submit"] {
                     border: 1px solid red;
                     width: auto !important;
                     min-width: 5em;
@@ -83,18 +87,19 @@
     }
 }
 
-button, input[type=text] {
+button,
+input[type="text"] {
     margin-right: 0.5em;
 }
 
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.5s ease;
+    transition: opacity 0.5s ease;
 }
 
 .fade-enter-from,
 .fade-leave-to {
-  opacity: 0;
+    opacity: 0;
 }
 
 .child-border > * {

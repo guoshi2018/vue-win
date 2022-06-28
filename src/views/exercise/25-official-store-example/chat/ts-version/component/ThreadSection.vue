@@ -1,9 +1,7 @@
 <template>
   <div class="thread-section">
     <div class="thread-count">
-      <span v-show="unreadThreadCount">
-        Unread threads: {{ unreadThreadCount }}
-      </span>
+      <span v-show="unreadThreadCount"> Unread threads: {{ unreadThreadCount }} </span>
     </div>
     <ul class="thread-list" ref="list">
       <thread
@@ -26,36 +24,32 @@ import ChatThread from "../api/ChatThread.class";
 
 import { stores } from "../../../store-helper";
 import { ts_chat } from "../../../const";
+import { print } from "@/common/mixins/func";
+import { studentAsTopstoreKey } from "@/store/setup";
+const debug = false;
 
 export default defineComponent({
   name: "ThreadSection",
   components: { Thread },
   setup() {
-    const store = useStore();
+    const store = useStore(studentAsTopstoreKey);
     const list = ref(null);
 
     const threads = computed(
       () => store.getters[`${stores.ts_chat.ns}/${ts_chat.getter.threads}`]
     );
     const currentThread = computed(
-      () =>
-        store.getters[`${stores.ts_chat.ns}/${ts_chat.getter.currentThread}`]
+      () => store.getters[`${stores.ts_chat.ns}/${ts_chat.getter.currentThread}`]
     );
     const unreadThreadCount = computed(
-      () =>
-        store.getters[
-          `${stores.ts_chat.ns}/${ts_chat.getter.unreadThreadCount}`
-        ]
+      () => store.getters[`${stores.ts_chat.ns}/${ts_chat.getter.unreadThreadCount}`]
     );
     const setCurrentThread = (id: string) =>
-      store.commit(
-        `${stores.ts_chat.ns}/${ts_chat.mutation.setCurrentThread}`,
-        id
-      );
+      store.commit(`${stores.ts_chat.ns}/${ts_chat.mutation.setCurrentThread}`, id);
 
     //将选中线程滚动到适当位置,使之可见
     const perfectView = () => {
-      const ul = list.value as unknown as HTMLUListElement;
+      const ul = (list.value as unknown) as HTMLUListElement;
       const selLi = ul.querySelector("li.active") as HTMLLIElement;
       ul.scrollTop = selLi.offsetTop - ul.scrollHeight;
     };
@@ -71,7 +65,7 @@ export default defineComponent({
     //暂时找不到合适的事件来解决首次加载时,使当前线程可见
     //onActivated(() => perfectView());
     // onActivated(() => {
-    //   console.log("onActived........................");
+    //   print(debug,"onActived........................");
     // });
 
     return {
@@ -84,7 +78,7 @@ export default defineComponent({
   },
   methods: {
     temp() {
-      console.log("hahaha");
+      print(debug, "hahaha");
     },
   },
 });

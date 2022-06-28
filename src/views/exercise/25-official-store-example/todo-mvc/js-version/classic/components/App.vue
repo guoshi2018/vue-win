@@ -15,7 +15,7 @@
       />
     </header>
     <!-- main section -->
-    <section class="main" v-show="todos.length">
+    <section class="main" v-show="todos?.length">
       <input
         class="toggle-all"
         id="toggle-all"
@@ -25,15 +25,11 @@
       />
       <label for="toggle-all"></label>
       <ul class="todo-list">
-        <TodoItem
-          v-for="(todo, index) in filteredTodos"
-          :key="index"
-          :todo="todo"
-        />
+        <TodoItem v-for="(todo, index) in filteredTodos" :key="index" :todo="todo" />
       </ul>
     </section>
     <!-- footer -->
-    <footer class="footer" v-show="todos.length">
+    <footer class="footer" v-show="todos?.length">
       <span class="todo-count">
         <strong>{{ remaining }}</strong>
         {{ pluralize(remaining, "item") }} left
@@ -50,7 +46,7 @@
       </ul>
       <button
         class="clear-completed"
-        v-show="todos.length > remaining"
+        v-show="todos?.length > remaining"
         @click="clearCompleted"
       >
         Clear completed
@@ -59,10 +55,14 @@
   </section>
 </template>
 
-<script>
+<script lang="js">
 import { defineComponent } from "vue";
 import { createNamespacedHelpers } from "vuex";
 import TodoItem from "./TodoItem.vue";
+import {
+  print
+} from "@/common/mixins/func";
+const debug = false;
 
 const filters = {
   all: (todos) => todos,
@@ -80,6 +80,7 @@ export default defineComponent({
   },
   computed: {
     todos() {
+      print('get todos result is ::', this.$store.state.JsTodoMvc.todos)
       return this.$store.state.JsTodoMvc.todos;
     },
     allChecked() {

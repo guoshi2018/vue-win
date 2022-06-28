@@ -8,38 +8,31 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { computed, defineComponent } from "vue";
 import { useStore } from "vuex";
 import { counter } from "../../../const";
 import { stores } from "../../../store-helper";
+import { studentAsTopstoreKey } from "@/store/setup";
 
 export default defineComponent({
   setup() {
-    const store = useStore();
+    const store = useStore(studentAsTopstoreKey);
     return {
       currentCount: computed(
-        () =>
-          store.getters[
-            `${stores.js_counter.ns}/${counter.getter.currentCount}`
-          ]
+        () => store.getters[`${stores.js_counter.ns}/${counter.getter.currentCount}`]
       ),
       evenOrOdd: computed(
-        () =>
-          store.getters[`${stores.js_counter.ns}/${counter.getter.evenOrOdd}`]
+        () => store.getters[`${stores.js_counter.ns}/${counter.getter.evenOrOdd}`]
       ),
       increment: () =>
         store.dispatch(`${stores.js_counter.ns}/${counter.action.increment}`),
       decrement: () =>
         store.dispatch(`${stores.js_counter.ns}/${counter.action.decrement}`),
       incrementAsync: () =>
-        store.dispatch(
-          `${stores.js_counter.ns}/${counter.action.incrementAsync}`
-        ),
+        store.dispatch(`${stores.js_counter.ns}/${counter.action.incrementAsync}`),
       incrementIfOdd: () =>
-        store.dispatch(
-          `${stores.js_counter.ns}/${counter.action.incrementIfOdd}`
-        ),
+        store.dispatch(`${stores.js_counter.ns}/${counter.action.incrementIfOdd}`),
     };
   },
 });

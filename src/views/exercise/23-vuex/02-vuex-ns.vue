@@ -4,19 +4,23 @@
       <ul>
         <li>
           <span>顶级theStore.state包含各子模块state:</span>
-          <span>{{ theStore.state }}</span>
+          <pre>{{ theStore.state }}</pre>
         </li>
         <li>
-          <span>moduleA的state:</span>
-          <span>{{ theStore.state.ModA }}</span>
+          <span>第一级子级moduleA的state:</span>
+          <pre>{{ theStore.state.modA }}</pre>
         </li>
         <li>
-          <span>moduleB的state:</span>
-          <span>{{ theStore.state.ModB }}</span>
+          <span>第一级子级moduleB的state,他还包括他的下级modC:</span>
+          <pre>{{ theStore.state.modB }}</pre>
         </li>
         <li>
-          <span>moduleC的state:</span>
-          <span>{{ theStore.state.ModB.ModC }}</span>
+          <span>第一级子级moduleC的state:</span>
+          <pre>{{ theStore.state.modC }}</pre>
+        </li>
+        <li>
+          <span>moduleC还同时作为ModB的子级的state:</span>
+          <pre>{{ theStore.state.modB.modC }}</pre>
         </li>
       </ul>
     </accordion-item>
@@ -33,14 +37,14 @@
         </li>
         <li>
           <span class="active" @click="rootGetterDemo"
-            >模块的顶级(根节点)getter调用方式:this.theStore.getters.examGetRoot</span
+            >模块的顶级(根节点)getter调用方式:theStore.getters.examGetRoot</span
           >
           <span>备注:对于顶级(根节点),局部即为根节点</span>
         </li>
         <li>
           <span class="active" @click="modAGetterDemo"
             >模块A由于是注册在全局命名空间,故getter调用方式:
-            this.theStore.getters.examGetA</span
+            theStore.getters.examGetA</span
           >
           <span
             >备注:对于注册在全局命名空间的模块,state分局部和根部,节点则共用为根节点,所以,
@@ -50,7 +54,7 @@
         <li>
           <span class="active" @click="modBGetterDemo"
             >模块B由于是注册在局部命名空间,故getter调用方式:
-            this.theStore.getters["ModB/examGetB"]</span
+            theStore.getters["modB/examGetB"]</span
           >
           <span
             >备注:对于注册在局部命名空间的模块,state分局部和根部,节点也分局部节点和根节点,所以,
@@ -60,11 +64,11 @@
         <li>
           <span class="active" @click="modCGetterDemo"
             >模块C又是模块B的局部命名空间模块.故getter调用方式:
-            this.theStore.getters["ModB/ModC/examGetC"]</span
+            theStore.getters["modB/modC/examGetC"]</span
           >
           <span
-            >备注:局部命名空间的模块,state和根对象均分局部和根,节点则共用为根节点,所以,
-            0 2 不同,且 1 3 也不同
+            >备注:局部命名空间的模块,state和根对象均分局部和根,节点则共用为根节点,所以, 0
+            2 不同,且 1 3 也不同
           </span>
         </li>
       </ul>
@@ -98,16 +102,12 @@
           <span>备注:对于根节点,局部state就是根state</span>
         </li>
         <li>
-          <span
-            class="active"
-            @click="theStore.commit('examMutaA', { say: 'hello A' })"
+          <span class="active" @click="theStore.commit('examMutaA', { say: 'hello A' })"
             >模块A(全局注册)mutation的载荷风格的commit方式:this.theStore.commit('examMutaModA',{})</span
           >
           <span
             class="active"
-            @click="
-              theStore.commit({ type: 'examMutaA', ...{ say: 'hello A' } })
-            "
+            @click="theStore.commit({ type: 'examMutaA', ...{ say: 'hello A' } })"
             >模块A(全局注册)mutation的对象风格的commit方式:this.theStore.commit({type:'examMutaModA',...{}})</span
           >
           <span>备注:局部state和附加参数</span>
@@ -115,41 +115,37 @@
         <li>
           <span
             class="active"
-            @click="theStore.commit('ModB/examMutaB', { say: 'hello B' })"
-            >模块B(局部注册)mutation的载荷风格commit方式:this.theStore.commit('ModB/examMutaB',{})</span
+            @click="theStore.commit('modB/examMutaB', { say: 'hello B' })"
+            >模块B(局部注册)mutation的载荷风格commit方式:this.theStore.commit('modB/examMutaB',{})</span
           >
           <span
             class="active"
-            @click="
-              theStore.commit({ type: 'ModB/examMutaB', ...{ say: 'hello B' } })
-            "
-            >模块B(局部注册)mutation的对象风格commit方式:this.theStore.commit({type:'ModB/examMutaB',...{}})</span
+            @click="theStore.commit({ type: 'modB/examMutaB', ...{ say: 'hello B' } })"
+            >模块B(局部注册)mutation的对象风格commit方式:this.theStore.commit({type:'modB/examMutaB',...{}})</span
           >
           <span>备注:局部state和附加参数</span>
         </li>
         <li>
           <span
             class="active"
-            @click="theStore.commit('ModB/ModC/examMutaC', { say: 'hello C' })"
-            >模块C(局部注册于模块B)mutation的载荷风格的commit方式:this.theStore.commit('ModB/ModC/examMutaC',{})</span
+            @click="theStore.commit('modB/modC/examMutaC', { say: 'hello C' })"
+            >模块C(局部注册于模块B)mutation的载荷风格的commit方式:this.theStore.commit('modB/modC/examMutaC',{})</span
           >
           <span
             class="active"
             @click="
               theStore.commit({
-                type: 'ModB/ModC/examMutaC',
+                type: 'modB/modC/examMutaC',
                 ...{ say: 'hello C' },
               })
             "
-            >模块C(局部注册于模块B)mutation的对象风格的commit方式:this.theStore.commit({type:'ModB/ModC/examMutaC',...{}})</span
+            >模块C(局部注册于模块B)mutation的对象风格的commit方式:this.theStore.commit({type:'modB/modC/examMutaC',...{}})</span
           >
           <span>备注:局部state和附加参数</span>
         </li>
       </ul>
     </accordion-item>
-    <accordion-item
-      caption="action的参数,请查看控制台输出.注意内部commit对应的mutation"
-    >
+    <accordion-item caption="action的参数,请查看控制台输出.注意内部commit对应的mutation">
       <ul>
         <li>
           <span>结论,参数如下:</span>
@@ -171,37 +167,37 @@
         </li>
         <li>
           <span class="active" @click="rootActDemo1">
-            根节点处的action的dispatch方式,使用载荷风格:this.theStore.dispatch('examActRoot',{ExamPayload对象})</span
+            根节点处的action的dispatch方式,使用载荷风格:this.theStore.dispatch('examActRoot',{ExamExamPayload对象})</span
           >
           <span class="active" @click="rootActDemo2">
-            根节点处的action的dispatch方式,使用对象风格:this.theStore.dispatch({type:'examActRoot',...{ExamPayload对象})</span
+            根节点处的action的dispatch方式,使用对象风格:this.theStore.dispatch({type:'examActRoot',...{ExamExamPayload对象})</span
           >
           <span>备注:当前层级即根级</span>
         </li>
         <li>
           <span class="active" @click="ModAActDemo1">
-            模块A的action的dispatch方式,使用载荷风格:this.theStore.dispatch('examActA',{ExamPayload对象})</span
+            模块A的action的dispatch方式,使用载荷风格:this.theStore.dispatch('examActA',{ExamExamPayload对象})</span
           >
           <span class="active" @click="ModAActDemo2">
-            模块A的action的dispatch方式,使用对象风格:this.theStore.dispatch({type:'examActA',...{ExamPayload对象})</span
+            模块A的action的dispatch方式,使用对象风格:this.theStore.dispatch({type:'examActA',...{ExamExamPayload对象})</span
           >
           <span>备注:模块A注册为全局命名空间</span>
         </li>
         <li>
           <span class="active" @click="ModBActDemo1">
-            模块B的action的dispatch方式,使用载荷风格:this.theStore.dispatch('ModB/examActB',{ExamPayload对象})</span
+            模块B的action的dispatch方式,使用载荷风格:this.theStore.dispatch('modB/examActB',{ExamExamPayload对象})</span
           >
           <span class="active" @click="ModBActDemo2">
-            模块B的action的dispatch方式,使用对象风格:this.theStore.dispatch({type:'ModB/examActB',...{ExamPayload对象})</span
+            模块B的action的dispatch方式,使用对象风格:this.theStore.dispatch({type:'modB/examActB',...{ExamExamPayload对象})</span
           >
           <span>备注:模块B注册为局部命名空间</span>
         </li>
         <li>
           <span class="active" @click="ModCActDemo1">
-            模块C的action的dispatch方式,使用载荷风格:this.theStore.dispatch('ModB/ModC/examActC',{ExamPayload对象})</span
+            模块C的action的dispatch方式,使用载荷风格:this.theStore.dispatch('modB/modC/examActC',{ExamExamPayload对象})</span
           >
           <span class="active" @click="ModCActDemo2">
-            模块C的action的dispatch方式,使用对象风格:this.theStore.dispatch({type:'ModB/ModC/examActC',...{ExamPayload对象})</span
+            模块C的action的dispatch方式,使用对象风格:this.theStore.dispatch({type:'modB/modC/examActC',...{ExamExamPayload对象})</span
           >
           <span>备注:模块C在模块B内部,注册为局部命名空间</span>
         </li>
@@ -213,9 +209,7 @@
           <span>
             结论:(注意如果在action内commit mutation,原理以此相同)
             <ol>
-              <li>
-                客户端调用:以完整名字区分action,多个重名action则从根部依次调用
-              </li>
+              <li>客户端调用:以完整名字区分action,多个重名action则从根部依次调用</li>
               <li>
                 根模块或全局模块的内部调用:不论DispatchOptions的root如何设置,重名action仍然从根部依次调用
               </li>
@@ -274,7 +268,7 @@
             class="active"
             @click="
               theStore.dispatch({
-                type: 'ModB/ModC/anotherAct1',
+                type: 'modB/modC/anotherAct1',
                 saying: 'no-use-words',
               })
             "
@@ -287,7 +281,7 @@
             class="active"
             @click="
               theStore.dispatch({
-                type: 'ModB/ModC/anotherAct2',
+                type: 'modB/modC/anotherAct2',
                 saying: 'no-use-words',
                 //    nextCallRoot: true,
               })
@@ -301,8 +295,7 @@
     <accordion-item caption="在带命名空间的模块注册全局action">
       <ul>
         <li>
-          在带命名空间的模块(局部模块)注册全局
-          action,将action的定义,从方法,变成对象
+          在带命名空间的模块(局部模块)注册全局 action,将action的定义,从方法,变成对象
         </li>
         <li>
           <span class="active" @click="globalActionOnLocalDemo"
@@ -316,16 +309,19 @@
         <li>
           <span>自定义名称的繁琐的写法,</span>
           <ol>
-            <li>state.ModB.ModC.name:{{ authorNameWordy }}</li>
-            <li>state.ModB.ModC.country:{{ authorCountryWordy }}</li>
-            <li>state.ModB.ModC.books:{{ authorBooksWordy }}</li>
+            <li>state.modB.modC.name:{{ authorNameWordy }}</li>
+            <li>state.modB.modC.country:{{ authorCountryWordy }}</li>
+            <li>
+              state.modB.modC.books:
+              <pre>{{ authorBooksWordy }}</pre>
+            </li>
           </ol>
           <span>同名映射的繁琐写法</span>
           <ol>
             <li>
               <span>对于模块内的state(不论全局还是局部),不起作用:</span>
               <span class="active" @click="sameNameModuleMappedStateDemo">
-                this["ModB/ModC/name"],this["ModB/ModC/country"],this["ModB/ModC/books"]:
+                this["modB/modC/name"],this["modB/modC/country"],this["modB/modC/books"]:
                 均返回undefined.当然如果使用上下文绑定,也可正确返回.但同名会覆盖
               </span>
             </li>
@@ -342,7 +338,10 @@
           <ol>
             <li>state.name:{{ authorNameSimple }}</li>
             <li>state.coutry:{{ authorCoutrySimple }}</li>
-            <li>state.books:{{ authorBooksSimple }}</li>
+            <li>
+              state.books:
+              <pre>{{ authorBooksSimple }}</pre>
+            </li>
           </ol>
         </li>
       </ul>
@@ -354,7 +353,7 @@
           <span>对于根级和各级模块(全局或局部的):</span>
           <span class="active" @click="sameNameMappedGetterDemo">
             this.examGetRoot,this.examGetA,
-            this["ModB/examGetB"],this["ModB/ModC/examGetC"],
+            this["modB/examGetB"],this["modB/modC/examGetC"],
             及简化的this.examGetB,this.examGetC 均有效
           </span>
         </li>
@@ -376,7 +375,7 @@
           <span>对于根级和各级模块(全局或局部的):</span>
           <span class="active" @click="sameNameMappedMutationDemo">
             this.examMutaRoot,this.examMutaA,
-            this["ModB/examMutaB"],this["ModB/ModC/examMutaC"],
+            this["modB/examMutaB"],this["modB/modC/examMutaC"],
             及简化的this.examMutaB,this.examMutaC 均有效
           </span>
         </li>
@@ -398,7 +397,7 @@
           <span>对于根级和各级模块(全局或局部的):</span>
           <span class="active" @click="sameNameMappedActionDemo">
             this.examActRoot,this.examActA,this.globalActionOnModC
-            this["ModB/examActB"],this["ModB/ModC/examActC"],
+            this["modB/examActB"],this["modB/modC/examActC"],
             及简化的this.examActB,this.examActC 均有效
           </span>
         </li>
@@ -424,10 +423,7 @@
         </li>
       </ul>
     </accordion-item>
-    <accordion-item
-      caption="测试动态管理模块,注意,无法卸载静态模块.(以后用到再说)"
-      show
-    >
+    <accordion-item caption="测试动态管理模块,注意,无法卸载静态模块.(以后用到再说)" show>
       <ul>
         <li>
           <a
@@ -437,18 +433,10 @@
           </a>
         </li>
         <li>
-          <input
-            type="button"
-            value="注册不保留过去state"
-            @click="registerModule1"
-          />
+          <input type="button" value="注册不保留过去state" @click="registerModule1" />
         </li>
         <li>
-          <input
-            type="button"
-            value="注册并保留过去state"
-            @click="registerModule2"
-          />
+          <input type="button" value="注册并保留过去state" @click="registerModule2" />
         </li>
         <li><input type="button" value="卸载" @click="unregModule" /></li>
       </ul>
@@ -472,11 +460,16 @@ import {
   mapGetters,
   mapMutations,
   mapActions,
-  ModuleTree,
   DispatchOptions,
   createNamespacedHelpers,
 } from "vuex";
-const mapHelper = createNamespacedHelpers("ModB/ModC");
+import { Guoshi } from "@/common/type/guoshi";
+import { print } from "@/common/mixins/func";
+import { studentAsTopstoreKey } from "@/store/setup";
+const debug = true;
+
+const mapHelper = createNamespacedHelpers("modB/modC");
+
 export default defineComponent({
   components: {},
   data() {
@@ -486,10 +479,10 @@ export default defineComponent({
   },
   setup() {
     // to use unique key to access store,注意与main.ts的use(store,..)对应
-    //const theStore = useStore(Symbol.for("hey"));
-    const theStore = useStore();
+    const theStore = useStore(studentAsTopstoreKey);
+    print(debug, "store is here:", theStore);
     onMounted(() => {
-      //console.log("...............", theStore);
+      //print(debug,"...............", theStore);
     });
     return {
       theStore,
@@ -498,34 +491,29 @@ export default defineComponent({
   computed: {
     //any结合tsconfig.json的"noImplicitAny": false可消除错误提示的红色波浪线
     ...mapState(["name", "age"]), //仅对根级state有效
-    ...mapState(["ModB/ModC/name", "ModB/ModC/country", "ModB/ModC/books"]), //或者使用 . 均对模块state无效
-    ...mapState("ModB/ModC", ["name", "country", "books"]), //这样也可以,但同名会发生覆盖
+    ...mapState(["modB/modC/name", "modB/modC/country", "modB/modC/books"]), //或者使用 . 均对模块state无效
+    ...mapState("modB/modC", ["name", "country", "books"]), //这样也可以,但同名会发生覆盖
     ...mapState({
       //繁琐写法
-      authorNameWordy: (state: any) => state.ModB.ModC.name,
-      authorCountryWordy: (state: any) => state.ModB.ModC.country,
-      authorBooksWordy: (state: any) => state.ModB.ModC.books,
+      authorNameWordy: (state: any) => state.modB.modC.name,
+      authorCountryWordy: (state: any) => state.modB.modC.country,
+      authorBooksWordy: (state: any) => state.modB.modC.books,
     }),
-    ...mapState("ModB/ModC", {
+    ...mapState("modB/modC", {
       //简便写法,但层次越深时越有效
       authorNameSimple: (state: any) => state.name,
       authorCoutrySimple: (state: any) => Guoshi.Enums.Country[state.country], //得到枚举字符串
       authorBooksSimple: (state: any) => state.books,
     }),
 
-    ...mapGetters([
-      "examGetRoot",
-      "examGetA",
-      "ModB/examGetB",
-      "ModB/ModC/examGetC",
-    ]), //均有效
-    ...mapGetters("ModB", ["examGetB"]),
-    ...mapGetters("ModB/ModC", ["examGetC"]), //上下文绑定,均可能发生同名覆盖
+    ...mapGetters(["examGetRoot", "examGetA", "modB/examGetB", "modB/modC/examGetC"]), //均有效
+    ...mapGetters("modB", ["examGetB"]),
+    ...mapGetters("modB/modC", ["examGetC"]), //上下文绑定,均可能发生同名覆盖
     ...mapGetters({
       egr: "examGetRoot",
       ega: "examGetA",
-      egb: "ModB/examGetB",
-      egc: "ModB/ModC/examGetC",
+      egb: "modB/examGetB",
+      egc: "modB/modC/examGetC",
     }),
 
     //使用绑定到ModC模块的mapState和mapGetters方法:
@@ -540,57 +528,61 @@ export default defineComponent({
   },
   methods: {
     test() {
-      //console.log("this.$store == this.store", this.$store == this.theStore); //true
-      //console.log(mapHelper);
+      //print(debug,"this.$store == this.store", this.$store == this.theStore); //true
+      //print(debug,mapHelper);
     },
     rootGetterDemo() {
       const obj = this.theStore.getters.examGetRoot;
       console.clear();
-      console.log("顶级getter参数查看:", obj.args);
-      console.log(
+      print(debug, "顶级getter参数查看:", obj.args);
+      print(
+        debug,
         `[0]==[2]:${obj.args[0] == obj.args[2]}`,
         `[1]=[3]:${obj.args[1] == obj.args[3]}`
       ); //true,true
-      console.log("[0]:", obj.args[0]);
-      console.log("[1]:", obj.args[1]);
+      print(debug, "[0]:", obj.args[0]);
+      print(debug, "[1]:", obj.args[1]);
     },
     modAGetterDemo() {
       const obj = this.theStore.getters.examGetA;
       console.clear();
-      console.log("模块A的getter参数查看:", obj.args);
-      console.log(
+      print(debug, "模块A的getter参数查看:", obj.args);
+      print(
+        debug,
         `[0]==[2]:${obj.args[0] == obj.args[2]}`, //false
         `[1]=[3]:${obj.args[1] == obj.args[3]}` //true
       );
-      console.log("[0]:", obj.args[0]);
-      console.log("[1]:", obj.args[1]);
-      console.log("[2]:", obj.args[2]);
+      print(debug, "[0]:", obj.args[0]);
+      print(debug, "[1]:", obj.args[1]);
+      print(debug, "[2]:", obj.args[2]);
     },
     modBGetterDemo() {
-      const obj = this.theStore.getters["ModB/examGetB"];
+      const obj = this.theStore.getters["modB/examGetB"];
       console.clear();
-      console.log("模块B的getter参数查看:", obj.args);
-      console.log(
+      print(debug, "模块B的getter参数查看:", obj.args);
+      print(
+        debug,
         `[0]==[2]:${obj.args[0] == obj.args[2]}`, //false
         `[1]=[3]:${obj.args[1] == obj.args[3]}` //false
       );
-      console.log("[0]:", obj.args[0]);
-      console.log("[1]:", obj.args[1]);
-      console.log("[2]:", obj.args[2]);
-      console.log("[3]:", obj.args[3]);
+      print(debug, "[0]:", obj.args[0]);
+      print(debug, "[1]:", obj.args[1]);
+      print(debug, "[2]:", obj.args[2]);
+      print(debug, "[3]:", obj.args[3]);
     },
     modCGetterDemo() {
-      const obj = this.theStore.getters["ModB/ModC/examGetC"];
+      const obj = this.theStore.getters["modB/modC/examGetC"];
       console.clear();
-      console.log("模块C的getter参数查看:", obj.args);
-      console.log(
+      print(debug, "模块C的getter参数查看:", obj.args);
+      print(
+        debug,
         `[0]==[2]:${obj.args[0] == obj.args[2]}`, //false
         `[1]=[3]:${obj.args[1] == obj.args[3]}` //false
       );
-      console.log("[0]:", obj.args[0]);
-      console.log("[1]:", obj.args[1]);
-      console.log("[2]:", obj.args[2]);
-      console.log("[3]:", obj.args[3]);
+      print(debug, "[0]:", obj.args[0]);
+      print(debug, "[1]:", obj.args[1]);
+      print(debug, "[2]:", obj.args[2]);
+      print(debug, "[3]:", obj.args[3]);
     },
 
     //根级载荷风格调用Action
@@ -600,7 +592,7 @@ export default defineComponent({
         saying: "using payload style,from root action.",
       };
       const response = await this.theStore.dispatch("examActRoot", payload);
-      console.log("rootActDemo payload style Promise resolve:", response);
+      print(debug, "rootActDemo payload style Promise resolve:", response);
     },
 
     //根级对象风格调用Action
@@ -613,7 +605,7 @@ export default defineComponent({
         type: "examActRoot",
         ...payload,
       });
-      console.log("rootActDemo object style Promise resolve:", response);
+      print(debug, "rootActDemo object style Promise resolve:", response);
     },
 
     //模块A载荷风格调用Action
@@ -623,7 +615,7 @@ export default defineComponent({
         saying: "using payload style,from module A action.",
       };
       const response = await this.theStore.dispatch("examActA", payload);
-      console.log("ModAActDemo payload style Promise resolve:", response);
+      print(debug, "ModAActDemo payload style Promise resolve:", response);
     },
 
     //模块A对象风格调用Action
@@ -636,7 +628,7 @@ export default defineComponent({
         type: "examActA",
         ...payload,
       });
-      console.log("ModAActDemo object style Promise resolve:", response);
+      print(debug, "ModAActDemo object style Promise resolve:", response);
     },
 
     //模块B载荷风格调用Action
@@ -645,8 +637,8 @@ export default defineComponent({
         msDelay: 1000,
         saying: "using payload style,from module B action.",
       };
-      const response = await this.theStore.dispatch("ModB/examActB", payload);
-      console.log("ModBActDemo payload style Promise resolve:", response);
+      const response = await this.theStore.dispatch("modB/examActB", payload);
+      print(debug, "ModBActDemo payload style Promise resolve:", response);
     },
 
     //模块B对象风格调用Action
@@ -656,10 +648,10 @@ export default defineComponent({
         saying: "using object style,from module B action.",
       };
       const response = await this.theStore.dispatch({
-        type: "ModB/examActB",
+        type: "modB/examActB",
         ...payload,
       });
-      console.log("ModBActDemo object style Promise resolve:", response);
+      print(debug, "ModBActDemo object style Promise resolve:", response);
     },
 
     //模块C载荷风格调用Action
@@ -668,11 +660,8 @@ export default defineComponent({
         msDelay: 1000,
         saying: "using payload style,from module C action.",
       };
-      const response = await this.theStore.dispatch(
-        "ModB/ModC/examActC",
-        payload
-      );
-      console.log("ModCActDemo payload style Promise resolve:", response);
+      const response = await this.theStore.dispatch("modB/modC/examActC", payload);
+      print(debug, "ModCActDemo payload style Promise resolve:", response);
     },
 
     //模块C对象风格调用Action
@@ -682,10 +671,10 @@ export default defineComponent({
         saying: "using object style,from module C action.",
       };
       const response = await this.theStore.dispatch({
-        type: "ModB/ModC/examActC",
+        type: "modB/modC/examActC",
         ...payload,
       });
-      console.log("ModCActDemo object style Promise resolve:", response);
+      print(debug, "ModCActDemo object style Promise resolve:", response);
     },
 
     //局部模块C的action globalActionOnModC调用
@@ -701,40 +690,40 @@ export default defineComponent({
           root: true,
         } as DispatchOptions //这个参数,在客户端(非模块内部)使用,仍然被忽略
       );
-      console.log(response);
+      print(debug, response);
     },
 
     //mutation映射
     ...mapMutations([
       "examMutaRoot",
       "examMutaA",
-      "ModB/examMutaB",
-      "ModB/ModC/examMutaC",
+      "modB/examMutaB",
+      "modB/modC/examMutaC",
     ]),
-    ...mapMutations("ModB", ["examMutaB"]),
-    ...mapMutations("ModB/ModC", ["examMutaC"]),
+    ...mapMutations("modB", ["examMutaB"]),
+    ...mapMutations("modB/modC", ["examMutaC"]),
     ...mapMutations({
       emr: "examMutaRoot",
       ema: "examMutaA",
-      emb: "ModB/examMutaB",
-      emc: "ModB/ModC/examMutaC",
+      emb: "modB/examMutaB",
+      emc: "modB/modC/examMutaC",
     }),
 
     //action映射
     ...mapActions([
       "examActRoot",
       "examActA",
-      "ModB/examActB",
-      "ModB/ModC/examActC",
+      "modB/examActB",
+      "modB/modC/examActC",
       "globalActionOnModC",
     ]),
-    ...mapActions("ModB", ["examActB"]),
-    ...mapActions("ModB/ModC", ["examActC"]),
+    ...mapActions("modB", ["examActB"]),
+    ...mapActions("modB/modC", ["examActC"]),
     ...mapActions({
       ear: "examActRoot",
       eaa: "examActA",
-      eab: "ModB/examActB",
-      eac: "ModB/ModC/examActC",
+      eab: "modB/examActB",
+      eac: "modB/modC/examActC",
       globalaoc: "globalActionOnModC",
     }),
 
@@ -750,24 +739,25 @@ export default defineComponent({
     //测试使用同名映射state
     sameNameModuleMappedStateDemo() {
       console.clear();
-      console.log(this["ModB/ModC/name"]); //undefined
+      print(debug, this["modB/modC/name"]); //undefined
     },
     //测试使用变名映射state
     sameNameRootMappedStateDemo() {
       console.clear();
-      console.log(this.name); //ok,可能发生同名覆盖
-      console.log(Guoshi.Enums.Country[this.country]);
-      console.log(this.books);
+      print(debug, this.name); //ok,可能发生同名覆盖
+      print(debug, Guoshi.Enums.Country[this.country]);
+      print(debug, this.books);
     },
 
     //测试使用同名映射getter
     sameNameMappedGetterDemo() {
       console.clear();
-      console.log(
+      print(
+        debug,
         this.examGetRoot,
         this.examGetA,
-        this["ModB/examGetB"],
-        this["ModB/ModC/examGetC"],
+        this["modB/examGetB"],
+        this["modB/modC/examGetC"],
         this.examGetB,
         this.examGetC
       );
@@ -775,7 +765,7 @@ export default defineComponent({
     //测试使用变名映射Getter
     newNameMappedGetterDemo() {
       console.clear();
-      console.log(this.egr, this.ega, this.egb, this.egc);
+      print(debug, this.egr, this.ega, this.egb, this.egc);
     },
 
     //测试使用同名映射Mutation
@@ -783,8 +773,8 @@ export default defineComponent({
       console.clear();
       this.examMutaRoot();
       this.examMutaA();
-      this["ModB/examMutaB"]();
-      this["ModB/ModC/examMutaC"]();
+      this["modB/examMutaB"]();
+      this["modB/modC/examMutaC"]();
       this.examMutaB();
       this.examMutaC();
     },
@@ -803,8 +793,8 @@ export default defineComponent({
       console.clear();
       await this.examActRoot(pl);
       await this.examActA(pl);
-      await this["ModB/examActB"](pl);
-      await this["ModB/ModC/examActC"](pl);
+      await this["modB/examActB"](pl);
+      await this["modB/modC/examActC"](pl);
       await this.examActB(pl);
       await this.examActC(pl);
       await this.globalActionOnModC(pl);
@@ -822,10 +812,10 @@ export default defineComponent({
 
     //测试使用定制的map<...>工具,得到的state,getter,mutation,action的映射计算属性,方法
     async customMapByModuleDemo() {
-      console.log(this.chName, this.chCountry, this.chBooks, this.chegc); //三个state字段,一个getter
+      print(debug, this.chName, this.chCountry, this.chBooks, this.chegc); //三个state字段,一个getter
       this.chemc("hello one c"); //mutation
       await this.cheac({ msDelay: 1000 });
-      //  await this.chglbac({ msDelay: 2000 });  //滞留映射,无效
+      //await this.chglbac({ msDelay: 2000 }); //滞留映射,无效
     },
 
     //测试动态管理模块:

@@ -9,7 +9,7 @@
     <p>overlapObj:{{ overlap }}</p>
     <input
       type="button"
-      value="由于注入的变量,无法使用先导this指针,故无法修改,即注入量为只读"
+      value="由于注入的变量,当@ts-ignore后,方可使用先导this指针,修改可以直达源头数据"
       @click="modify"
     />
   </div>
@@ -35,18 +35,25 @@ export default defineComponent({
   inject: ["user", "count", "age", "visitors"],
   //无法使用this.<inject量>
   mounted() {
-    console.log(
+    //@ts-ignore
+    print(debug,
       "injected property in fourth-layer:",
-      //this.user,
-      //this.count
-      //this.age
-      //this.visitors
+      //@ts-ignore
+      this.user,
+      //@ts-ignore
+      this.count,
+      //@ts-ignore
+      this.age,
+      //@ts-ignore
+      this.visitors,
       this
+      //结论,各变量已经成功注入,但是ts语法检测错误,故只有将其忽略
     );
   },
   methods: {
     modify() {
-      //.visitors.push("hey");
+      //@ts-ignore
+      this.visitors.push("hey");
     },
   },
 });

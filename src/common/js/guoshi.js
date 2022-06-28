@@ -19,10 +19,10 @@
                 let nums = [2e+2, 3e-3, '2e+2', '3e-3','58.',9.];
                 let bits = nums.map(v => guoshi.decimalBits(v));
      
-                console.log(nums, bits);
+                print(debug,nums, bits);
                 let nums = [1.234500032, -2.1298933];
                 let fs = nums.map(v => v.toFixed(3));
-                console.log(nums, fs);
+                print(debug,nums, fs);
              * */
         let n = Number(num) || 0; //为NaN时，为0
         let s = n.toString();
@@ -56,9 +56,9 @@
             let prevtgt = obj[Symbol.for("prev_" + f)] || obj[f]; //obj[Symbol.for('prev_' + f)]保存上次目标值
             let curtgt = fields[f]; //当前值,目标值
             let dbs = decimalBits(curtgt); //采用目标值的小数位数作为递增值的小数位数
-            //console.log(`prev target:${prevtgt},current target:${curtgt}`);
+            //print(debug,`prev target:${prevtgt},current target:${curtgt}`);
             let part = Number(((curtgt - prevtgt) / times).toFixed(dbs)); //每次递增的数值
-            //console.log(`part is ${part}`);
+            //print(debug,`part is ${part}`);
             obj[Symbol.for("prev_" + f)] = curtgt; //更新上次目标值，以便在递增完成前发生点击，得到准确的上次目标值
             for (let i = 1; i < times; i++) {
                 //递增
@@ -84,7 +84,7 @@
     };
 
     const innerByTarget = function (rootEle) {
-        //console.log('rootEle..........', rootEle)
+        //print(debug,'rootEle..........', rootEle)
         const re = rootEle || document;
         const links = re.getElementsByTagName("a");
         [].forEach.call(links, (link) => {
@@ -130,17 +130,17 @@
 usage:以调用innerByTarget为例
     1. 使用require方式，即require即用
         const funcs = require("@/common/js/guoshi.js").guoshi;  //
-        console.log(".........", funcs);
+        print(debug,".........", funcs);
         funcs.innerByTarget(rootEle);
     2. 使用脚本顶部 import 指令的方式 
       顶部：
         import { guoshi as funcs } from "@/common/js/guoshi.js";
       调用：
-        //console.log("..............", funcs);
+        //print(debug,"..............", funcs);
         funcs.innerByTarget(root.value);        
     3. 使用import()方法，异步调用：
         const objGuoshi = await import("@/common/js/guoshi.js");
-        //console.log("................", objGuoshi);
+        //print(debug,"................", objGuoshi);
         objGuoshi.guoshi.innerByTarget(root.value);
 
 */

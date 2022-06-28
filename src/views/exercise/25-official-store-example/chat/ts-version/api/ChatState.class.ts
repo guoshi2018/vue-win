@@ -19,7 +19,7 @@ export default class {
 	/**
 	 * 设置指定的线程对象或者线程id为当前值, 如果指定的线程不在范围内, 则忽略
 	 */
-	public setCurrentThread(value: ChatThread | string) {
+	public setCurrentThread(value: ChatThread | string): void {
 		if (typeof value == "string") {
 			const th = this._getThreadById(value);
 			if (th && this.threads.includes(th)) {
@@ -32,7 +32,6 @@ export default class {
 				value.isRead = true;
 			}
 		}
-
 	}
 	/**
 	 * 获取包含最新消息的线程
@@ -84,7 +83,7 @@ export default class {
 	 * 将给定的消息选项对象数组,保存为消息对象数组
 	 * @param messages 消息选项对象数组
 	 */
-	public saveAsMessages(msgOpts: ChatMessageOptions[]) {
+	public saveAsMessages(msgOpts: ChatMessageOptions[]): void {
 		msgOpts.forEach(msgOpt => {
 			this._createMessage(msgOpt);
 		})
@@ -94,14 +93,14 @@ export default class {
 	 * 将给定的消息选项对象,保存为消息对象
 	 * @param msgOpt 消息选项对象
 	 */
-	public saveAsMessage(msgOpt: ChatMessageOptions) {
+	public saveAsMessage(msgOpt: ChatMessageOptions): void {
 		this._createMessage(msgOpt);
 	}
 
 	/**
 	 * 清空数据
 	 */
-	public empty() {
+	public empty(): void {
 		this.threads.forEach(th => {
 			th.underMessages.length = 0;
 		});

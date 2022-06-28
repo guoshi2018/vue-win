@@ -18,41 +18,39 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent, computed } from "vue";
 import { useStore } from "vuex";
 import Thread from "./Thread.vue";
 import { js_chat } from "../../../const";
 import { stores } from "../../../store-helper";
+import { studentAsTopstoreKey } from "@/store/setup";
+import { print } from "@/common/mixins/func";
+const debug = true;
 
 export default defineComponent({
   name: "ThreadSection",
   components: { Thread },
   setup() {
-    const store = useStore();
+    const store = useStore(studentAsTopstoreKey);
     return {
       threads: computed(
         () => store.getters[`${stores.js_chat.ns}/${js_chat.getter.threads}`]
       ),
       currentThread: computed(
-        () =>
-          store.getters[`${stores.js_chat.ns}/${js_chat.getter.currentThread}`]
+        () => store.getters[`${stores.js_chat.ns}/${js_chat.getter.currentThread}`]
       ),
       unreadCount: computed(
-        () =>
-          store.getters[`${stores.js_chat.ns}/${js_chat.getter.unreadCount}`]
+        () => store.getters[`${stores.js_chat.ns}/${js_chat.getter.unreadCount}`]
       ),
-      switchThread: (id) =>
-        store.dispatch(
-          `${stores.js_chat.ns}/${js_chat.action.switchThread}`,
-          id
-        ),
+      switchThread: (id: string) =>
+        store.dispatch(`${stores.js_chat.ns}/${js_chat.action.switchThread}`, id),
     };
   },
   methods: {
     test() {
       console.clear();
-      console.log("....", this);
+      print(debug, "....", this);
     },
   },
   computed: {

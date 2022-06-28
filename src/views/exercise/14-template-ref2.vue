@@ -44,24 +44,23 @@
 </template>
 
 <script lang="ts">
-/* eslint-disable no-dupe-class-members, no-dupe-keys */
 import { defineComponent } from "vue";
-// import AccordionHull from "@/components/accordion/accordion-hull.vue"; // 子组件 @ is an alias to /src
-// import AccordionItem from "@/components/accordion/accordion-item.vue";
 import FirstModelRef from "@/components/14-template-ref2/first-model-ref.vue";
 import SecondModelRef from "@/components/14-template-ref2/second-model-ref.vue";
 import ThirdModelRef from "@/components/14-template-ref2/third-model-ref.vue";
 import FourthModelRef from "@/components/14-template-ref2/fourth-model-ref.vue";
 import FifthModelRef from "@/components/14-template-ref2/fifth-model-ref.vue";
+import { print } from "@/common/mixins/func";
+const debug = false;
 
 export default defineComponent({
   methods: {
     showAllRefs() {
       console.clear();
-      console.log("this.$refs:", this.$refs);
+      print(debug,"this.$refs:", this.$refs);
     },
     queryHtml(refName: any) {
-      console.log(refName.$refs);
+      print(debug,refName.$refs);
     },
   },
   computed: {},

@@ -19,7 +19,7 @@ export default defineComponent({
     };
   },
   created() {
-    //console.log(this.$attrs.modelModifiers, this.$attrs.modelValueModifiers, this.$attrs['model-valueModifiers']);
+    //print(debug,this.$attrs.modelModifiers, this.$attrs.modelValueModifiers, this.$attrs['model-valueModifiers']);
 
     if (
       (this.$attrs.modelModifiers as Record<string, any>)?.lazy || //v-model.lazy形式

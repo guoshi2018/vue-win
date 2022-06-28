@@ -3,17 +3,17 @@
 </comments>
 <template>
   <div class="test">
-    <h2>Hi,this is information of obj-user：</h2>
+    <h2>Hi,this is information of obj-user,without inner view：</h2>
     <ul>
       <li>
         <span>$route.params = {{ $route.params }}</span>
       </li>
       <li>
-        <span>$route.params.userId to property: userId --- {{ userInfo?.userId }}</span>
+        <span>$route.params.userId to props.userinfo's userId prop: userId --- {{ userInfo?.userId }}</span>
       </li>
       <li>
         <span
-          >$route.params.userName to property: userName --- {{ userInfo?.userName }}</span
+          >$route.params.userName to props.userinfo's userName prop: userName --- {{ userInfo?.userName }}</span
         >
       </li>
     </ul>

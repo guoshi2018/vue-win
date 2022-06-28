@@ -7,17 +7,11 @@
     >
     | <router-link to="/" title="首页">Home</router-link> |
     <router-link to="/about" title="关于我们">About</router-link> |
-    <router-link to="/weather" title=".net core web api 的简单测试"
-      >Weather</router-link
-    >
+    <router-link to="/weather" title=".net core web api 的简单测试">Weather</router-link>
     |
-    <router-link to="/exercise/intro" title="1.vue3的简单介绍"
-      >Introduce</router-link
-    >
+    <router-link to="/exercise/intro" title="1.vue3的简单介绍">Introduce</router-link>
     |
-    <router-link to="/exercise/model-syntax" title="2.模板语法"
-      >ModelSyntax</router-link
-    >
+    <router-link to="/exercise/model-syntax" title="2.模板语法">ModelSyntax</router-link>
     |
     <router-link to="/exercise/data-prop-method" title="3.Data Property和方法"
       >Data-Prop-Method</router-link
@@ -35,13 +29,9 @@
       >ConditionRender</router-link
     >
     |
-    <router-link to="/exercise/list-render" title="7.列表渲染"
-      >ListRender</router-link
-    >
+    <router-link to="/exercise/list-render" title="7.列表渲染">ListRender</router-link>
     |
-    <router-link to="/exercise/event-handle" title="8.事件处理"
-      >EventHanle</router-link
-    >
+    <router-link to="/exercise/event-handle" title="8.事件处理">EventHanle</router-link>
     |
     <router-link to="/exercise/form-input-bind" title="9.表单输入绑定"
       >FormInputBind</router-link
@@ -67,15 +57,11 @@
       >TemplateRef</router-link
     >
     |
-    <router-link
-      to="/exercise/template-ref2"
-      title="14.组合式API的Template Reference"
+    <router-link to="/exercise/template-ref2" title="14.组合式API的Template Reference"
       >TemplateRef2</router-link
     >
     |
-    <router-link to="/exercise/tran-anim" title="15.过渡&动画概述"
-      >TranAnmi</router-link
-    >
+    <router-link to="/exercise/tran-anim" title="15.过渡&动画概述">TranAnmi</router-link>
     |
     <router-link to="/exercise/enter-leave" title="16.进入过渡&离开過渡"
       >EnterLeave</router-link
@@ -110,10 +96,7 @@
       LiMu-User
     </router-link>
     |
-    <router-link
-      to="/exercise/users/208/Leifeng"
-      title="22-2)雷锋,观察watch响应"
-    >
+    <router-link to="/exercise/users/208/Leifeng" title="22-2)雷锋,观察watch响应">
       Leifeng-User
     </router-link>
     |
@@ -121,10 +104,7 @@
       Coding Navigator
     </router-link>
     |
-    <router-link
-      to="/exercise/multiple-view"
-      title="22-3.命名视图构成多视图布局"
-    >
+    <router-link to="/exercise/multiple-view" title="22-3.命名视图构成多视图布局">
       Multiple Views
     </router-link>
     |
@@ -132,10 +112,7 @@
       Redirect Path
     </router-link>
     |
-    <router-link
-      to="/exercise/route-params-to-props"
-      title="22-5.路由参数转为props"
-    >
+    <router-link to="/exercise/route-params-to-props" title="22-5.路由参数转为props">
       RouteParams2Props
     </router-link>
     |
@@ -143,8 +120,7 @@
       DynamicRoute
     </router-link>
     |
-    <router-link to="/exercise/vuex-intro" title="23-1.vuex简介">
-      Vuex-Intro </router-link
+    <router-link to="/exercise/vuex-intro" title="23-1.vuex简介"> Vuex-Intro </router-link
     >|
     <router-link to="/exercise/vuex-namespace" title="23-2.vuex使用命名空间">
       Vuex-Namespace </router-link
@@ -153,23 +129,27 @@
       Ts-Path </router-link
     >|
     <router-link
-      to="/exercise/official-classic-example"
-      title="25.官方实例入口为classic版本"
-    >
-      Official-Classic-Entry-Example </router-link
-    >|
-    <router-link
       to="/exercise/official-composite-example"
       title="25.官方实例入口为composite版本"
     >
-      Official-Composite-Entry-Example
-    </router-link>
+      Official-Composite-Entry-Example </router-link
+    >|
+    <router-link to="/exercise/test-plugin" title="26.自定义插件测试">
+      Test-Custom-Plugin </router-link
+    >|
+    <router-link to="/exercise/official-doc-sample" title="27.官方文档示例">
+      Official-Document-Sample </router-link
+    >|
   </nav>
   <!---->
   <router-view />
   <hr />
   <h4>路由参数的监听方式，参见app.vue和com-user.vue</h4>
   <data-loading></data-loading>
+  <!-- 这里是测试App.config的配置效果 -->
+  <guo-shi-mimitang style="color: red; backgound-color: blue"
+    >this is a custom element.{{ tempNumber }} ${tempStr}</guo-shi-mimitang
+  >
 </template>
 
 <style lang="scss">
@@ -239,7 +219,7 @@ export default defineComponent({
       () => this.$route.params,
       (toParams: any, previousParams: any) => {
         // 对路由变化做出响应...
-        // console.log(
+        // print(debug,
         //   "options API <app.vue> created() this.$watch route.params:",
         //   toParams,
         //   previousParams
@@ -284,5 +264,12 @@ export default defineComponent({
     //  RouterLink,
     //  RouterView,
   },
+  data() {
+    return {
+      tempNumber: 123,
+      tempStr: "hello,new delimiters",
+    };
+  },
+
 });
 </script>

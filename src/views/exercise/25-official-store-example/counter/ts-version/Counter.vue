@@ -13,10 +13,11 @@ import { computed, defineComponent } from "vue";
 import { useStore } from "vuex";
 import { counter } from "../../const";
 import { stores } from "../../store-helper";
+import { studentAsTopstoreKey } from "@/store/setup";
 
 export default defineComponent({
   setup() {
-    const store = useStore();
+    const store = useStore(studentAsTopstoreKey);
     return {
       currentCount: computed(
         (): number =>

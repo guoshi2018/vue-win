@@ -1,7 +1,5 @@
 <template>
-  <accordion-hull
-    header="Teleport,允许我们控制在 DOM 中哪个父节点下渲染了 HTML"
-  >
+  <accordion-hull header="Teleport,允许我们控制在 DOM 中哪个父节点下渲染了 HTML">
     <accordion-item caption="teleport技术">
       <dl>
         <dt>
@@ -17,7 +15,7 @@
             >不采用teleport技术的first-modal-dialog,模态框只能以最近的relative祖先定位</span
           >
           <div style="position: relative">
-            <h2>Tooltips without Vue3 teleport technoligy!</h2>
+            <h2>first Tooltips without Vue3 teleport technoligy!</h2>
             <div>
               <first-modal-dialog />
             </div>
@@ -28,9 +26,11 @@
             给first-modal-dialog的模态部分div加一层 &lt;teleport
             to='body'&gt;外套,即可实现全屏定位,
             与body为直接上级,而不用理会往上哪一级祖先具备position:relative.
+            在生成的html中, teleport标签的内容被置换为注释型的占位符, 其真正的子标签
+            被顺次append到body
           </span>
           <div style="position: relative">
-            <h2>Tooltips without Vue3 teleport technoligy!</h2>
+            <h2>second Tooltips with Vue3 teleport technoligy!</h2>
             <div>
               <second-modal-dialog />
             </div>
@@ -64,8 +64,7 @@
           </second-parent-com>
         </li>
         <li>
-          在同一目标上使用多个
-          teleport,如上所示,顺序将是一个简单的追加——稍后挂载将位于
+          在同一目标上使用多个 teleport,如上所示,顺序将是一个简单的追加——稍后挂载将位于
           目标元素中较早的挂载之后,而且与该teleport包裹内容当前是否显示无关
         </li>
       </ol>

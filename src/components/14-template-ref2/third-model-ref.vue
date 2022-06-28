@@ -24,6 +24,8 @@ import {
   ComponentPublicInstance,
   Ref,
 } from "vue";
+import { print } from "@/common/mixins/func";
+const debug = false;
 
 export default defineComponent({
   setup() {
@@ -41,7 +43,7 @@ export default defineComponent({
   },
   methods: {
     showDivs() {
-      console.log(this.divs);
+      print(debug,this.divs);
     },
   },
 });

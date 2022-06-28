@@ -8,33 +8,37 @@
 
 <script lang="tsx">
 import { ref, defineComponent, h, onMounted } from "vue";
+import { print } from "@/common/mixins/func";
+const debug = false;
 
 export default defineComponent({
   setup() {
     const t = ref("second"); //和上面的template的ref值无啥关系
 
     onMounted(function () {
-      console.log(
+      print(debug,
         "sorry,html is changed to :",
-        (t.value as unknown as HTMLElement).outerHTML
+        ((t.value as unknown) as HTMLElement).outerHTML
       );
     });
 
-    // return () => (
-    //   <div ref={t} style="color:blue;font-size:2.3em;">
-    //     <i>hello,jsx here</i>
-    //   </div>
-    // );
+    //ok
+    return () => (
+      <div ref={t} style="color:blue;font-size:2.3em;">
+        <i>hello,jsx here</i>
+      </div>
+    );
 
-    return () =>
-      h(
-        "div",
-        {
-          ref: t,
-          style: "color:red;font-size:4.2em;",
-        },
-        ["hello world", "----------", " hey"]
-      );
+    // or
+    // return () =>
+    //   h(
+    //     "div",
+    //     {
+    //       ref: t, //这不会添加到子组件的$refs里面. 也不能写成t.value
+    //       style: "color:red;font-size:2.3em;",
+    //     },
+    //     ["hello h method", "----------", " hey"]
+    //   );
   },
 });
 </script>

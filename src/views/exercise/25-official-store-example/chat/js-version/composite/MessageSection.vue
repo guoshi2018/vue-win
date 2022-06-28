@@ -13,36 +13,36 @@
   </div>
 </template>
 
-<script>
-import { ref, computed, watch, nextTick, defineComponent } from "vue";
+<script lang="ts">
+import { ref, Ref, computed, watch, nextTick, defineComponent } from "vue";
 import { useStore, createNamespacedHelpers } from "vuex";
 import Message from "./Message.vue";
 import { js_chat } from "../../../const";
 import { stores } from "../../../store-helper";
+import { studentAsTopstoreKey } from "@/store/setup";
+
 
 export default defineComponent({
   name: "MessageSection",
   components: { Message },
   setup() {
-    const list = ref(null);
+    const list = ref() as Ref<HTMLUListElement>;
 
-    const store = useStore();
+    const store = useStore(studentAsTopstoreKey);
 
     const text = ref("");
 
     const thread = computed(
-      () =>
-        store.getters[`${stores.js_chat.ns}/${js_chat.getter.currentThread}`]
+      () => store.getters[`${stores.js_chat.ns}/${js_chat.getter.currentThread}`]
     );
     const messages = computed(
-      () =>
-        store.getters[`${stores.js_chat.ns}/${js_chat.getter.currentMessages}`]
+      () => store.getters[`${stores.js_chat.ns}/${js_chat.getter.currentMessages}`]
     );
-    const submitMessage = (payload) =>
-      store.dispatch(
-        `${stores.js_chat.ns}/${js_chat.action.sendMessage}`,
-        payload
-      );
+    const submitMessage = (payload: {
+      text: string,
+      thread:Object,
+    }) =>
+      store.dispatch(`${stores.js_chat.ns}/${js_chat.action.sendMessage}`, payload);
     watch(
       () => thread.value.lastMessage,
       () => {
@@ -60,7 +60,7 @@ export default defineComponent({
           text: trimedText,
           thread: thread.value,
         });
-        this.text = "";
+        text.value = "";
       }
     }
 

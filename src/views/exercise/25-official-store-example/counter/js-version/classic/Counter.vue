@@ -8,7 +8,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { createNamespacedHelpers } from "vuex";
 import { counter } from "../../../const";
 import { stores } from "../../../store-helper";

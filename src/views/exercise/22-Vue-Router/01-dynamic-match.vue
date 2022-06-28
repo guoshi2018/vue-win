@@ -3,10 +3,7 @@
     <accordion-item caption="使用路径参数" show>
       <ol>
         <li>
-          <router-link
-            to="/exercise/users/101/:johny"
-            title="用户johny显示信息"
-          />
+          <router-link to="/exercise/users/101/:johny" title="用户johny显示信息" />
         </li>
         <li>
           <router-link
@@ -28,10 +25,7 @@
           />
         </li>
         <li>
-          <router-link
-            to="/"
-            title="根目录算起，无参数.对于本project，被home截获"
-          />
+          <router-link to="/" title="根目录算起，无参数.对于本project，被home截获" />
         </li>
         <li>
           <router-link to="/one" title="根目录算起，带一个参数one" />
@@ -55,24 +49,16 @@
           />
         </li>
         <li>
-          <h3>
-            以上都是渲染到顶层的router-view,下面，渲染到组件自身的router-view
-          </h3>
+          <h3>以上都是渲染到顶层的router-view,下面，渲染到组件自身的router-view</h3>
         </li>
         <li>
-          <router-link
-            to="/exercise/rt-dym-match/profile"
-            title="试试profile"
-          />
+          <router-link to="/exercise/rt-dym-match/profile" title="试试profile" />
         </li>
         <li>
           <router-link to="/exercise/rt-dym-match/posts" title="试试posts" />
         </li>
         <li>
-          <router-link
-            to="/exercise/rt-dym-match/otherinfo"
-            title="试试空的path的作用"
-          />
+          <router-link to="/exercise/rt-dym-match" title="试试空的path的作用" />
         </li>
       </ol>
     </accordion-item>
@@ -80,30 +66,23 @@
       <!--   
         嵌套路由。简单说，就是将内容渲染在组件自己的<route-view>里面，
       而不是顶层app.vue定义的<route-view></route-view> 
-      -->
-      <router-view></router-view>
+     -->
+      <router-view style="color: blue"></router-view>
     </accordion-item>
   </accordion-hull>
 </template>
 
 <script lang="ts">
-/* eslint-disable no-dupe-class-members, no-dupe-keys */
 import { onMounted, defineComponent } from "vue";
-// import AccordionHull from "@/components/accordion/accordion-hull.vue"; // 子组件 @ is an alias to /src
-// import AccordionItem from "@/components/accordion/accordion-item.vue";
-//import ComUser from "@/components/22-Vue-Router/com-user.vue";
 
 export default defineComponent({
   components: {},
   setup() {
     onMounted(() => {
-      const links = document
-        .getElementsByTagName("ol")[0]
-        .getElementsByTagName("a");
+      const links = document.getElementsByTagName("ol")[0].getElementsByTagName("a");
       [].forEach.call(links, (link: HTMLAnchorElement) => {
         if (link.title && link.href) {
-          link.innerHTML =
-            link.title + ": &nbsp;&nbsp;&nbsp;&nbsp;" + link.href;
+          link.innerHTML = link.title + ": &nbsp;&nbsp;&nbsp;&nbsp;" + link.href;
         }
       });
     });

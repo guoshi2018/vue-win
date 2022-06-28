@@ -1,9 +1,0 @@
-
-
-
-
-
-
-
-
-import { ComponentCustomProperties } from 'vue'

@@ -5,6 +5,8 @@
 </template>
 <script lang="ts">
 import { h, ref, reactive, defineComponent } from "vue";
+import { print } from "@/common/mixins/func";
+const debug = true;
 
 export default defineComponent({
   setup(props, context) {
@@ -31,7 +33,7 @@ export default defineComponent({
   },
   methods: {
     temp() {
-      console.log("temp funciton called...");
+      print(debug, "temp funciton called...");
     },
   },
 });

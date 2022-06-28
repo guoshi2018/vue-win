@@ -3,7 +3,7 @@
 </comments>
 <template>
   <div class="test">
-    <h2>Hi,this is information of prop-user：</h2>
+    <h2>Hi,this is information of prop-user,without inner view：</h2>
     <ul>
       <li>
         <span>$route.params = {{ $route.params }}</span>
@@ -15,10 +15,10 @@
         <span>$route.meta = {{ $route.meta }}</span>
       </li>
       <li>
-        <span>$route.params.userId to property: userId --- {{ userId }}</span>
+        <span>$route.params.userId to props.userId: userId --- {{ userId }}</span>
       </li>
       <li>
-        <span>$route.params.userName to property: userName --- {{ userName }}</span>
+        <span>$route.params.userName to props.userName: userName --- {{ userName }}</span>
       </li>
     </ul>
   </div>

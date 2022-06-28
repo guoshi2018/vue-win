@@ -3,7 +3,7 @@
   <teleport to="body">
     <div v-if="modalOpen" class="tele-modal">
       <div>
-        I'm a modal!
+        I'm second-modal-dialog!
         <button @click="modalOpen = false">Close</button>
       </div>
     </div>

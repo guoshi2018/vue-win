@@ -12,9 +12,8 @@
       <button @click="count++">Increment count</button>
       <button @click="nested.count.value++">Nested Increment count</button>
       <button @click="reacted.count++">Reacted Increment count</button>
-      <button @click="reacted.tmd.count++">
-        Reacted twice Increment count
-      </button>
+      <button @click="reacted.nbp.count++">Reacted once Increment count</button>
+      <button @click="reacted.tmd.count++">Reacted twice Increment count</button>
     </accordion-item>
     <accordion-item caption="访问响应式对象" show>
       <button @click="demo3">自动解包内部值</button>
@@ -22,18 +21,15 @@
       <button @click="demo5">响应式状态解构</button>
       <button @click="demo6">使用readonly 防止更改响应式对象</button>
     </accordion-item>
-    <accordion-item>
-      <div>dhel</div>
-    </accordion-item>
   </accordion-hull>
 </template>
 
 <script lang="ts">
 /* eslint-disable no-dupe-class-members, no-dupe-keys */
 import { reactive, ref, toRefs, readonly, defineComponent, toRef } from "vue";
-// import AccordionHull from "@/components/accordion/accordion-hull.vue"; // 子组件 @ is an alias to /src
-// import AccordionItem from "@/components/accordion/accordion-item.vue";
 import SetupHookDemo from "@/components/19-responsivity-base/setup-hook-demo.vue";
+import { print } from "@/common/mixins/func";
+const debug = false;
 
 export default defineComponent({
   components: {
@@ -48,50 +44,54 @@ export default defineComponent({
       },
       reacted: reactive({
         count, //不添加.value,直接采用reacted.count
+        nbp: {
+          count, //reacted.nbp.count
+        },
         tmd: reactive({
-          count, //reacted.tmd.count
+          count, //reacted.tmd.count,所以没必要再次包裹
         }),
       }),
     };
   },
   methods: {
+    /**
+     * demo1的注释
+     */
     demo1() {
-      /**
-       * demo1的注释，还是显示不了
-       */
       const state = reactive({
         count: 30,
       });
-      console.log(`state.count = ${state.count}`);
-      console.log("using reactive, state:", state);
+      print(debug,`state.count = ${state.count}`);
+      print(debug,"using reactive, state:", state);
     },
     demo2() {
       //与reactive作用相同
       const count = ref(120); //初始值120
-      console.log(count.value);
+      print(debug,count.value);
       count.value++;
-      console.log("using ref, count:", count);
+      print(debug,"using ref, count:", count);
     },
     demo3() {
       const count = ref(0);
       const state = reactive({
         count, //count:count
       });
-      console.log("demo3,state.count:", state.count);
+      print(debug,"demo3,state.count:", state.count);
       state.count++;
-      console.log("after state.count++ in demo3,count.value :", count.value);
+      print(debug,"after state.count++ in demo3,count.value :", count.value);
 
       //如果将新的 ref 赋值给现有 ref 的 property，将会替换旧的 ref
-      //const otherCount = ref(200);
-      //state.count = otherCount;     //可惜這句被tsconfig阻止编译
-      //console.log('demo3,state.count:', state.count);
-      //console.log('demo3,count.value:', count.value);
+      const otherCount = ref(200);
+      //@ts-ignore
+      state.count = otherCount; //可惜這句被tsconfig阻止编译
+      print(debug,"demo3,state.count:", state.count);
+      print(debug,"demo3,count.value:", count.value); //但是原有的count还在
     },
     demo4() {
       const books = reactive([ref("Vue 3 Guide")]);
-      console.log(books[0].value); //需要.value
+      print(debug,books[0].value); //需要.value
       const mp = reactive(new Map([["count", ref(11)]]));
-      console.log(mp.get("count")?.value); //需要.value
+      print(debug,mp.get("count")?.value); //需要.value
     },
     demo5() {
       const book = reactive({
@@ -110,7 +110,7 @@ export default defineComponent({
       const yearRef = toRef(book, "year");
       yearRef.value += 1000;
       title.value = "a newly book about vue4.5";
-      console.log(book.title, book.year); //"a newly ...", 3020
+      print(debug,book.title, book.year); //"a newly ...", 3020
     },
     demo6() {
       const orig = reactive({
@@ -119,8 +119,9 @@ export default defineComponent({
       const copy = readonly(orig);
       //通过orig修改count,将会触发依赖 copy 的侦听器
       orig.count++;
-      //copy.count++; //编译失败.如果是js文件,则警告,去掉readonly 则ok
-      console.log("orig.count:", orig.count, " copy.count:", copy.count);
+      //@ts-ignore
+      copy.count++; //编译失败.如果是js文件,则警告,去掉readonly 则ok
+      print(debug,"orig.count:", orig.count, " copy.count:", copy.count);
     },
   },
 });

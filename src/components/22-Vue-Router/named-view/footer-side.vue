@@ -12,7 +12,7 @@ export default defineComponent({
     content: {
       type: String,
       require: false,
-      default: "unknown footer content",
+      default: "footer",
     },
   },
   setup() {},

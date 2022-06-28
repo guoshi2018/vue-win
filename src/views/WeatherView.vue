@@ -32,8 +32,7 @@
           </table>
         </div>
         <h5 v-else>
-          请确保 netcore api
-          项目WebApiSample6.0已经启动.注意firefox目前设置跨域无效
+          请确保 netcore api 项目WebApiSample6.0已经启动.注意firefox目前设置跨域无效
           有时间试试添加命令行参数: –disable-web-security
         </h5>
       </section>
@@ -68,21 +67,22 @@
           </table>
         </div>
         <h5 v-else>
-          请确保 netcore api
-          项目WebApiSample6.0已经启动.注意firefox目前设置跨域无效.
+          请确保 netcore api 项目WebApiSample6.0已经启动.注意firefox目前设置跨域无效.
           有时间试试添加命令行参数: –disable-web-security
         </h5>
       </section>
     </main>
-    <button @click="refreshData">刷新</button>
+    <button @click="refreshData">刷新(refresh data)</button>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, initCustomFormatter } from "vue";
 //import axios from "axios";
-import { corsData } from "@/common/mixins/func"; //ok
+import { corsData, print } from "@/common/mixins/func"; //ok
 import $ from "jquery";
+const debug = false;
+
 type Forecasts = {
   /**
    * 日期
@@ -121,7 +121,7 @@ interface Data {
 }
 
 const fillTable = (data: any) => {
-  console.log(data);
+  print(debug, data);
 };
 
 export default defineComponent({
@@ -156,20 +156,20 @@ export default defineComponent({
         fetch("https://localhost:7018/weatherforecast/")
           .then((r) => {
             /* eslint-disable no-console  */
-            //       console.log(r);
+            //       print(debug,r);
             return r.json();
           })
           .then((json) => {
             this.post1 = json as Forecasts;
           })
           .catch((fail) => {
-            console.log("using dom api fetch() failed:", fail);
+            print(debug, "using dom api fetch() failed:", fail);
           })
           .finally(() => {
             this.loading1 = false;
           });
       } catch (err) {
-        console.log("fetch data error:", err);
+        print(debug, "fetch data error:", err);
       }
     },
     async fillTableByFetch2() {
@@ -182,7 +182,7 @@ export default defineComponent({
           this.post2 = (await resp.json()) as Forecasts;
         }
       } catch (err) {
-        console.log("fetch data error:", err);
+        print(debug, "fetch data error:", err);
       } finally {
         this.loading2 = false;
       }
@@ -205,11 +205,7 @@ export default defineComponent({
      * 指向“https://localhost:7018/WeatherForecast/cors?callback=fillTable”的 <script> 加载失败。
      */
     fillTableByScript(): void {
-      corsData(
-        "https://localhost:7018/WeatherForecast/cors",
-        fillTable,
-        "callback"
-      );
+      corsData("https://localhost:7018/WeatherForecast/cors", fillTable, "callback");
     },
   },
 });

@@ -4,6 +4,7 @@ import ChatState from '../api/ChatState.class';
 import { ts_chat } from '../../../const';
 import api from '../api/network';
 import { ChatMessageOptions } from '../api/options';
+import { Guoshi } from "@/common/type/guoshi";
 
 //严格模式下,state的操作(即状态的改变),只能放在mutation中,否则将引发错误
 export default {
@@ -11,14 +12,14 @@ export default {
     const msgOpts = await api.messageOptionsFromServer()
     commit(ts_chat.mutation.saveAsMessages, msgOpts);
     commit(ts_chat.mutation.setCurrentThread, state.newestThread);
-    //console.log('data ready!');
+    //print(debug,'data ready!');
   },
 
   [ts_chat.action.saveMessageOptions]: async ({ state, commit }, msgOpt: ChatMessageOptions) => {
     commit(ts_chat.mutation.saveAsMessage, msgOpt);
     api.messageOptionsToServer(msgOpt);
   }
-} as ActionTree<ChatState, Guoshi.Types.Student>;
+} as ActionTree<ChatState, Guoshi.Interfaces.Student>;
 
 
 //api.uploadWebMessages(msgOpt);

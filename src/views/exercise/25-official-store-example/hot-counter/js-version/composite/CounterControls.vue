@@ -11,46 +11,35 @@
   </div>
 </template>
 
-<script>
-import { computed } from "vue";
+<script lang="ts">
+import { computed, defineComponent } from "vue";
 import { useStore } from "vuex";
 import { stores } from "../../../store-helper";
 import { hot_counter } from "../../../const";
+import { studentAsTopstoreKey } from "@/store/setup";
 
-export default {
+export default defineComponent({
   setup() {
-    const store = useStore();
+    const store = useStore(studentAsTopstoreKey);
 
     return {
       count: computed(
         () =>
-          store.getters[
-            `${stores.js_hot_count.ns}/${hot_counter.getter.currentCount}`
-          ]
+          store.getters[`${stores.js_hot_count.ns}/${hot_counter.getter.currentCount}`]
       ),
       recentHistory: computed(
         () =>
-          store.getters[
-            `${stores.js_hot_count.ns}/${hot_counter.getter.recentHistory}`
-          ]
+          store.getters[`${stores.js_hot_count.ns}/${hot_counter.getter.recentHistory}`]
       ),
       increment: () =>
-        store.dispatch(
-          `${stores.js_hot_count.ns}/${hot_counter.action.increment}`
-        ),
+        store.dispatch(`${stores.js_hot_count.ns}/${hot_counter.action.increment}`),
       decrement: () =>
-        store.dispatch(
-          `${stores.js_hot_count.ns}/${hot_counter.action.decrement}`
-        ),
+        store.dispatch(`${stores.js_hot_count.ns}/${hot_counter.action.decrement}`),
       incrementIfOdd: () =>
-        store.dispatch(
-          `${stores.js_hot_count.ns}/${hot_counter.action.incrementIfOdd}`
-        ),
+        store.dispatch(`${stores.js_hot_count.ns}/${hot_counter.action.incrementIfOdd}`),
       incrementAsync: () =>
-        store.dispatch(
-          `${stores.js_hot_count.ns}/${hot_counter.action.incrementAsync}`
-        ),
+        store.dispatch(`${stores.js_hot_count.ns}/${hot_counter.action.incrementAsync}`),
     };
   },
-};
+});
 </script>

@@ -16,10 +16,7 @@
         <ul>
           <li>
             <span>根级路由:{{ firstPath }}</span>
-            <input
-              type="button"
-              @click="addUniqueRecord(firstPath, firstNewRecName)"
-            />
+            <input type="button" @click="addUniqueRecord(firstPath, firstNewRecName)" />
             <input
               type="button"
               @click="codingPushEnter(firstPath)"
@@ -30,8 +27,7 @@
               @click="codingReplaceEnter(firstPath)"
               value="replace方法编码进入成功"
             />
-            <span>链接进入成功:</span
-            ><router-link :to="firstPath"></router-link>
+            <span>链接进入成功:</span><router-link :to="firstPath"></router-link>
           </li>
           <li>
             <span
@@ -73,9 +69,7 @@
               value="Replace方法编码进入成功"
             />
             <span>真实地址链接进入成功:</span
-            ><router-link
-              :to="thirdNewRecParentPath + thirdRealPath"
-            ></router-link>
+            ><router-link :to="thirdNewRecParentPath + thirdRealPath"></router-link>
           </li>
         </ul>
       </accordion-item>
@@ -84,33 +78,18 @@
         <ul>
           <li>
             <span>按名称删除路由：</span>
-            <input
-              type="button"
-              @click="deleteAddedRoutesByName"
-              value="删除"
-            />
+            <input type="button" @click="deleteAddedRoutesByName" value="删除" />
           </li>
           <li>
-            <span
-              >调用 router.addRoute()
-              返回的回调,这种删除方式可能已经被废除</span
-            >
-            <input
-              type="button"
-              @click="deleteAddedRoutesByCallback"
-              value="删除"
-            />
+            <span>调用 router.addRoute() 返回的回调,这种删除方式可能已经被废除</span>
+            <input type="button" @click="deleteAddedRoutesByCallback" value="删除" />
           </li>
           <li>
-            <span
-              >添加一个名称冲突的路由。如果添加与现有途径名称相同的途径，会先删除路由，再添加路由
+            <span>
+              添加一个名称冲突的路由。如果添加与现有途径名称相同的途径，会先删除路由，再添加路由
               由于本例定义的添加路由逻辑是不添加名称重复的路由.所以,一旦这里删除,后续就无法再添加了.
             </span>
-            <input
-              type="button"
-              @click="deleteAddedRoutesByConflictName"
-              value="删除"
-            />
+            <input type="button" @click="deleteAddedRoutesByConflictName" value="删除" />
           </li>
         </ul>
       </accordion-item>
@@ -119,17 +98,11 @@
 </template>
 <script lang="ts">
 import { defineComponent, ref, reactive, onMounted } from "vue";
-import {
-  RouteRecordRaw,
-  useRouter,
-  RouteRecordName,
-  RouteRecord,
-} from "vue-router";
+import { RouteRecordRaw, useRouter, RouteRecordName, RouteRecord } from "vue-router";
 
-// import AccordionHull from "@/components/accordion/accordion-hull.vue";
-// import AccordionItem from "@/components/accordion/accordion-item.vue";
 import InnerView from "@/components/22-Vue-Router/inner-view.vue";
-import PropUser from "@/components/22-Vue-Router/prop-user.vue";
+import { print } from "@/common/mixins/func";
+const debug = false;
 
 export default defineComponent({
   setup(props) {
@@ -194,9 +167,9 @@ export default defineComponent({
       };
       if (!this.$router.hasRoute(name)) {
         this.cbRemoving.push(this.$router.addRoute(rec)); //为删除做准备
-        console.log(`adding record ${path} successfully`);
+        print(debug, `adding record ${path} successfully`);
       } else {
-        console.log(`adding record ${path} is ignored.`);
+        print(debug, `adding record ${path} is ignored.`);
       }
     },
 
@@ -229,9 +202,9 @@ export default defineComponent({
             name: this.thirdNewRecName,
           })
         );
-        console.log(`adding record ${this.thirdPath} successfully`);
+        print(debug, `adding record ${this.thirdPath} successfully`);
       } else {
-        console.log(`adding record ${this.thirdPath} is ignored.`);
+        print(debug, `adding record ${this.thirdPath} is ignored.`);
       }
     },
 
@@ -242,7 +215,7 @@ export default defineComponent({
       this.$router.removeRoute(this.thirdNewRecName);
     },
     deleteAddedRoutesByCallback() {
-      console.log("cbRemoving....", this.cbRemoving);
+      print(debug, "cbRemoving....", this.cbRemoving);
       this.cbRemoving.forEach((cb) => {
         cb();
       });

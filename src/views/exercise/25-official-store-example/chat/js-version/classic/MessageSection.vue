@@ -13,7 +13,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from "vue";
 import Message from "./Message.vue";
 import { createNamespacedHelpers } from "vuex";
@@ -36,7 +36,7 @@ export default defineComponent({
   watch: {
     "thread.lastMessage": function () {
       this.$nextTick(() => {
-        const ul = this.$refs.list;
+        const ul = this.$refs.list as HTMLUListElement;
         ul.scrollTop = ul.scrollHeight;
       });
     },
@@ -47,7 +47,7 @@ export default defineComponent({
     }),
     sendMessage() {
       const { text, thread, $store } = this;
-      if (text.trim()) {
+      if (text.trim().length > 0) {
         // $store.dispatch(`${stores.js_chat.ns}/${js_chat.action.sendMessage}`, {
         //   text,
         //   thread,

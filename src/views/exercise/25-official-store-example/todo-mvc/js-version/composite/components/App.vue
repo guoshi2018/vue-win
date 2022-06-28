@@ -25,11 +25,7 @@
       />
       <label for="toggle-all"></label>
       <ul class="todo-list">
-        <TodoItem
-          v-for="(todo, index) in filteredTodos"
-          :key="index"
-          :todo="todo"
-        />
+        <TodoItem v-for="(todo, index) in filteredTodos" :key="index" :todo="todo" />
       </ul>
     </section>
     <!-- footer -->
@@ -60,9 +56,12 @@
 </template>
 
 <script>
-import { ref, computed } from "vue";
+import { ref, computed, defineComponent } from "vue";
 import { useStore } from "vuex";
 import TodoItem from "./TodoItem.vue";
+import { studentAsTopstoreKey } from "@/store/setup";
+import { print } from "@/common/mixins/func";
+const debug = false;
 
 const filters = {
   all: (todos) => todos,
@@ -70,31 +69,32 @@ const filters = {
   completed: (todos) => todos.filter((todo) => todo.done),
 };
 
-export default {
+export default defineComponent({
   components: { TodoItem },
   setup() {
     const visibility = ref("all");
 
-    const store = useStore();
-
+    const store = useStore(studentAsTopstoreKey);
+    //@ts-ignore
     const todos = computed(() => store.state.JsTodoMvc.todos);
+    print(debug, "***************************", todos);
     const allChecked = computed(() => todos.value.every((todo) => todo.done));
     const filteredTodos = computed(() =>
+      //@ts-ignore
       filters[visibility.value](todos.value)
     );
-    const remaining = computed(
-      () => todos.value.filter((todo) => !todo.done).length
-    );
+    const remaining = computed(() => todos.value.filter((todo) => !todo.done).length);
 
     const toggleAll = (done) => store.dispatch("JsTodoMvc/toggleAll", done);
     const clearCompleted = () => store.dispatch("JsTodoMvc/clearCompleted");
 
     function addTodo(e) {
-      const text = e.target.value;
-      if (text.trim()) {
+      const ipt = e.target;
+      const text = ipt.value;
+      if (text.trim().length > 0) {
         store.dispatch("JsTodoMvc/addTodo", text);
       }
-      e.target.value = "";
+      ipt.value = "";
     }
 
     const pluralize = (n, w) => (n === 1 ? w : w + "s");
@@ -114,5 +114,5 @@ export default {
       capitalize,
     };
   },
-};
+});
 </script>

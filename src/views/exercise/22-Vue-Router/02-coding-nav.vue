@@ -18,59 +18,31 @@
     <accordion-item caption="push参数还可以是对象" show>
       <li>
         <span>带有路径的对象</span>
-        <input
-          type="button"
-          :value="JSON.stringify(paths1[1])"
-          @click="demo1"
-        />
+        <input type="button" :value="JSON.stringify(paths1[1])" @click="demo1" />
       </li>
       <li>
         <span>命名的路由</span>
-        <input
-          type="button"
-          :value="JSON.stringify(paths1[2])"
-          @click="demo1"
-        />
+        <input type="button" :value="JSON.stringify(paths1[2])" @click="demo1" />
       </li>
       <li>
         <span>如果name和path不对应咋办：报错，且不动作</span>
-        <input
-          type="button"
-          :value="JSON.stringify(paths1[3])"
-          @click="demo1"
-        />
+        <input type="button" :value="JSON.stringify(paths1[3])" @click="demo1" />
       </li>
       <li>
         <span>命名路由，并加上参数</span>
-        <input
-          type="button"
-          :value="JSON.stringify(paths1[4])"
-          @click="demo1"
-        />
+        <input type="button" :value="JSON.stringify(paths1[4])" @click="demo1" />
       </li>
       <li>
         <span>上面基础上，再加上查询参数</span>
-        <input
-          type="button"
-          :value="JSON.stringify(paths1[5])"
-          @click="demo1"
-        />
+        <input type="button" :value="JSON.stringify(paths1[5])" @click="demo1" />
       </li>
       <li>
         <span>带有hash的路径</span>
-        <input
-          type="button"
-          :value="JSON.stringify(paths1[6])"
-          @click="demo1"
-        />
+        <input type="button" :value="JSON.stringify(paths1[6])" @click="demo1" />
       </li>
       <li>
         <span>如果提供了path，则params会被忽略。此时需要提供带参数的path</span>
-        <input
-          type="button"
-          :value="JSON.stringify(paths1[7])"
-          @click="demo1"
-        />
+        <input type="button" :value="JSON.stringify(paths1[7])" @click="demo1" />
       </li>
     </accordion-item>
     <accordion-item caption="替换当前位置">
@@ -91,7 +63,6 @@
       <input type="button" value="退后3步" @click="demo3(-3)" />
       <input type="button" value="前进2步" @click="demo3(2)" />
     </accordion-item>
-    <accordion-item caption=""> </accordion-item>
   </accordion-hull>
 </template>
 
@@ -158,7 +129,7 @@ export default defineComponent({
       } catch (error) {
         param = ipt.value;
       }
-      //    console.log(param);
+      //    print(debug,param);
       return param;
     },
   },

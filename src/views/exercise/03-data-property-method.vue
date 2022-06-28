@@ -35,6 +35,8 @@
 /* eslint-disable no-dupe-class-members, no-dupe-keys */
 import { defineComponent } from "vue";
 import _ from "lodash-js";
+import { print } from "@/common/mixins/func";
+const debug = false;
 
 export default defineComponent({
   created() {
@@ -45,10 +47,10 @@ export default defineComponent({
   },
   methods: {
     commonDebounce: _.debounce(() => {
-      console.log("common debouce move");
+      print(debug,"common debouce move");
     }, 500),
     processMove() {
-      console.log("processed debouce move");
+      print(debug,"processed debouce move");
     },
     processedDebounce() {},
   },

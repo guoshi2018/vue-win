@@ -8,16 +8,21 @@
   </li>
 </template>
 
-<script>
-export default {
-  name: 'Message',
+<script lang="ts">
+import { defineComponent } from "vue";
+
+export default defineComponent({
+  name: "Message",
   props: {
-    message: Object
+    message: {
+      type: Object,
+      required: true,
+    },
   },
-  setup () {
+  setup() {
     return {
-      time: value => new Date(value).toLocaleTimeString()
-    }
-  }
-}
+      time: (value: number) => new Date(value).toLocaleTimeString(),
+    };
+  },
+});
 </script>

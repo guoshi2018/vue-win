@@ -18,7 +18,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from "vue";
 import Thread from "./Thread.vue";
 import { createNamespacedHelpers } from "vuex";

@@ -25,6 +25,8 @@
 <script lang="ts">
 import { ref, defineComponent, PropType } from "vue";
 import { UserInfo } from "@/components/17-combined-api/types";
+import { print } from "@/common/mixins/func";
+const debug = false;
 
 export default defineComponent({
   props: {
@@ -44,7 +46,7 @@ export default defineComponent({
   methods: {
     /* eslint-disable vue/no-mutating-props */
     modify() {
-      console.log("child modify...");
+      print(debug,"child modify...");
       //this.theAge++;					//readonly
       //this.theName += " h";			//readonly
       this.theInfo.a--; //
@@ -53,7 +55,7 @@ export default defineComponent({
       this.theInfo.c.d += " +";
     },
     replace() {
-      console.log("child replace...");
+      print(debug,"child replace...");
       //this.theAge = -100;
       //this.theName = "Galinue";
       // this.theInfo = {

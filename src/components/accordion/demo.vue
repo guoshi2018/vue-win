@@ -7,6 +7,7 @@
         </li>
       </ul>
     </accordion-item>
+
     <accordion-item caption="测试栏目6-10" show>
       <ul>
         <li v-for="num in [6, 7, 8, 9, 10]" :key="num">

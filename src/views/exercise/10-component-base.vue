@@ -225,6 +225,8 @@ import CustomInputStd from "@/components/10-component-base/custom-input-std.vue"
 import CustomInputEx from "@/components/10-component-base/custom-input-ex.vue";
 import Todos from "@/components/01-intro/1-todos.vue";
 import HelloWorld from "@/components/HelloWorld.vue";
+import { print } from "@/common/mixins/func";
+const debug = false;
 
 interface Data {
   searchText: string;
@@ -287,7 +289,7 @@ export default defineComponent({
       }
     },
     mouseHandle(evt: Event) {
-      console.log("mouse event.....", evt);
+      print(debug,"mouse event.....", evt);
     },
     switchMouseEvent() {
       this.mouseEventName =

@@ -12,21 +12,21 @@
     </ul>
     <p>Total: {{ currency(total) }}</p>
     <p>
-      <button :disabled="!products.length" @click="checkout(products)">
-        Checkout
-      </button>
+      <button :disabled="!products.length" @click="checkout(products)">Checkout</button>
     </p>
     <p v-show="checkoutStatus">Checkout {{ checkoutStatus }}.</p>
   </div>
 </template>
 
 <script>
+import { defineComponent } from "vue";
 import { mapState, mapGetters, createNamespacedHelpers } from "vuex";
-import { currency } from "../api/currency";
+//import { currency } from "../api/currency";
+import { currency } from "currency-js";
 //import { stores } from "../../../store-helper";
 
 const carMapHelper = createNamespacedHelpers("JsShoppingCart/cart");
-export default {
+export default defineComponent({
   computed: {
     // ...mapState({
     //   checkoutStatus: (state) => state.cart.checkoutStatus,
@@ -51,5 +51,5 @@ export default {
       this.$store.dispatch(`JsShoppingCart/cart/checkout`, products);
     },
   },
-};
+});
 </script>

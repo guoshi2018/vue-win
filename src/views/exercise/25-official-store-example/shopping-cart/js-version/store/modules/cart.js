@@ -42,7 +42,7 @@ const actions = {
       commit('setCheckoutStatus', 'successful')
     } catch (e) {
       //   console.error(e)
-      //console.log(e);
+      //print(debug,e);
       commit('setCheckoutStatus', 'failed')
       // rollback to the cart saved before sending the request
       commit('setCartItems', { items: savedCartItems })

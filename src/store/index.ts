@@ -1,4 +1,3 @@
-
 /*
 重要:
 	store只有一个,子模块只能具有状态,他的action mutations等均为全局
@@ -9,11 +8,22 @@
 		store.state.first
 	在其state()下声明有属性,例如 a,b,c.
 */
-import { InjectionKey } from 'vue';
-import { Store, createStore, useStore as baseUseStore, StoreOptions, Module, GetterTree, MutationTree, ActionTree, ModuleTree } from 'vuex'
-import Ma from './moduleA';
-import Mb from './moduleB';
-import Mc from './moduleC';
+import {
+	Store,
+	createStore,
+	StoreOptions,
+	Module,
+	GetterTree,
+	MutationTree,
+	ActionTree,
+	ModuleTree,
+} from "vuex";
+import { Guoshi } from "@/common/type/guoshi";
+import Ma from "./moduleA";
+import Mb from "./moduleB";
+import Mc from "./moduleC";
+import { print } from "@/common/mixins/func";
+const debug = true;
 
 export default createStore({
 	/*
@@ -21,18 +31,18 @@ export default createStore({
 		将会抛出错误。这能保证所有的状态变更都能被调试工具跟踪到。
 		且是全局的.子模块无法覆盖此设置
 	*/
-	strict: process.env.NODE_ENV != 'production',
+	strict: process.env.NODE_ENV != "production",
 	state() {
 		return {
-			name: 'billgates',
+			name: "billgates",
 			age: 58,
-		} as Guoshi.Types.Student;
+		} as Guoshi.Interfaces.Student;
 	},
 	getters: {
 		/**
 		 * getter参数模板
 		 * @param rest 按从左到右的顺序为
-		 * 		局部state(proxy) 
+		 * 		局部state(proxy)
 		 * 		局部getters(object)
 		 * 		根节点rootState(proxy)
 		 * 		根节点rootGetters(object)
@@ -42,14 +52,15 @@ export default createStore({
 		 */
 		examGetRoot: (...rest): Guoshi.Types.TrialUnit => {
 			return {
-				description: 'example getter Root,top lever,inner Store',
-				args: rest,
+				description: "example getter Root,top lever,inner Store",
+				//	args: rest,
+				args: ["args to cyclic, so do not see it", "bye"],
 			} as Guoshi.Types.TrialUnit;
 		},
-	} as GetterTree<Guoshi.Types.Student, Guoshi.Types.Student>, //本级就是根级
+	} as GetterTree<Guoshi.Interfaces.Student, Guoshi.Interfaces.Student>, //本级就是根级
 
 	mutations: {
-		/**mutation参数模板 
+		/**mutation参数模板
 		 * mutation参数模板
 		 * @param rest 按从左到右的顺序为
 		 * 		局部state(proxy)
@@ -60,9 +71,9 @@ export default createStore({
 		 */
 		examMutaRoot: (...rest): void => {
 			//		console.clear();
-			console.log('examMutaRoot raised:', rest);
+			print(debug, "examMutaRoot raised:", rest);
 		},
-	} as MutationTree<Guoshi.Types.Student>,
+	} as MutationTree<Guoshi.Interfaces.Student>,
 
 	actions: {
 		/**
@@ -70,7 +81,7 @@ export default createStore({
 		 * @param context:上下文对象,包含以下字段:
 		 *         	commit: function
 		 *					dispatch: function
-		 *					getters: object, 当前层级的getters(上层包括下层) 
+		 *					getters: object, 当前层级的getters(上层包括下层)
 		 *					rootGetters: object, 根节点getters
 		 *					state: Proxy, 当前层级的state
 		 *					rootState: Proxy, 根节点的state
@@ -86,27 +97,21 @@ export default createStore({
 					context.commit("examMutaRoot", payload, ...rest);
 					resolve({
 						description: "examActRoot resolve for promise.",
-						args: [context, payload, rest]
+						args: [context, payload, rest],
 					} as Guoshi.Types.TrialUnit);
 				}, payload.msDelay);
-			})
+			});
 		},
 
-		//测试重名action,mutation的模块(全局和局部),内部,外部调用的细节,结论参见moduleC.ts.	
-		sameNameAct(context, payload: Guoshi.Types.ExamPayload, ...rest) {
-			console.log('sameNameAct of root called.');
+		//测试重名action,mutation的模块(全局和局部),内部,外部调用的细节,结论参见moduleC.ts.
+		sameNameAct(context, payload: Guoshi.Types.Payload, ...rest) {
+			print(debug, "sameNameAct of root called.");
 		},
-	} as ActionTree<Guoshi.Types.Student, Guoshi.Types.Student>,
+	} as ActionTree<Guoshi.Interfaces.Student, Guoshi.Interfaces.Student>,
 	modules: {
-		ModA: Ma as Module<Guoshi.Intfs.IVueState, Guoshi.Types.Student>,
-		ModB: Mb as Module<Guoshi.Types.UserInfo, Guoshi.Types.Student>,			//内部已经注册ModC
-		ModC: Mc as Module<Guoshi.Types.Author, Guoshi.Types.Student>, //重复注册ModC
-	} as ModuleTree<Guoshi.Types.Student>,
+		modA: Ma as Module<Guoshi.Interfaces.VueState, Guoshi.Interfaces.Student>,
+		modB: Mb as Module<Guoshi.Interfaces.UserInfo, Guoshi.Interfaces.Student>, //内部已经注册ModC
+		modC: Mc as Module<Guoshi.Interfaces.Author, Guoshi.Interfaces.Student>, //重复注册ModC
+	} as ModuleTree<Guoshi.Interfaces.Student>,
 	//	plugins,
-} as StoreOptions<Guoshi.Types.Student>) as Store<Guoshi.Types.Student>;
-
-//自定义useStore组合式函数,使在使用useStore方法时,ts具备类型提示
-const key: InjectionKey<Store<Guoshi.Types.Student>> = Symbol();
-export function useStore() {
-	return baseUseStore(key);
-}
+} as StoreOptions<Guoshi.Interfaces.Student>) as Store<Guoshi.Interfaces.Student>;

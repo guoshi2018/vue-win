@@ -6,6 +6,12 @@ import { PropType, defineComponent } from "vue";
 type TheMessage = {
   message: string;
 };
+
+// function HelloPerson(firstName: string, lastName: string) {
+//   this.firstName = firstName;
+//   this.lastName = lastName;
+// }
+
 export default defineComponent({
   //完整的属性验证方式表达
   props: {
@@ -42,6 +48,12 @@ export default defineComponent({
         // 这个值必须与下列字符串中的其中一个相匹配
         return ["success", "warning", "danger"].includes(value);
       },
+
+      //但是类似上面如此简单的验证, 使用参数类型即可达到目的:
+      validator2(value: "success" | "warning" | "danger") {
+        // 这个值必须与下列字符串中的其中一个相匹配
+        return true;
+      },
     },
 
     // 具有默认值的函数
@@ -52,6 +64,12 @@ export default defineComponent({
         return "Default function";
       },
     },
+
+    //验证 author prop 的值是否是通过 new Person 创建的
+    //但是其中的this引起大片代码报警,故注释
+    // propH: {
+    //   author: HelloPerson,
+    // }
   },
 
   //自定义事件的验证
@@ -67,12 +85,23 @@ export default defineComponent({
       }
     },
 
+    /**
+     * 为触发的事件注解一个有效载荷
+     */
+    addBook(payload: { bookName: string }) {
+      //perform runtime validation
+      return payload.bookName.length > 0;
+    },
+
     // 没有验证
     click: null,
   },
   methods: {
     submitForm(email: string, password: number) {
       this.$emit("submit", { email, password });
+      this.$emit("addBook", {
+        bookName: "987", // bookName:987 则报告类型错误
+      });
     },
   },
 });

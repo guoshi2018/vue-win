@@ -42,6 +42,8 @@
 /* eslint-disable no-dupe-class-members, no-dupe-keys */
 //import { Options, Vue } from 'vue-class-component'
 import { defineComponent } from "vue";
+import { print } from "@/common/mixins/func";
+const debug = false;
 
 enum Season {
   spring,
@@ -63,13 +65,13 @@ export default defineComponent({
   },
   mounted() {
     this.loopSwitch();
-    console.log(this.solar);
+    print(debug,this.solar);
   },
   methods: {
     loopSwitch() {
       const delay = Math.floor((Math.random() * 4 + 1) * 1000); //1000 到 5000(不包含5000)
       setTimeout(() => {
-        //      console.log(`delay is ${delay},`);
+        //      print(debug,`delay is ${delay},`);
         this.groupRender = delay % 3 != 0;
         this.solar = delay % 5;
         this.loopSwitch();

@@ -19,12 +19,14 @@
 <script lang="ts">
 import { ref, computed, watch, nextTick, defineComponent } from "vue";
 import { useStore } from "vuex";
-import { indexicalString } from "@/common/mixins/func";
+import { indexicalString, print } from "@/common/mixins/func";
 
 import { ChatMessageOptions } from "../api/options";
 
 import { stores } from "../../../store-helper";
 import { ts_chat } from "../../../const";
+import { studentAsTopstoreKey } from "@/store/setup";
+const debug = false;
 
 export default defineComponent({
   name: "MessageSection",
@@ -33,22 +35,15 @@ export default defineComponent({
     const text = ref("");
     const targetThreadId = ref("");
 
-    const store = useStore();
+    const store = useStore(studentAsTopstoreKey);
     const threadIds = computed(
-      (): string[] =>
-        store.getters[`${stores.ts_chat.ns}/${ts_chat.getter.threadIds}`]
+      (): string[] => store.getters[`${stores.ts_chat.ns}/${ts_chat.getter.threadIds}`]
     );
     const createMessage = (msgOpt: ChatMessageOptions) =>
-      store.dispatch(
-        `${stores.ts_chat.ns}/${ts_chat.action.saveMessageOptions}`,
-        msgOpt
-      );
+      store.dispatch(`${stores.ts_chat.ns}/${ts_chat.action.saveMessageOptions}`, msgOpt);
 
     const setCurrentThreadById = (id: string) =>
-      store.commit(
-        `${stores.ts_chat.ns}/${ts_chat.mutation.setCurrentThread}`,
-        id
-      );
+      store.commit(`${stores.ts_chat.ns}/${ts_chat.mutation.setCurrentThread}`, id);
 
     //如果放在methods中的写法, 见下面.主要区别:
     // text.value -> this.text;
@@ -64,7 +59,7 @@ export default defineComponent({
           hostThreadId: th_id,
         });
         nextTick(() => {
-          console.log(".......", th_id);
+          print(debug, ".......", th_id);
           setCurrentThreadById(th_id);
         });
         text.value = "";
@@ -80,7 +75,7 @@ export default defineComponent({
   methods: {
     // sendMessage() {
     //   const trimedText = this.text.trim();
-    //   //console.log(targetThreadId.value);
+    //   //print(debug,targetThreadId.value);
     //   if (trimedText) {
     //     this.$store.commit("TsChatMod/createMessage", {
     //       text: trimedText,

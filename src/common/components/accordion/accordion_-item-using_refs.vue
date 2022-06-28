@@ -32,7 +32,8 @@
 //import {defineComponent} from "vue" 改良;
 import { Options, Vue } from "vue-class-component";
 //import Func from "@/common/mixins/func.vue"; //ok,but production failed
-import { guidString as gs } from "@/common/mixins/func.ts"; //ok
+import { guidString as gs,print } from "@/common/mixins/func"; //ok
+const debug = false;
 
 @Options({
   //mixins: [Func],
@@ -56,7 +57,7 @@ import { guidString as gs } from "@/common/mixins/func.ts"; //ok
     };
   },
   mounted() {
-    console.log("according-item mounting.....Unable to improve！");
+    print(debug,"according-item mounting.....Unable to improve！");
     //this.headerId = gs();
     //this.contentId = gs();
     //this.headerId = this.guidString();  //production faild

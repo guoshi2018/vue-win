@@ -2,6 +2,9 @@
 //使用示范: 25-official-store-example
 import MyToast from "./toast.vue";
 import { App, createVNode, render, version } from "vue";
+import { Guoshi } from "@/common/type/guoshi";
+import { print } from "@/common/mixins/func";
+const debug = false;
 
 // interface IOptions {
 // 	message?: string,
@@ -12,11 +15,11 @@ import { App, createVNode, render, version } from "vue";
 export default {
 	install: (app: App<Element>): void => {
 
-		const defaultOptions: Guoshi.Intfs.ToastOptions = {
+		const defaultOptions: Guoshi.Interfaces.ToastOptions = {
 			message: '未定义的toast消息',
 			duration: 2800,
 			onClose: () => {
-				console.log('toast已关闭!');
+				print(debug, 'toast已关闭!');
 			},
 		};
 
@@ -24,7 +27,7 @@ export default {
 		let isToast = false;
 
 		//注册全局方法，相当于vue2的Vue.prototype.$myToast
-		app.config.globalProperties.$toast = function (opts?: Guoshi.Intfs.ToastOptions) {
+		app.config.globalProperties.$toast = function (opts?: Guoshi.Interfaces.ToastOptions): void {
 			if (!isToast) {
 				isToast = true;
 

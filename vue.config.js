@@ -11,7 +11,12 @@ module.exports = {
 				'animate-css': rootDir + "\\src\\common\\css\\animate.css",
 				'lodash-js': rootDir + "\\src\\common\\js\\lodash.js",
 				'guoshi-js': rootDir + "\\src\\common\\js\\guoshi.js",
-				'tspath': rootDir + "\\src\\views\\exercise\\24-tspath",
+				'dynamics-js': rootDir + "\\src\\common\\js\\dynamics.js",
+				'gsap-js': rootDir + "\\src\\common\\js\\gsap.js",
+				'currency-js': rootDir + "/src/views/exercise/25-official-store-example/shopping-cart/js-version/api/currency.js",
+				//	'jquery-js': rootDir + "\\scr\\common\\js\\jquery-3.6.0.js",
+				tspath: rootDir + "\\src\\views\\exercise\\24-tspath",
+
 
 				//or
 				// 'bootstrap-css': __dirname + "\\node_modules\\bootstrap\\dist\\css\\bootstrap.min.css",
@@ -30,6 +35,8 @@ module.exports = {
 		devServer: {
 			port: 8080,
 		},
+		//不能有,否则ms edge断点调试宕机
+		devtool: 'source-map',
 
 		//#region
 		// dev: {

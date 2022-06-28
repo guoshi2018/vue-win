@@ -46,12 +46,15 @@
     "src/**/*.vue",
     "tests/**/*.ts",
     "tests/**/*.tsx",
-    "src/typing/guoshi.d.ts",
+    "src/d-ts/guoshi.d.ts",
+    "src/components/27-official-doc-sample/tree-view-dts",
     // "src/views/data-loading/load-type.tsbak",
     // "src/store/types.tsbak",
     // "src/typing/guoshi.tsbak",
   ],
   "exclude": [
     "node_modules",
+    "/src/common/js",
+    //  "/src/views/exercise/25-official-store-example/shopping-cart/js-version/api/*.js"
   ]
 }

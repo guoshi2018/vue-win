@@ -16,6 +16,8 @@ import {
   onUnmounted,
   defineComponent,
 } from "vue";
+import { print } from "@/common/mixins/func";
+const debug = false;
 
 export default defineComponent({
   data() {
@@ -24,25 +26,25 @@ export default defineComponent({
     };
   },
   setup() {
-    console.log("setup hook demo......");
+    print(debug,"setup hook demo......");
     const strObj = ref({ age: 18 });
     onBeforeMount(() => {
-      console.log("setup onBeforeMount...");
+      print(debug,"setup onBeforeMount...");
     });
     onMounted(() => {
-      console.log("setup mounted...");
+      print(debug,"setup mounted...");
     });
     onBeforeUpdate(() => {
-      console.log("setup onBeforeUpdate...");
+      print(debug,"setup onBeforeUpdate...");
     });
     onUpdated(() => {
-      console.log("setup onUpdated...");
+      print(debug,"setup onUpdated...");
     });
     onBeforeUnmount(() => {
-      console.log("setup onBeforeUnmount...");
+      print(debug,"setup onBeforeUnmount...");
     });
     onUnmounted(() => {
-      console.log("setup onMounted...");
+      print(debug,"setup onMounted...");
     });
 
     return {

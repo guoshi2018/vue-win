@@ -2,11 +2,11 @@
   <div>
     <span>props:{{ title }}</span>
     <span>data:{{ obj.name }},{{ obj.age }},{{ school }}</span>
-    <span
-      >setup:{{ count }},{{ nested.count.value }},{{ reacted.count }},{{
+    <span>
+      setup:{{ count }},{{ nested.count.value }},{{ reacted.count }},{{
         reacted.tmd.count
-      }}</span
-    >
+      }}
+    </span>
   </div>
 </template>
 
@@ -23,7 +23,9 @@ import {
   onUnmounted,
   defineComponent,
 } from "vue";
+import { print } from "@/common/mixins/func";
 
+const debug = false;
 export default defineComponent({
   props: {
     title: {
@@ -33,7 +35,7 @@ export default defineComponent({
     },
   },
   data() {
-    // console.log('data().....');
+    print(debug, "data().....");
     return {
       obj: {
         age: 18,
@@ -43,41 +45,41 @@ export default defineComponent({
     };
   },
   setup(props, context) {
-    //console.log('setup...', props);
+    print(debug, "setup...", props);
     //因为 props 是响应式的，你不能使用 ES6 解构，它会消除 prop 的响应性。
     //如果需要解构 prop，可以在 setup 函数中使用 toRefs 函数来完成此操作
     const { title: ptitle } = toRefs(props); //同时重命名
-    console.log("保持响应式的解构后,并重命名为ptitle:", ptitle.value);
+    print(debug, "保持响应式的解构后,并重命名为ptitle:", ptitle.value);
 
     // Attribute (非响应式对象，等同于 $attrs)
-    console.log(context.attrs);
+    print(debug, context.attrs);
 
     // 插槽 (非响应式对象，等同于 $slots)
-    //console.log(context.slots)
+    print(debug, context.slots);
 
     // 触发事件 (方法，等同于 $emit)
-    //console.log(context.emit)
+    print(debug, context.emit);
 
     // 暴露公共 property (函数)
-    //console.log(context.expose)
+    print(debug, context.expose);
 
     onBeforeMount(function () {
-      // console.log('onBeforeMount...');
+      print(debug, "onBeforeMount...");
     });
     onMounted(() => {
-      // console.log('onMounted...');
+      print(debug, "onMounted...");
     });
     onBeforeUpdate(() => {
-      // console.log('onBeforeUpdate...');
+      print(debug, "onBeforeUpdate...");
     });
     onUpdated(() => {
-      // console.log('onUpdated...');
+      print(debug, "onUpdated...");
     });
     onBeforeUnmount(() => {
-      // console.log('onBeforeUnmount...');
+      print(debug, "onBeforeUnmount...");
     });
     onUnmounted(() => {
-      // console.log('onUnmounted...');
+      print(debug, "onUnmounted...");
     });
 
     const count = ref(99);
@@ -95,41 +97,41 @@ export default defineComponent({
     };
   },
   beforeCreate() {
-    // console.log('beforeCreate...');
+    print(debug, "beforeCreate...");
   },
   created() {
-    // console.log('created...');
+    print(debug, "created...");
   },
   beforeMount() {
-    //   console.log('beforeMount...');
+    //   print(debug,'beforeMount...');
   },
   mounted() {
-    // console.log('mounted...');
+    print(debug, "mounted...");
   },
   beforeUpdate() {
-    // console.log('beforeUpdate...');
+    print(debug, "beforeUpdate...");
   },
   Updated() {
-    // console.log('Updated...');
+    print(debug, "Updated...");
   },
   beforeUnmount() {
-    // console.log('beforeUnmount...');
+    print(debug, "beforeUnmount...");
   },
   Unmounted() {
-    // console.log('Unmounted...');
+    print(debug, "Unmounted...");
   },
   watch: {
     title(newV: string, oldV: string) {
-      console.log(`child, title changed.${oldV}==>${newV}`);
+      print(debug, `child, title changed.${oldV}==>${newV}`);
     },
   },
   methods: {
     firstMethod() {
-      console.log("methods firstMethod() run.", this);
+      print(debug, "methods firstMethod() run.", this);
       this.secondMethod();
     },
     secondMethod() {
-      console.log("methods secondMethod() run");
+      print(debug, "methods secondMethod() run");
     },
   },
 });

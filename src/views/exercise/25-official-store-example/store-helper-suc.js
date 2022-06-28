@@ -85,13 +85,13 @@ const regAll = (parentStore) => {
 			parentStore.registerModule(obj.ns, obj.module);
 		}
 	}
-	//console.log('.........', parentStore);
+	//print(debug,'.........', parentStore);
 };
 /**
  * 注销所有被注册的store模块
  * @param parentStore:Store 针对此模块的一级子模块
  */
-const unregAll = (parentStore) => {
+const unregAll = parentStore => {
 	for (const p in stores) {
 		const obj = stores[p];
 		parentStore.unregisterModule(obj.ns);

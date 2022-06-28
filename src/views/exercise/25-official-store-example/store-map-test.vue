@@ -1,18 +1,17 @@
 <template>
-  <div v-if="rendering" :key="divKey">
-    <button @click="renderByV_IF">使用v-if重新渲染本组件</button>
-    <button @click="renderByForceUpdate">
-      使用forceUpdate方法重新渲染本组件
+  <div v-if="needRender" :key="divKey">
+    <button @click="renderByV_IF">
+      改变v-if=needRender,重新渲染本组件.产生两次更新:true->false->true
     </button>
-    <button @click="renderByChangKey">通过改变key重新渲染组件,强推</button>
+    <button @click="renderByForceUpdate">
+      使用forceUpdate方法重新渲染本组件.产生一次更新
+    </button>
+    <button @click="renderByChangKey">通过改变key重新渲染组件,产生一次更新,强推</button>
     <div>
       <h4>结论</h4>
       <p class="av">
-        使用: unreadCount2 = {{ unreadCount2 }},
-        注意:可用,但是书写太长问题,响应性不太好 再获取一次:{{
-          unreadCount2
-        }}
-        当前时间:{{ Date.now() }}
+        使用: unreadCount2 = {{ unreadCount2 }}, 注意:可用,但是书写太长问题,响应性不太好
+        再获取一次:{{ unreadCount2 }} 当前时间:{{ Date.now() }}
       </p>
       <p class="av">
         上述unreadCount2其实根本就无响应性, 已找到原因:不能分开写,应一次写完:<br />
@@ -25,13 +24,16 @@
         uc3 = mapHelper.mapGetters({ abc: js_chat.getter.unreadCount, }).abc
         <br />
         定义:unreadCount3 = computed(() => uc3)
-        注意,使用映射得到的计算属性,使用时虽然需要带括号,但却具备良好的响应性,unreadCount3():{{
+        注意,使用映射得到的计算属性,使用时虽然需要带括号(对于组合式组件),但却具备良好的响应性,unreadCount3():{{
           unreadCount3()
         }}
       </p>
     </div>
     <div>
-      <h4>uc1=store.getters.unreadCount</h4>
+      <h4>
+        错误用法: uc1=chatMod.getters.unreadCount;原因在于chatMod是Model而不是store,
+        所以无论怎么弄, 都无法实现愿望
+      </h4>
       <div>
         <h5>定义:unreadCount1 = computed(() => uc1):</h5>
         <p>使用:unreadCount1 = {{ unreadCount1 }}</p>
@@ -44,16 +46,15 @@
     <hr />
     <div>
       <h4>
-        uc2 =
-        rootStore.getters[`${stores.js_chat.ns}/${js_chat.getter.unreadCount}`]
+        uc2 = rootStore.getters[`${stores.js_chat.ns}/${js_chat.getter.unreadCount}`]
       </h4>
       <div>
         <h5>定义: unreadCount2 = computed(() => uc2):</h5>
         <p class="av">
-          使用: unreadCount2 = {{ unreadCount2 }},
-          注意:可用,但是书写太长问题,响应性不太好 再获取一次:{{ unreadCount2 }}
+          使用: unreadCount2 = {{ unreadCount2 }}, 注意:可用,但是书写太长问题,且无响应性.
         </p>
         <p>使用: unreadCount2() = 异常</p>
+        <p>一次性写完,就好了. unreadCount200 = {{ unreadCount200 }}</p>
       </div>
       <div>
         <h5>定义: unreadCount22 = computed(uc2):异常</h5>
@@ -61,17 +62,13 @@
     </div>
     <hr />
     <div>
-      <h4>
-        uc3 = mapHelper.mapGetters({ abc: js_chat.getter.unreadCount, }).abc
-      </h4>
+      <h4>uc3 = mapHelper.mapGetters({ abc: js_chat.getter.unreadCount, }).abc</h4>
       <div>
         <h5>定义:unreadCount3 = computed(() => uc3)</h5>
         <p>使用:unreadCount3 = 异常</p>
         <p class="av">
           使用:unreadCount3() =
-          {{
-            unreadCount3()
-          }},注意:虽然是计算属性,却要跟括号,但却具备良好的响应性
+          {{ unreadCount3() }},注意:虽然是计算属性,却要跟括号,但却具备良好的响应性
         </p>
       </div>
       <div>
@@ -84,78 +81,98 @@
   </div>
 </template>
 
-<script>
-import { defineComponent, computed, ref } from "vue";
+<script lang="ts">
+import {
+  defineComponent,
+  computed,
+  ref,
+  onMounted,
+  onBeforeMount,
+  onBeforeUpdate,
+  onUpdated,
+} from "vue";
 import { useStore, createNamespacedHelpers } from "vuex";
+import { studentAsTopstoreKey } from "@/store/setup";
 import { js_chat } from "./const";
 import { stores } from "./store-helper";
+import { print, sleep } from "@/common/mixins/func";
+const debug = true;
 
 const mapHelper = createNamespacedHelpers(stores.js_chat.ns);
 export default defineComponent({
   setup() {
-    const rootStore = useStore();
-    const store =
-      rootStore._modulesNamespaceMap[`${stores.js_chat.ns}/`]._rawModule;
-    //console.log("..........", store, rootStore);
+    const rootStore = useStore(studentAsTopstoreKey);
+
+    //@ts-ignore 可以拿到model, 但是不文明
+    const chatMod = rootStore._modulesNamespaceMap[`${stores.js_chat.ns}/`]._rawModule;
+    print(debug, "..........", chatMod, rootStore);
 
     //setup下实现计算属性的最佳方式选择
-    const uc1 = store.getters.unreadCount;
-    const uc2 =
-      rootStore.getters[`${stores.js_chat.ns}/${js_chat.getter.unreadCount}`];
+    //由于它本身不是store, 故不能使用store.getters
+    const uc1 = chatMod.getters.unreadCount;
+    const uc2 = rootStore.getters[`${stores.js_chat.ns}/${js_chat.getter.unreadCount}`];
 
     const uc3 = mapHelper.mapGetters({
       abc: js_chat.getter.unreadCount,
     }).abc;
 
-    const unreadCount1 = computed(() => uc1); //fail,不可取
+    const unreadCount1 = computed(() => uc1); //error,不可取
     const unreadCount2 = computed(() => uc2); //可用,常规计算属性书写,不跟括号, 但是书写太长
     const unreadCount3 = computed(() => uc3); //可用,因为这是返回计算属性的方法,所以使用时要带括号
 
     //unreadCount2的上述写法,无响应性,所以改正如下:
     const unreadCount200 = computed(
-      () =>
-        rootStore.getters[`${stores.js_chat.ns}/${js_chat.getter.unreadCount}`]
+      () => rootStore.getters[`${stores.js_chat.ns}/${js_chat.getter.unreadCount}`]
     ); //现在可以具备充分的响应性了
-
-    //  const unreadCount11 = computed(uc1);
-    //const unreadCount22 = computed(uc2);
-    //const unreadCount33 = computed(uc3);
 
     //const unreadCount4 = unreadCount3.value();
     //const unreadCount4 = ref(computed(() => unreadCount3.value()));
 
-    //for rendering
-    const rendering = ref(true);
+    //for needRender
+    const needRender = ref(true);
     const divKey = ref(0);
+    onBeforeMount(() => {
+      print(debug, "before mount hook called....");
+    });
+    onMounted(() => {
+      print(debug, "mounted hook called....");
+    });
+    onBeforeUpdate(() => {
+      print(debug, "before update hook called....");
+    });
+    onUpdated(() => {
+      print(debug, "updated hook called....");
+    });
+
     return {
       unreadCount1,
       unreadCount2,
       unreadCount3,
       //unreadCount4,
       unreadCount200,
-
-      //unreadCount11,      //异常
-      //unreadCount22,      //异常
-      //unreadCount33,      //异常
-      rendering,
+      needRender,
       divKey,
     };
   },
   methods: {
     renderByV_IF() {
-      console.log("re render by v-if");
-      this.rendering = false;
-      this.$nextTick(() => {
-        this.rendering = true;
+      print(debug, "prepare to rerender by v-if,let needRender=false first.");
+      this.needRender = false;
+      this.$nextTick(async () => {
+        await sleep(3000);
+        this.needRender = true;
+        print(debug, "next tick passed. now needRender=true");
       });
     },
     renderByForceUpdate() {
-      console.log("re render by this.$forceUpdate");
+      print(debug, "prepare to rerender by this.$forceUpdate");
       this.$forceUpdate();
+      print(debug, "rerender by this.$forceUpdate completed ");
     },
     renderByChangKey() {
-      console.log("re render by change key");
+      print(debug, "preare to rerender by increase key");
       this.divKey++;
+      print(debug, "increase key completed.");
     },
   },
 });
@@ -231,6 +248,6 @@ p.av {
     getter的转换,如果写成: 
         const xxx = store.getters[`${<mod-namspace>}/${<getter-name>}`];
         const <local-name> = computed(()=>xxx);
-        可能会丧失响应性. 
+        如果发现已经丧失响应性, 请检查return语句是否包含他们 
 
 </summary>

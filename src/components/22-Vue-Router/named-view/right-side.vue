@@ -12,7 +12,7 @@ export default defineComponent({
     content: {
       type: String,
       require: false,
-      default: "unknown right content",
+      default: "right",
     },
   },
   setup() {},

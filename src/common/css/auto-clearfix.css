@@ -1,0 +1,20 @@
+/*
+发现, 
+  1. clearfix 似乎已经天然内嵌到css中, 只要在父级以上任意容器中添加clearfix类, 即可达到撑起容器高度的目的
+  2. 当然引入该文件, 显示指定 auto-clearfix 也一样.
+  3. vue中, 已有<style>标签内, 使用 @import "...css"导入css文件失败. 只能改为新建<style src="...css"/>
+  4. 更简单的方法是, 在其父级以上任意容器上配置 overflow-y:auto . 只不过这不是自清除float
+  5. 以上指定, 最好是在直接父级容器中设置, 否则父级边框可能会有层叠.
+*/
+
+.auto-clearfix {
+  *zoom: 1;
+}
+.auto-clearfix:before,
+.auto-clearfix:after {
+  content: " ";
+  display: table;
+}
+.auto-clearfix:after {
+  clear: both;
+}

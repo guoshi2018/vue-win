@@ -11,17 +11,19 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from "vue";
 import { mapGetters, mapActions, createNamespacedHelpers } from "vuex";
 import { stores } from "../../../store-helper";
 import { hot_counter } from "../../../const";
+import { print, getType } from "@/common/mixins/func";
+const debug = true;
 
 const mapHelper = createNamespacedHelpers(stores.js_hot_count.ns);
 
 export default defineComponent({
   created() {
-    console.log(this.$store);
+    print(debug, this.$store);
   },
   computed: mapHelper.mapGetters({
     count: hot_counter.getter.currentCount,

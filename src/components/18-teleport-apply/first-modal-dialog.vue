@@ -3,7 +3,7 @@
     <button @click="modalOpen = true">Open full screen modal!</button>
     <div v-if="modalOpen" class="tele-modal">
       <div>
-        I'm a modal!
+        I'm first-modal-dialog!
         <button @click="modalOpen = false">Close</button>
       </div>
     </div>

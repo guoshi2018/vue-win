@@ -47,11 +47,8 @@ import {
   defineComponent,
 } from "vue";
 
-//import _ from '@/common/js/lodash.js';
-
-// import AccordionHull from "@/components/accordion/accordion-hull.vue"; // 子组件 @ is an alias to /src
-// import AccordionItem from "@/components/accordion/accordion-item.vue";
-import { sleep } from "@/common/mixins/func";
+import { print, sleep } from "@/common/mixins/func";
+const debug = true;
 
 export default defineComponent({
   //   mixins: [Func],
@@ -63,7 +60,7 @@ export default defineComponent({
     },
   },
   setup() {
-    //    console.log(context);
+    //    print(debug,context);
     const count = ref(0);
     return {
       count,
@@ -71,20 +68,19 @@ export default defineComponent({
   },
   methods: {
     demo1() {
-      console.log(
+      print(
+        debug,
         "使用 computed 函数：它接受 getter 函数并为 getter 返回的值返回一个不可变的响应式 ref 对象"
       );
       const count = ref(1);
       const plusOne = computed(() => ++count.value);
-      console.log(plusOne.value);
+      print(debug, plusOne.value);
       count.value += 10;
-      console.log(plusOne.value);
+      print(debug, plusOne.value);
       //plusOne.value++;        //error, for readonly
     },
     demo2() {
-      console.log(
-        "使用一个带有 get 和 set 函数的对象来创建一个可写的 ref 对象。"
-      );
+      print(debug, "使用一个带有 get 和 set 函数的对象来创建一个可写的 ref 对象。");
       const count = ref(1);
       const plusOne = computed({
         get: () => count.value++,
@@ -93,12 +89,13 @@ export default defineComponent({
         },
       });
       plusOne.value = 100;
-      console.log(count.value); //100-1 = 99
-      console.log(plusOne.value); //99
-      console.log(count.value); //99++ = 100
+      print(debug, count.value); //100-1 = 99
+      print(debug, plusOne.value); //99 ,then count.value=99 + 1 = 100
+      print(debug, plusOne.value); //还是99, 被缓存了.所以 count.value 不变
+      print(debug, count.value); //100
     },
     demo3() {
-      console.log("一个无聊的getter和setter");
+      print(debug, "一个无聊的getter和setter");
       const a = ref(10);
       const b = ref(20);
       const plus = computed({
@@ -108,12 +105,13 @@ export default defineComponent({
           b.value = val / 3;
         },
       });
-      console.log(plus.value); //30
+      print(debug, plus.value); //30
       plus.value = 60;
-      console.log(a.value, b.value, plus.value); //30,20,50
+      print(debug, a.value, b.value, plus.value); //30,20,50
     },
     demo4() {
-      console.log(
+      print(
+        debug,
         "依赖被追踪触发onTrack,和依赖被更改触发onTrigger.但是,onTrack和onTrigger不知从哪儿import"
       );
       const count = ref(1);
@@ -139,7 +137,7 @@ export default defineComponent({
           },
         }
       );
-      console.log(plus.value); //触发onTrack
+      print(debug, plus.value); //触发onTrack
       count.value++; //触发onTrigger
       plus.value = 100; //触发onTrigger
     },
@@ -149,7 +147,7 @@ export default defineComponent({
       const count1 = ref(10);
       const count2 = ref(100);
       const count3 = ref(1000);
-      const stop = watchEffect(() => console.log(count1.value, count2.value));
+      const stop = watchEffect(() => print(debug, count1.value, count2.value));
       const timer = setInterval(async () => {
         count1.value++;
         await sleep(500); //不停一会,则count1和count2两个的变化会被当成一次响应
@@ -160,19 +158,19 @@ export default defineComponent({
       await sleep(6000);
       //显示调用以停止侦听
       stop(); //侦听停止,但叠加不休
-      console.log(
+      print(
+        debug,
         `now watchEffect is stopped.count1=${count1.value},count2=${count2.value}`
       );
       await sleep(3000);
       clearInterval(timer);
-      console.log(
-        `now timer is clear.count1=${count1.value},count2=${count2.value}`
-      );
+      print(debug, `now timer is clear.count1=${count1.value},count2=${count2.value}`);
       await sleep(1500);
-      console.log("sleep function is ok?");
+      print(debug, "sleep function is ok?");
     },
     demo6() {
-      console.log(
+      print(
+        debug,
         "参见:https://v3.cn.vuejs.org/guide/reactivity-computed-watchers.html#%E6%B8%85%E9%99%A4%E5%89%AF%E4%BD%9C%E7%94%A8"
       );
     },
@@ -180,17 +178,17 @@ export default defineComponent({
       watchEffect(
         async () => {
           //await sleep(1000);     //这么搞,后面就不执行
-          console.log("watchEffect trigger:", this.count); //.value 是 undefined
+          print(debug, "watchEffect trigger:", this.count); //.value 是 undefined
           await sleep(3000);
-          console.log("watchEffect end");
+          print(debug, "watchEffect end");
         },
         {
           flush: "sync", //默认pre:副作用在更新前执行;post:之后;sync:强制效果始终同步触发
           onTrigger(e) {
-            console.log("trigger:", e);
+            print(debug, "trigger:", e);
           },
           onTrack(e) {
-            console.log("track:", e);
+            print(debug, "track:", e);
           },
         }
       );
@@ -201,19 +199,20 @@ export default defineComponent({
         count: -32,
       });
       watch(
-        () => state.count,
+        () => state.count, //无法这样写 state.count,
+        //state,
         (cur, prev) => {
-          console.log("watch trigger:", cur, prev);
+          print(debug, "watch trigger:", cur, prev);
         }
       );
       state.count++;
-      await sleep(500);
+      await sleep(500); //如果注释掉, 上下两句也会合并为一次watch
       state.count++;
     },
     async demo9() {
       const count = ref(15);
       watch(count, (cur, prev) => {
-        console.log("watch trigger:", cur, prev);
+        print(debug, "watch trigger:", cur, prev);
       });
       count.value++;
       await sleep(500);
@@ -226,7 +225,7 @@ export default defineComponent({
       watch(
         [firstName, lastName],
         (cur, prev) => {
-          console.log("watch multiple trigger:", cur, prev);
+          print(debug, "watch multiple trigger:", cur, prev);
         },
         {
           flush: "pre", //默认pre:副作用在更新前执行;post:之后;sync:强制效果始终同步触发
@@ -253,7 +252,7 @@ export default defineComponent({
         () => [[...nums], [...nums2]], //ok
         //() => [...nums, ...nums2],    //ok
         (cur, prev) => {
-          console.log("watch array:", cur, prev);
+          print(debug, "watch array:", cur, prev);
         }
       );
       //注意多个同步更改只会触发一次侦听器。所以,为了让下面的操作分别触发,动用nextTick方法
@@ -277,7 +276,7 @@ export default defineComponent({
       //watch(
       //  () => state,
       //  (cur, prev) => {
-      //    console.log('default to not deep,', cur, prev);
+      //    print(debug,'default to not deep,', cur, prev);
       //  },
       //  {
       //    deep: false,    //实验证明,保持默认false或显示指定为false,watch不起作用
@@ -287,8 +286,9 @@ export default defineComponent({
       watch(
         () => state,
         (cur, prev) => {
-          //     console.log('deep,', cur, prev); //这里得到的是proxy对象,target没有public
-          console.log(
+          //     print(debug,'deep,', cur, prev); //这里得到的是proxy对象,target没有public
+          print(
+            debug,
             "deep,",
             cur.id,
             cur.attributes.age,
@@ -325,8 +325,8 @@ export default defineComponent({
         //   () => _.cloneDeep(state),            //ok,注意释放import注释
         () => JSON.parse(JSON.stringify(state)), //这样简单深拷贝也ok
         (cur, prev) => {
-          //console.log(cur.attributes.name, prev.attributes.name)
-          console.log(cur, prev); //终于,得到的是 state对象
+          //print(debug,cur.attributes.name, prev.attributes.name)
+          print(debug, cur, prev); //终于,得到的是 state对象
         }
       );
       state.id = 100;
